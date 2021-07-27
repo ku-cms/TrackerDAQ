@@ -27,22 +27,26 @@ def getData(input_file):
     
     return [x_values, y_values]
 
+def analyze(input_file, plot_dir, output_file):
+    data = getData(input_file)
+    x_values = data[0]
+    y_values = data[1]
+    plot(plot_dir, output_file, x_values, y_values)
+
 def main():
     plot_dir    = "plots"
     
     output_file = "BERT_scan_001"
-    input_file = "data/BERT_Scan_output/scan_001.log"
-    data = getData(input_file)
-    x_values = data[0]
-    y_values = data[1]
-    plot(plot_dir, output_file, x_values, y_values)
+    input_file  = "data/BERT_Scan_output/scan_001.log"
+    analyze(input_file, plot_dir, output_file)
     
     output_file = "BERT_scan_002"
-    input_file = "data/BERT_Scan_output/scan_002.log"
-    data = getData(input_file)
-    x_values = data[0]
-    y_values = data[1]
-    plot(plot_dir, output_file, x_values, y_values)
+    input_file  = "data/BERT_Scan_output/scan_002.log"
+    analyze(input_file, plot_dir, output_file)
+    
+    output_file = "BERT_scan_003"
+    input_file  = "data/BERT_Scan_output/scan_003.log"
+    analyze(input_file, plot_dir, output_file)
 
 if __name__ == "__main__":
     main()
