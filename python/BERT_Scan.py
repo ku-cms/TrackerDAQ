@@ -2,19 +2,20 @@
 
 import subprocess
 
-def run():
-    for x in range(50, 80, 10):
+# Scan over TAP0 DAQ settings
+def run(tap0_min, tap0_max, tap0_step):
+    for x in range(tap0_min, tap0_max + tap0_step, tap0_step):
+        # Use BERT scan script
         output = subprocess.run(["./TrackerDAQ/scripts/BERT_Scan.sh", str(x)])
         print(output)
         #output = subprocess.check_output(["./TrackerDAQ/scripts/BERT_Scan.sh", "100"])
         #print(output)
 
 def main():
-    #output = subprocess.run(["echo", "why hello there"])
-    #print(output)
-    #output = subprocess.check_output(["echo", "Geeks for geeks"]) 
-    #print(output)
-    run()
+    tap0_min  = 50
+    tap0_max  = 100
+    tap0_step = 1
+    run(tap0_min, tap0_max, tap0_step)
 
 if __name__ == "__main__":
     main()
