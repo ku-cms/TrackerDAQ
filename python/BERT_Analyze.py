@@ -7,19 +7,24 @@ def getData(input_file):
     x_values = []
     y_values = []
     for line in f:
+        # TAP0 DAC Setting (x values)
         if "CML_TAP0_BIAS" in line:
             array = line.split()
+            # must remove " before using int()
             x = int(array[-1].replace('"', ''))
             x_values.append(x)
             #print(line)
             #print(array)
             #print(x)
+        # Total error counter (y values)
         if "Final counter" in line:
+            # get all numbers in string
             numbers = [int(s) for s in line.split() if s.isdigit()]
             y = numbers[0]
             y_values.append(y)
             #print(line)
             #print(numbers)
+    
     return [x_values, y_values]
 
 def main():
