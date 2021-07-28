@@ -34,7 +34,7 @@ def analyze(input_file, plot_dir, output_file):
     plot(plot_dir, output_file, x_values, y_values)
 
 def main():
-    plot_dir    = "plots"
+    plot_dir    = "plots/BERT_Scan_SingleDP_Data"
     data_dir    = "data/BERT_Scan_SingleDP_Data"
     
     output_file = "BERT_scan_001"
@@ -47,6 +47,13 @@ def main():
     
     output_file = "BERT_scan_003"
     input_file  = "{0}/scan_003.log".format(data_dir)
+    analyze(input_file, plot_dir, output_file)
+    
+    plot_dir    = "plots/BERT_Scan_DoubleDP_DoubleBonn_Data"
+    data_dir    = "data/BERT_Scan_DoubleDP_DoubleBonn_Data"
+    
+    output_file = "BERT_scan_001"
+    input_file  = "{0}/scan_001.log".format(data_dir)
     analyze(input_file, plot_dir, output_file)
 
 if __name__ == "__main__":
