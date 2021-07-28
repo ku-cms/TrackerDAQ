@@ -35,17 +35,18 @@ def analyze(input_file, plot_dir, output_file):
 
 def main():
     plot_dir    = "plots"
+    data_dir    = "data/BERT_Scan_SingleDP_Data"
     
     output_file = "BERT_scan_001"
-    input_file  = "data/BERT_Scan_output/scan_001.log"
+    input_file  = "{0}/scan_001.log".format(data_dir)
     analyze(input_file, plot_dir, output_file)
     
     output_file = "BERT_scan_002"
-    input_file  = "data/BERT_Scan_output/scan_002.log"
+    input_file  = "{0}/scan_002.log".format(data_dir)
     analyze(input_file, plot_dir, output_file)
     
     output_file = "BERT_scan_003"
-    input_file  = "data/BERT_Scan_output/scan_003.log"
+    input_file  = "{0}/scan_003.log".format(data_dir)
     analyze(input_file, plot_dir, output_file)
 
 if __name__ == "__main__":
