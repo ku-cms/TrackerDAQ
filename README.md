@@ -38,6 +38,7 @@ To run standard BERT:
 CMSITminiDAQ -f CMSIT_BERT.xml -c bertest
 ```
 You can modify the settings in CMSIT_BERT.xml with a text editor.
+The TAP0 DAC setting is called CML_TAP0_BIAS, and it ranges from 0 to 1000.
 
 The script BERT_Scan.sh handles the xml modification automatically.
 Provide the TAP0 setting [0, 1000] as the first argument.
@@ -49,5 +50,17 @@ Note that communication fails for low values... e.g. TAP0 = 0.
 To scan through TAP0 values, use BERT_Scan.py, which calls BERT_Scan.sh for different TAP0 values.
 ```
 python3 TrackerDAQ/python/BERT_Scan.py
+```
+
+Save the output of the BERT scan to a log file, but without the bash color commands that you will get by directly piping the output to a file.
+This is because the BERT program uses colored output for the terminal.
+At the moment, I copy the output, use the command cat, paste, and then use CRTL-D, which avoids this color command issue.
+```
+cat > BERT_Scan_Data/scan_001.log
+```
+
+To plot the data from the log file:
+```
+python3 python/BERT_Analyze.py 
 ```
 
