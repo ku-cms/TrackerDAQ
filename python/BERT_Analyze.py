@@ -1,8 +1,31 @@
 # BERT_Analyze.py
 
+import re
 from BERT_Plot import plot, plotMultiple
 
+def findErrors(input_file):
+    f = open(input_file, 'r')
+    errors = []
+    for line in f:
+        # check for errors
+        if "returncode=1" in line:
+            # get all numbers in string
+            numbers = re.findall(r'\d+', line)
+            z = int(numbers[0])
+            print("ERROR: {0}".format(line), end='')
+            #print(numbers)
+            #print(z)
+            errors.append(z)
+    f.close()
+    return errors
+
 def getData(input_file):
+    # check for errors
+    errors = findErrors(input_file)
+    if errors:
+        print("ERROR for {0}".format(input_file))
+        print("There were errors for these TAP0 settings: {0}".format(errors))
+        print("These will be skipped.")
     f = open(input_file, 'r')
     x_values = []
     y_values = []
@@ -12,7 +35,9 @@ def getData(input_file):
             array = line.split()
             # must remove " before using int()
             x = int(array[-1].replace('"', ''))
-            x_values.append(x)
+            # skip the x value if there were errors
+            if x not in errors:
+                x_values.append(x)
             #print(line)
             #print(array)
             #print(x)
@@ -25,12 +50,21 @@ def getData(input_file):
             #print(line)
             #print(numbers)
     
+    f.close()
     return [x_values, y_values]
 
 def analyze(input_file, plot_dir, output_file):
+    debug = False
     data = getData(input_file)
     x_values = data[0]
     y_values = data[1]
+    # check for the same number of x and y values
+    if len(x_values) != len(y_values):
+        print("ERROR: number of x and v values do not match")
+        print("input file: {0}, num x vals: {1}, num y vals: {2}".format(input_file, len(x_values), len(y_values)))
+        return
+    if debug:
+        print("input file: {0}, num x vals: {1}, num y vals: {2}".format(input_file, len(x_values), len(y_values)))
     plot(plot_dir, output_file, x_values, y_values)
 
 def analyzeScans():
@@ -58,6 +92,42 @@ def analyzeScans():
     
     plot_dir    = "plots/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink101_Data"
     data_dir    = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink101_Data"
+    
+    output_file = "BERT_scan_001"
+    input_file  = "{0}/scan_001.log".format(data_dir)
+    analyze(input_file, plot_dir, output_file)
+    
+    output_file = "BERT_scan_002"
+    input_file  = "{0}/scan_002.log".format(data_dir)
+    analyze(input_file, plot_dir, output_file)
+    
+    output_file = "BERT_scan_003"
+    input_file  = "{0}/scan_003.log".format(data_dir)
+    analyze(input_file, plot_dir, output_file)
+    
+    plot_dir    = "plots/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink102_Data"
+    data_dir    = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink102_Data"
+    
+    output_file = "BERT_scan_001"
+    input_file  = "{0}/scan_001.log".format(data_dir)
+    analyze(input_file, plot_dir, output_file)
+    
+    plot_dir    = "plots/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink104_Data"
+    data_dir    = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink104_Data"
+    
+    output_file = "BERT_scan_001"
+    input_file  = "{0}/scan_001.log".format(data_dir)
+    analyze(input_file, plot_dir, output_file)
+    
+    plot_dir    = "plots/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink106_Data"
+    data_dir    = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink106_Data"
+    
+    output_file = "BERT_scan_001"
+    input_file  = "{0}/scan_001.log".format(data_dir)
+    analyze(input_file, plot_dir, output_file)
+    
+    plot_dir    = "plots/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink111_Data"
+    data_dir    = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink111_Data"
     
     output_file = "BERT_scan_001"
     input_file  = "{0}/scan_001.log".format(data_dir)
@@ -99,7 +169,7 @@ def makeCombinedPlots():
 
 def main():
     analyzeScans()
-    makeCombinedPlots()
+    #makeCombinedPlots()
 
 if __name__ == "__main__":
     main()
