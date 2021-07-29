@@ -1,6 +1,6 @@
 # BERT_Analyze.py
 
-from BERT_Plot import plot
+from BERT_Plot import plot, plotMultiple
 
 def getData(input_file):
     f = open(input_file, 'r')
@@ -33,7 +33,7 @@ def analyze(input_file, plot_dir, output_file):
     y_values = data[1]
     plot(plot_dir, output_file, x_values, y_values)
 
-def main():
+def analyzeScans():
     plot_dir    = "plots/BERT_Scan_SingleDP_Data"
     data_dir    = "data/BERT_Scan_SingleDP_Data"
     
@@ -62,6 +62,44 @@ def main():
     output_file = "BERT_scan_001"
     input_file  = "{0}/scan_001.log".format(data_dir)
     analyze(input_file, plot_dir, output_file)
+
+def makeCombinedPlots():
+    plot_dir    = "plots/BERT_Scans"
+    output_file = "BERT_Scans_001"
+    inputs = []
+    
+    input_file = "data/BERT_Scan_SingleDP_Data/scan_003.log"
+    data = getData(input_file)
+    scan = {}
+    scan["x_values"] = data[0]
+    scan["y_values"] = data[1]
+    scan["color"]    = "xkcd:cherry red"
+    scan["label"]    = "Single DP"
+    inputs.append(scan)
+    
+    input_file = "data/BERT_Scan_DoubleDP_DoubleBonn_Data/scan_001.log"
+    data = getData(input_file)
+    scan = {}
+    scan["x_values"] = data[0]
+    scan["y_values"] = data[1]
+    scan["color"]    = "xkcd:apple green"
+    scan["label"]    = "Double DP Double Bonn"
+    inputs.append(scan)
+    
+    input_file = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink101_Data/scan_001.log"
+    data = getData(input_file)
+    scan = {}
+    scan["x_values"] = data[0]
+    scan["y_values"] = data[1]
+    scan["color"]    = "xkcd:bright blue"
+    scan["label"]    = "Double DP Double Bonn Double Yellow e-link 101"
+    inputs.append(scan)
+    
+    plotMultiple(plot_dir, output_file, inputs)
+
+def main():
+    analyzeScans()
+    makeCombinedPlots()
 
 if __name__ == "__main__":
     main()
