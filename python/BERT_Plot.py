@@ -21,7 +21,7 @@ def plot(plot_dir, output_file, x_values, y_values):
     plt.savefig(output_png)
     plt.savefig(output_pdf)
 
-def plotMultiple(plot_dir, output_file, inputs):
+def plotMultiple(plot_dir, output_file, inputs, xlim, ylim):
     tools.makeDir(plot_dir)
 
     fig, ax = plt.subplots(figsize=(6, 6))
@@ -35,8 +35,8 @@ def plotMultiple(plot_dir, output_file, inputs):
 
     ax.set_yscale('symlog')
     ax.legend(loc='upper right')
-    ax.set_xlim([49.0, 101.0])
-    ax.set_ylim([0.0, 10.0**9])
+    ax.set_xlim(xlim)
+    ax.set_ylim(ylim)
     ax.set_title("BERT TAP0 Scan",          fontsize=20)
     ax.set_xlabel("TAP0 DAC Setting",       fontsize=16)
     ax.set_ylabel("Errors (over 10 s)",     fontsize=16)
