@@ -132,13 +132,20 @@ def analyzeScans():
     output_file = "BERT_scan_001"
     input_file  = "{0}/scan_001.log".format(data_dir)
     analyze(input_file, plot_dir, output_file)
+    
+    plot_dir    = "plots/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink113_Data"
+    data_dir    = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink113_Data"
+    
+    output_file = "BERT_scan_001"
+    input_file  = "{0}/scan_001.log".format(data_dir)
+    analyze(input_file, plot_dir, output_file)
 
 def makeCombinedPlots():
     # create combined plot
     plot_dir    = "plots/BERT_Scans"
     output_file = "BERT_Scans_001"
     xlim = [49.0, 101.0]
-    ylim = [0.0, 1.0e12]
+    ylim = [0.0, 1.0e9]
     inputs = []
     
     input_file = "data/BERT_Scan_SingleDP_Data/scan_003.log"
@@ -174,7 +181,7 @@ def makeCombinedPlots():
     plot_dir    = "plots/BERT_Scans"
     output_file = "BERT_Scans_002"
     xlim = [45.0, 305.0]
-    ylim = [0.0, 1.0e12]
+    ylim = [0.0, 1.0e13]
     inputs = []
     
     input_file = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink101_Data/scan_003.log"
@@ -220,6 +227,15 @@ def makeCombinedPlots():
     scan["y_values"] = data[1]
     scan["color"]    = "xkcd:electric purple"
     scan["label"]    = "e-link 111 (34 AWG, 1.80 m)"
+    inputs.append(scan)
+    
+    input_file = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink113_Data/scan_001.log"
+    data = getData(input_file)
+    scan = {}
+    scan["x_values"] = data[0]
+    scan["y_values"] = data[1]
+    scan["color"]    = "xkcd:aqua blue"
+    scan["label"]    = "e-link 113 (34 AWG, 2.00 m)"
     inputs.append(scan)
     
     plotMultiple(plot_dir, output_file, inputs, xlim, ylim)
