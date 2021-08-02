@@ -20,6 +20,9 @@ def plot(plot_dir, output_file, x_values, y_values):
     
     plt.savefig(output_png)
     plt.savefig(output_pdf)
+    
+    # close to avoid memory warning 
+    plt.close('all')
 
 def plotMultiple(plot_dir, output_file, inputs, xlim, ylim):
     tools.makeDir(plot_dir)
@@ -46,6 +49,9 @@ def plotMultiple(plot_dir, output_file, inputs, xlim, ylim):
     
     plt.savefig(output_png)
     plt.savefig(output_pdf)
+    
+    # close to avoid memory warning 
+    plt.close('all')
 
 def main():
     plot_dir    = "plots"
