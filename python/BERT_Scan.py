@@ -13,8 +13,8 @@ def run(tap0_min, tap0_max, tap0_step):
 
 def main():
     tap0_min  = 50
-    tap0_max  = 300
-    tap0_step = 5
+    tap0_max  = 600
+    tap0_step = 10
     run(tap0_min, tap0_max, tap0_step)
 
 if __name__ == "__main__":

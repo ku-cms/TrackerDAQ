@@ -6,12 +6,12 @@ echo "Running BERT scan."
 TAP0_Setting=$1
 #dataDir="BERT_Scan_SingleDP_Data"
 #dataDir="BERT_Scan_DoubleDP_DoubleBonn_Data"
-#dataDir="BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink101_Data"
+dataDir="BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink101_Data"
 #dataDir="BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink102_Data"
 #dataDir="BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink104_Data"
 #dataDir="BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink106_Data"
 #dataDir="BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink111_Data"
-dataDir="BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink113_Data"
+#dataDir="BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink113_Data"
 
 if [ -z "$TAP0_Setting" ]
 then
