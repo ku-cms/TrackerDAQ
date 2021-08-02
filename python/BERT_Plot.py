@@ -11,9 +11,9 @@ def plot(plot_dir, output_file, x_values, y_values):
     plt.plot(x_values, y_values, 'ro')
 
     ax.set_yscale('symlog')
-    ax.set_title("BERT TAP0 Scan",          fontsize=20)
-    ax.set_xlabel("TAP0 DAC Setting",       fontsize=16)
-    ax.set_ylabel("Errors (over 10 s)",     fontsize=16)
+    ax.set_title("BERT TAP0 Scan",              fontsize=20)
+    ax.set_xlabel("TAP0 DAC",                   fontsize=16)
+    ax.set_ylabel("Bit errors per 10 seconds",  fontsize=16)
     
     output_png = "{0}/{1}.png".format(plot_dir, output_file)
     output_pdf = "{0}/{1}.pdf".format(plot_dir, output_file)
@@ -40,9 +40,9 @@ def plotMultiple(plot_dir, output_file, inputs, xlim, ylim):
     ax.legend(loc='upper right')
     ax.set_xlim(xlim)
     ax.set_ylim(ylim)
-    ax.set_title("BERT TAP0 Scan",          fontsize=20)
-    ax.set_xlabel("TAP0 DAC Setting",       fontsize=16)
-    ax.set_ylabel("Errors (over 10 s)",     fontsize=16)
+    ax.set_title("BERT TAP0 Scan",              fontsize=20)
+    ax.set_xlabel("TAP0 DAC",                   fontsize=16)
+    ax.set_ylabel("Bit errors per 10 seconds",  fontsize=16)
     
     output_png = "{0}/{1}.png".format(plot_dir, output_file)
     output_pdf = "{0}/{1}.pdf".format(plot_dir, output_file)
