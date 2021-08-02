@@ -12,7 +12,7 @@ def findErrors(input_file):
             # get all numbers in string
             numbers = re.findall(r'\d+', line)
             z = int(numbers[0])
-            print("ERROR: {0}".format(line), end='')
+            #print("ERROR: {0}".format(line), end='')
             #print(numbers)
             #print(z)
             errors.append(z)
@@ -105,11 +105,19 @@ def analyzeScans():
     input_file  = "{0}/scan_003.log".format(data_dir)
     analyze(input_file, plot_dir, output_file)
     
+    output_file = "BERT_scan_004"
+    input_file  = "{0}/scan_004.log".format(data_dir)
+    analyze(input_file, plot_dir, output_file)
+    
     plot_dir    = "plots/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink102_Data"
     data_dir    = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink102_Data"
     
     output_file = "BERT_scan_001"
     input_file  = "{0}/scan_001.log".format(data_dir)
+    analyze(input_file, plot_dir, output_file)
+    
+    output_file = "BERT_scan_002"
+    input_file  = "{0}/scan_002.log".format(data_dir)
     analyze(input_file, plot_dir, output_file)
     
     plot_dir    = "plots/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink104_Data"
@@ -119,11 +127,19 @@ def analyzeScans():
     input_file  = "{0}/scan_001.log".format(data_dir)
     analyze(input_file, plot_dir, output_file)
     
+    output_file = "BERT_scan_002"
+    input_file  = "{0}/scan_002.log".format(data_dir)
+    analyze(input_file, plot_dir, output_file)
+    
     plot_dir    = "plots/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink106_Data"
     data_dir    = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink106_Data"
     
     output_file = "BERT_scan_001"
     input_file  = "{0}/scan_001.log".format(data_dir)
+    analyze(input_file, plot_dir, output_file)
+    
+    output_file = "BERT_scan_002"
+    input_file  = "{0}/scan_002.log".format(data_dir)
     analyze(input_file, plot_dir, output_file)
     
     plot_dir    = "plots/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink111_Data"
@@ -133,11 +149,19 @@ def analyzeScans():
     input_file  = "{0}/scan_001.log".format(data_dir)
     analyze(input_file, plot_dir, output_file)
     
+    output_file = "BERT_scan_002"
+    input_file  = "{0}/scan_002.log".format(data_dir)
+    analyze(input_file, plot_dir, output_file)
+    
     plot_dir    = "plots/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink113_Data"
     data_dir    = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink113_Data"
     
     output_file = "BERT_scan_001"
     input_file  = "{0}/scan_001.log".format(data_dir)
+    analyze(input_file, plot_dir, output_file)
+    
+    output_file = "BERT_scan_002"
+    input_file  = "{0}/scan_002.log".format(data_dir)
     analyze(input_file, plot_dir, output_file)
 
 def makeCombinedPlots():
@@ -230,6 +254,69 @@ def makeCombinedPlots():
     inputs.append(scan)
     
     input_file = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink113_Data/scan_001.log"
+    data = getData(input_file)
+    scan = {}
+    scan["x_values"] = data[0]
+    scan["y_values"] = data[1]
+    scan["color"]    = "xkcd:aqua blue"
+    scan["label"]    = "e-link 113 (34 AWG, 2.00 m)"
+    inputs.append(scan)
+    
+    plotMultiple(plot_dir, output_file, inputs, xlim, ylim)
+    
+    # create combined plot
+    plot_dir    = "plots/BERT_Scans"
+    output_file = "BERT_Scans_003"
+    xlim = [40.0, 610.0]
+    ylim = [0.0, 1.0e13]
+    inputs = []
+    
+    input_file = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink101_Data/scan_004.log"
+    data = getData(input_file)
+    scan = {}
+    scan["x_values"] = data[0]
+    scan["y_values"] = data[1]
+    scan["color"]    = "xkcd:cherry red"
+    scan["label"]    = "e-link 101 (34 AWG, 0.35 m)"
+    inputs.append(scan)
+    
+    input_file = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink102_Data/scan_002.log"
+    data = getData(input_file)
+    scan = {}
+    scan["x_values"] = data[0]
+    scan["y_values"] = data[1]
+    scan["color"]    = "xkcd:apple green"
+    scan["label"]    = "e-link 102 (34 AWG, 0.80 m)"
+    inputs.append(scan)
+    
+    input_file = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink104_Data/scan_002.log"
+    data = getData(input_file)
+    scan = {}
+    scan["x_values"] = data[0]
+    scan["y_values"] = data[1]
+    scan["color"]    = "xkcd:bright blue"
+    scan["label"]    = "e-link 104 (34 AWG, 1.00 m)"
+    inputs.append(scan)
+    
+    input_file = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink106_Data/scan_002.log"
+    data = getData(input_file)
+    scan = {}
+    scan["x_values"] = data[0]
+    scan["y_values"] = data[1]
+    scan["color"]    = "xkcd:tangerine"
+    scan["label"]    = "e-link 106 (34 AWG, 1.60 m)"
+    inputs.append(scan)
+    
+    input_file = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink111_Data/scan_002.log"
+    data = getData(input_file)
+    scan = {}
+    scan["x_values"] = data[0]
+    scan["y_values"] = data[1]
+    scan["color"]    = "xkcd:electric purple"
+    scan["label"]    = "e-link 111 (34 AWG, 1.80 m)"
+    inputs.append(scan)
+    
+    input_file = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink113_Data/scan_002.log"
     data = getData(input_file)
     scan = {}
     scan["x_values"] = data[0]
