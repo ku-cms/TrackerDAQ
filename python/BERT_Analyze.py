@@ -90,6 +90,8 @@ def analyzeScans():
     output_file = "BERT_scan_001"
     input_file  = "{0}/scan_001.log".format(data_dir)
     analyze(input_file, plot_dir, output_file)
+
+    # Type 1 Cables
     
     plot_dir    = "plots/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink101_Data"
     data_dir    = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink101_Data"
@@ -163,6 +165,15 @@ def analyzeScans():
     
     output_file = "BERT_scan_002"
     input_file  = "{0}/scan_002.log".format(data_dir)
+    analyze(input_file, plot_dir, output_file)
+    
+    # Type 2 Cables
+    
+    plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink200"
+    data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink200"
+    
+    output_file = "BERT_scan_001"
+    input_file  = "{0}/scan_001.log".format(data_dir)
     analyze(input_file, plot_dir, output_file)
 
 # add entry to list of inputs
