@@ -169,6 +169,34 @@ def analyzeScans():
     
     # Type 2 Cables
     
+    plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink183"
+    data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink183"
+    
+    output_file = "BERT_scan_001"
+    input_file  = "{0}/scan_001.log".format(data_dir)
+    analyze(input_file, plot_dir, output_file)
+    
+    plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink187"
+    data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink187"
+    
+    output_file = "BERT_scan_001"
+    input_file  = "{0}/scan_001.log".format(data_dir)
+    analyze(input_file, plot_dir, output_file)
+    
+    plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink191"
+    data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink191"
+    
+    output_file = "BERT_scan_001"
+    input_file  = "{0}/scan_001.log".format(data_dir)
+    analyze(input_file, plot_dir, output_file)
+    
+    plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink195"
+    data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink195"
+    
+    output_file = "BERT_scan_001"
+    input_file  = "{0}/scan_001.log".format(data_dir)
+    analyze(input_file, plot_dir, output_file)
+    
     plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink200"
     data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink200"
     
@@ -306,6 +334,45 @@ def makeCombinedPlots():
         input_file  = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink113_Data/scan_002.log",
         label       = "e-link 113 (34 AWG, 2.00 m)",
         color       = "xkcd:aqua blue"
+    )
+    plotMultiple(plot_dir, output_file, inputs, xlim, ylim)
+    # ---------------------------- #
+    # --- create combined plot --- #
+    # ---------------------------- #
+    plot_dir    = "plots/BERT_Scans"
+    output_file = "BERT_Scans_004"
+    xlim = [40.0, 610.0]
+    ylim = [0.0, 1.0e13]
+    inputs = []
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink183/scan_001.log",
+        label       = "e-link 183 (36 AWG, 0.35 m)",
+        color       = "xkcd:cherry red"
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink187/scan_001.log",
+        label       = "e-link 187 (36 AWG, 0.80 m)",
+        color       = "xkcd:apple green"
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink191/scan_001.log",
+        label       = "e-link 191 (36 AWG, 1.00 m)",
+        color       = "xkcd:bright blue"
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink195/scan_001.log",
+        label       = "e-link 195 (36 AWG, 1.60 m)",
+        color       = "xkcd:tangerine"
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink200/scan_001.log",
+        label       = "e-link 200 (36 AWG, 2.00 m)",
+        color       = "xkcd:electric purple"
     )
     plotMultiple(plot_dir, output_file, inputs, xlim, ylim)
 
