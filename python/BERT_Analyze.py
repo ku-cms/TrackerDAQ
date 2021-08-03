@@ -67,6 +67,7 @@ def analyze(input_file, plot_dir, output_file):
         print("input file: {0}, num x vals: {1}, num y vals: {2}".format(input_file, len(x_values), len(y_values)))
     plot(plot_dir, output_file, x_values, y_values)
 
+# make a plot for each scan
 def analyzeScans():
     plot_dir    = "plots/BERT_Scan_SingleDP_Data"
     data_dir    = "data/BERT_Scan_SingleDP_Data"
@@ -164,167 +165,137 @@ def analyzeScans():
     input_file  = "{0}/scan_002.log".format(data_dir)
     analyze(input_file, plot_dir, output_file)
 
+# add entry to list of inputs
+# each entry is a dictionary
+def addEntry(input_list, input_file, label, color):
+    data = getData(input_file)
+    entry = {}
+    entry["x_values"] = data[0]
+    entry["y_values"] = data[1]
+    entry["color"]    = color 
+    entry["label"]    = label 
+    input_list.append(entry)
+
+# make plots with multiple scans
 def makeCombinedPlots():
-    # create combined plot
+    # ---------------------------- #
+    # --- create combined plot --- #
+    # ---------------------------- #
     plot_dir    = "plots/BERT_Scans"
     output_file = "BERT_Scans_001"
     xlim = [49.0, 101.0]
     ylim = [0.0, 1.0e9]
     inputs = []
-    
-    input_file = "data/BERT_Scan_SingleDP_Data/scan_003.log"
-    data = getData(input_file)
-    scan = {}
-    scan["x_values"] = data[0]
-    scan["y_values"] = data[1]
-    scan["color"]    = "xkcd:cherry red"
-    scan["label"]    = "Single DP"
-    inputs.append(scan)
-    
-    input_file = "data/BERT_Scan_DoubleDP_DoubleBonn_Data/scan_001.log"
-    data = getData(input_file)
-    scan = {}
-    scan["x_values"] = data[0]
-    scan["y_values"] = data[1]
-    scan["color"]    = "xkcd:apple green"
-    scan["label"]    = "Double DP Double Bonn"
-    inputs.append(scan)
-    
-    input_file = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink101_Data/scan_001.log"
-    data = getData(input_file)
-    scan = {}
-    scan["x_values"] = data[0]
-    scan["y_values"] = data[1]
-    scan["color"]    = "xkcd:bright blue"
-    scan["label"]    = "Double DP Double Bonn Double Yellow e-link 101"
-    inputs.append(scan)
-    
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_Scan_SingleDP_Data/scan_003.log",
+        label       = "Single DP",
+        color       = "xkcd:cherry red"
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_Scan_DoubleDP_DoubleBonn_Data/scan_001.log",
+        label       = "Double DP Double Bonn",
+        color       = "xkcd:apple green"
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink101_Data/scan_001.log",
+        label       = "Double DP Double Bonn Double Yellow e-link 101",
+        color       = "xkcd:bright blue"
+    )
     plotMultiple(plot_dir, output_file, inputs, xlim, ylim)
     
-    # create combined plot
+    # ---------------------------- #
+    # --- create combined plot --- #
+    # ---------------------------- #
     plot_dir    = "plots/BERT_Scans"
     output_file = "BERT_Scans_002"
     xlim = [45.0, 305.0]
     ylim = [0.0, 1.0e13]
     inputs = []
-    
-    input_file = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink101_Data/scan_003.log"
-    data = getData(input_file)
-    scan = {}
-    scan["x_values"] = data[0]
-    scan["y_values"] = data[1]
-    scan["color"]    = "xkcd:cherry red"
-    scan["label"]    = "e-link 101 (34 AWG, 0.35 m)"
-    inputs.append(scan)
-    
-    input_file = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink102_Data/scan_001.log"
-    data = getData(input_file)
-    scan = {}
-    scan["x_values"] = data[0]
-    scan["y_values"] = data[1]
-    scan["color"]    = "xkcd:apple green"
-    scan["label"]    = "e-link 102 (34 AWG, 0.80 m)"
-    inputs.append(scan)
-    
-    input_file = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink104_Data/scan_001.log"
-    data = getData(input_file)
-    scan = {}
-    scan["x_values"] = data[0]
-    scan["y_values"] = data[1]
-    scan["color"]    = "xkcd:bright blue"
-    scan["label"]    = "e-link 104 (34 AWG, 1.00 m)"
-    inputs.append(scan)
-    
-    input_file = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink106_Data/scan_001.log"
-    data = getData(input_file)
-    scan = {}
-    scan["x_values"] = data[0]
-    scan["y_values"] = data[1]
-    scan["color"]    = "xkcd:tangerine"
-    scan["label"]    = "e-link 106 (34 AWG, 1.60 m)"
-    inputs.append(scan)
-    
-    input_file = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink111_Data/scan_001.log"
-    data = getData(input_file)
-    scan = {}
-    scan["x_values"] = data[0]
-    scan["y_values"] = data[1]
-    scan["color"]    = "xkcd:electric purple"
-    scan["label"]    = "e-link 111 (34 AWG, 1.80 m)"
-    inputs.append(scan)
-    
-    input_file = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink113_Data/scan_001.log"
-    data = getData(input_file)
-    scan = {}
-    scan["x_values"] = data[0]
-    scan["y_values"] = data[1]
-    scan["color"]    = "xkcd:aqua blue"
-    scan["label"]    = "e-link 113 (34 AWG, 2.00 m)"
-    inputs.append(scan)
-    
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink101_Data/scan_003.log",
+        label       = "e-link 101 (34 AWG, 0.35 m)",
+        color       = "xkcd:cherry red"
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink102_Data/scan_001.log",
+        label       = "e-link 102 (34 AWG, 0.80 m)",
+        color       = "xkcd:apple green"
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink104_Data/scan_001.log",
+        label       = "e-link 104 (34 AWG, 1.00 m)",
+        color       = "xkcd:bright blue"
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink106_Data/scan_001.log",
+        label       = "e-link 106 (34 AWG, 1.60 m)",
+        color       = "xkcd:tangerine"
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink111_Data/scan_001.log",
+        label       = "e-link 111 (34 AWG, 1.80 m)",
+        color       = "xkcd:electric purple"
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink113_Data/scan_001.log",
+        label       = "e-link 113 (34 AWG, 2.00 m)",
+        color       = "xkcd:aqua blue"
+    )
     plotMultiple(plot_dir, output_file, inputs, xlim, ylim)
     
-    # create combined plot
+    # ---------------------------- #
+    # --- create combined plot --- #
+    # ---------------------------- #
     plot_dir    = "plots/BERT_Scans"
     output_file = "BERT_Scans_003"
     xlim = [40.0, 610.0]
     ylim = [0.0, 1.0e13]
     inputs = []
-    
-    input_file = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink101_Data/scan_004.log"
-    data = getData(input_file)
-    scan = {}
-    scan["x_values"] = data[0]
-    scan["y_values"] = data[1]
-    scan["color"]    = "xkcd:cherry red"
-    scan["label"]    = "e-link 101 (34 AWG, 0.35 m)"
-    inputs.append(scan)
-    
-    input_file = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink102_Data/scan_002.log"
-    data = getData(input_file)
-    scan = {}
-    scan["x_values"] = data[0]
-    scan["y_values"] = data[1]
-    scan["color"]    = "xkcd:apple green"
-    scan["label"]    = "e-link 102 (34 AWG, 0.80 m)"
-    inputs.append(scan)
-    
-    input_file = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink104_Data/scan_002.log"
-    data = getData(input_file)
-    scan = {}
-    scan["x_values"] = data[0]
-    scan["y_values"] = data[1]
-    scan["color"]    = "xkcd:bright blue"
-    scan["label"]    = "e-link 104 (34 AWG, 1.00 m)"
-    inputs.append(scan)
-    
-    input_file = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink106_Data/scan_002.log"
-    data = getData(input_file)
-    scan = {}
-    scan["x_values"] = data[0]
-    scan["y_values"] = data[1]
-    scan["color"]    = "xkcd:tangerine"
-    scan["label"]    = "e-link 106 (34 AWG, 1.60 m)"
-    inputs.append(scan)
-    
-    input_file = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink111_Data/scan_002.log"
-    data = getData(input_file)
-    scan = {}
-    scan["x_values"] = data[0]
-    scan["y_values"] = data[1]
-    scan["color"]    = "xkcd:electric purple"
-    scan["label"]    = "e-link 111 (34 AWG, 1.80 m)"
-    inputs.append(scan)
-    
-    input_file = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink113_Data/scan_002.log"
-    data = getData(input_file)
-    scan = {}
-    scan["x_values"] = data[0]
-    scan["y_values"] = data[1]
-    scan["color"]    = "xkcd:aqua blue"
-    scan["label"]    = "e-link 113 (34 AWG, 2.00 m)"
-    inputs.append(scan)
-    
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink101_Data/scan_004.log",
+        label       = "e-link 101 (34 AWG, 0.35 m)",
+        color       = "xkcd:cherry red"
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink102_Data/scan_002.log",
+        label       = "e-link 102 (34 AWG, 0.80 m)",
+        color       = "xkcd:apple green"
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink104_Data/scan_002.log",
+        label       = "e-link 104 (34 AWG, 1.00 m)",
+        color       = "xkcd:bright blue"
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink106_Data/scan_002.log",
+        label       = "e-link 106 (34 AWG, 1.60 m)",
+        color       = "xkcd:tangerine"
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink111_Data/scan_002.log",
+        label       = "e-link 111 (34 AWG, 1.80 m)",
+        color       = "xkcd:electric purple"
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_Scan_DoubleDP_DoubleBonn_DoubleYellow_elink113_Data/scan_002.log",
+        label       = "e-link 113 (34 AWG, 2.00 m)",
+        color       = "xkcd:aqua blue"
+    )
     plotMultiple(plot_dir, output_file, inputs, xlim, ylim)
 
 def main():
