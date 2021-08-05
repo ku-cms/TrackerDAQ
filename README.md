@@ -42,8 +42,9 @@ The TAP0 DAC setting is called CML_TAP0_BIAS, and it ranges from 0 to 1000.
 
 The script BERT_Scan.sh handles the xml modification automatically.
 Provide the TAP0 setting [0, 1000] as the first argument.
-Provide a directory as the second argument.
 Note that communication fails for low values... e.g. TAP0 = 0.
+Provide a directory as the second argument.
+The optional third argument is the output file name (defaults to out.log in the specified directory).
 ```
 ./TrackerDAQ/scripts/BERT_Scan.sh 500 BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink200
 ```
@@ -53,12 +54,11 @@ Provide the min TAP0 (-a), max TAP0 (-b), TAP0 step size (-c), and an output dir
 ```
 time python3 TrackerDAQ/python/BERT_Scan.py -a 50 -b 600 -c 10 -d BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink200
 ```
+This script will output the results to a unique file name in the specified directory (e.g. BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink200/scan_001.log).
 
-Save the output of the BERT scan to a log file, but without the bash color commands that you will get by directly piping the output to a file.
-This is because the BERT program uses colored output for the terminal.
-At the moment, I copy the output, use the command cat, paste, and then use CRTL-D, which avoids this color command issue.
+There is a simple script to rsync data to your local machine if needed.
 ```
-cat > BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink200/scan_001.log
+./scripts/getData.sh
 ```
 
 To plot the data from the log file, use BERT_Analyze.py. 
