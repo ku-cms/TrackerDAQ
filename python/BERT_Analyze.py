@@ -1,5 +1,7 @@
 # BERT_Analyze.py
 
+import os
+import glob
 import re
 from BERT_Plot import plot, plotMultiple
 
@@ -16,16 +18,15 @@ def findErrors(input_file):
             # first number is TAP0 setting
             z = int(numbers[0])
             #print("ERROR: {0}".format(line), end='')
-            #print(numbers)
-            #print(z)
             errors.append(z)
     f.close()
     return errors
 
 def getData(input_file):
     # check for errors
+    printError = False
     errors = findErrors(input_file)
-    if errors:
+    if errors and printError:
         print("ERROR for {0}".format(input_file))
         print("There were errors for these TAP0 settings: {0}".format(errors))
         print("These will be skipped.")
@@ -41,17 +42,12 @@ def getData(input_file):
             # skip the x value if there were errors
             if x not in errors:
                 x_values.append(x)
-            #print(line)
-            #print(array)
-            #print(x)
         # Total error counter (y values)
         if "Final counter" in line:
             # get all numbers in string
             numbers = [int(s) for s in line.split() if s.isdigit()]
             y = numbers[0]
             y_values.append(y)
-            #print(line)
-            #print(numbers)
     
     f.close()
     return [x_values, y_values]
@@ -70,166 +66,41 @@ def analyze(input_file, plot_dir, output_file):
         print("input file: {0}, num x vals: {1}, num y vals: {2}".format(input_file, len(x_values), len(y_values)))
     plot(plot_dir, output_file, x_values, y_values)
 
+# run over a single directory
+def runDir(plot_dir, data_dir):
+    # get list of input files in directory
+    files = glob.glob(data_dir + "/scan_*.log")
+    for input_file in files:
+        # get output file name based on input file name
+        name        = os.path.basename(input_file)
+        x           = name.split(".")[0]
+        output_file = "BERT_" + x
+        analyze(input_file, plot_dir, output_file)
+
+# run over directories in base directory
+def runSet(base_plot_dir, base_data_dir):
+    # get list of directories in base directory
+    dirs = glob.glob(base_data_dir + "/*")
+    for data_dir in dirs:
+        # get name for plot directory
+        name = os.path.basename(data_dir)
+        plot_dir = "{0}/{1}".format(base_plot_dir, name)
+        print(" - {0}".format(name))
+        runDir(plot_dir, data_dir)
+
 # make a plot for each scan
 def analyzeScans():
     plot_dir    = "plots/BERT_Scan_SingleDP_Data"
     data_dir    = "data/BERT_Scan_SingleDP_Data"
-    
-    output_file = "BERT_scan_001"
-    input_file  = "{0}/scan_001.log".format(data_dir)
-    analyze(input_file, plot_dir, output_file)
-    
-    output_file = "BERT_scan_002"
-    input_file  = "{0}/scan_002.log".format(data_dir)
-    analyze(input_file, plot_dir, output_file)
-    
-    output_file = "BERT_scan_003"
-    input_file  = "{0}/scan_003.log".format(data_dir)
-    analyze(input_file, plot_dir, output_file)
-    
+    runDir(plot_dir, data_dir)
+
     plot_dir    = "plots/BERT_Scan_DoubleDP_DoubleBonn_Data"
     data_dir    = "data/BERT_Scan_DoubleDP_DoubleBonn_Data"
+    runDir(plot_dir, data_dir)
     
-    output_file = "BERT_scan_001"
-    input_file  = "{0}/scan_001.log".format(data_dir)
-    analyze(input_file, plot_dir, output_file)
-
-    # Type 1 Cables
-    
-    plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink101"
-    data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink101"
-    
-    output_file = "BERT_scan_001"
-    input_file  = "{0}/scan_001.log".format(data_dir)
-    analyze(input_file, plot_dir, output_file)
-    
-    output_file = "BERT_scan_002"
-    input_file  = "{0}/scan_002.log".format(data_dir)
-    analyze(input_file, plot_dir, output_file)
-    
-    output_file = "BERT_scan_003"
-    input_file  = "{0}/scan_003.log".format(data_dir)
-    analyze(input_file, plot_dir, output_file)
-    
-    output_file = "BERT_scan_004"
-    input_file  = "{0}/scan_004.log".format(data_dir)
-    analyze(input_file, plot_dir, output_file)
-    
-    output_file = "BERT_scan_005"
-    input_file  = "{0}/scan_005.log".format(data_dir)
-    analyze(input_file, plot_dir, output_file)
-    
-    plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink102"
-    data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink102"
-    
-    output_file = "BERT_scan_001"
-    input_file  = "{0}/scan_001.log".format(data_dir)
-    analyze(input_file, plot_dir, output_file)
-    
-    output_file = "BERT_scan_002"
-    input_file  = "{0}/scan_002.log".format(data_dir)
-    analyze(input_file, plot_dir, output_file)
-    
-    output_file = "BERT_scan_003"
-    input_file  = "{0}/scan_003.log".format(data_dir)
-    analyze(input_file, plot_dir, output_file)
-    
-    plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink104"
-    data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink104"
-    
-    output_file = "BERT_scan_001"
-    input_file  = "{0}/scan_001.log".format(data_dir)
-    analyze(input_file, plot_dir, output_file)
-    
-    output_file = "BERT_scan_002"
-    input_file  = "{0}/scan_002.log".format(data_dir)
-    analyze(input_file, plot_dir, output_file)
-    
-    output_file = "BERT_scan_003"
-    input_file  = "{0}/scan_003.log".format(data_dir)
-    analyze(input_file, plot_dir, output_file)
-    
-    plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink106"
-    data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink106"
-    
-    output_file = "BERT_scan_001"
-    input_file  = "{0}/scan_001.log".format(data_dir)
-    analyze(input_file, plot_dir, output_file)
-    
-    output_file = "BERT_scan_002"
-    input_file  = "{0}/scan_002.log".format(data_dir)
-    analyze(input_file, plot_dir, output_file)
-    
-    output_file = "BERT_scan_003"
-    input_file  = "{0}/scan_003.log".format(data_dir)
-    analyze(input_file, plot_dir, output_file)
-    
-    plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink111"
-    data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink111"
-    
-    output_file = "BERT_scan_001"
-    input_file  = "{0}/scan_001.log".format(data_dir)
-    analyze(input_file, plot_dir, output_file)
-    
-    output_file = "BERT_scan_002"
-    input_file  = "{0}/scan_002.log".format(data_dir)
-    analyze(input_file, plot_dir, output_file)
-    
-    output_file = "BERT_scan_003"
-    input_file  = "{0}/scan_003.log".format(data_dir)
-    analyze(input_file, plot_dir, output_file)
-    
-    plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink113"
-    data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink113"
-    
-    output_file = "BERT_scan_001"
-    input_file  = "{0}/scan_001.log".format(data_dir)
-    analyze(input_file, plot_dir, output_file)
-    
-    output_file = "BERT_scan_002"
-    input_file  = "{0}/scan_002.log".format(data_dir)
-    analyze(input_file, plot_dir, output_file)
-    
-    output_file = "BERT_scan_003"
-    input_file  = "{0}/scan_003.log".format(data_dir)
-    analyze(input_file, plot_dir, output_file)
-    
-    # Type 2 Cables
-    
-    plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink183"
-    data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink183"
-    
-    output_file = "BERT_scan_001"
-    input_file  = "{0}/scan_001.log".format(data_dir)
-    analyze(input_file, plot_dir, output_file)
-    
-    plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink187"
-    data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink187"
-    
-    output_file = "BERT_scan_001"
-    input_file  = "{0}/scan_001.log".format(data_dir)
-    analyze(input_file, plot_dir, output_file)
-    
-    plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink191"
-    data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink191"
-    
-    output_file = "BERT_scan_001"
-    input_file  = "{0}/scan_001.log".format(data_dir)
-    analyze(input_file, plot_dir, output_file)
-    
-    plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink195"
-    data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink195"
-    
-    output_file = "BERT_scan_001"
-    input_file  = "{0}/scan_001.log".format(data_dir)
-    analyze(input_file, plot_dir, output_file)
-    
-    plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink200"
-    data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink200"
-    
-    output_file = "BERT_scan_001"
-    input_file  = "{0}/scan_001.log".format(data_dir)
-    analyze(input_file, plot_dir, output_file)
+    base_plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow"
+    base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow"
+    runSet(base_plot_dir, base_data_dir)
 
 # add entry to list of inputs
 # each entry is a dictionary
