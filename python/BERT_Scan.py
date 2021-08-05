@@ -2,14 +2,28 @@
 
 import subprocess
 import argparse
+import os
 
+# Get unique output file name
+def getOutputFile(output_dir):
+    i = 1
+    output_file = "{0}/scan_{1:03}.log".format(output_dir, i)
+    while(os.path.isfile(output_file)):
+        #print("File exists: {0}".format(output_file))
+        i += 1
+        output_file = "{0}/scan_{1:03}.log".format(output_dir, i)
+    print("Final output file: {0}".format(output_file))
+    return output_file
 
 # Scan over TAP0 DAQ settings
 def run(tap0_min, tap0_max, tap0_step, output_dir):
+    output_file = getOutputFile(output_dir)
     for x in range(tap0_min, tap0_max + tap0_step, tap0_step):
         # Run BERT scan script
-        output = subprocess.run(["./TrackerDAQ/scripts/BERT_Scan.sh", str(x), output_dir])
-        print(output)
+        output = subprocess.run(["./TrackerDAQ/scripts/BERT_Scan.sh", str(x), output_dir, output_file])
+        # append output to file
+        with open(output_file, 'a') as f:
+            f.write(str(output) + "\n")
 
 def main():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
