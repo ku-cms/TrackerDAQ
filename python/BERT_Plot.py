@@ -26,15 +26,27 @@ def plot(plot_dir, output_file, x_values, y_values):
 
 def plotMultiple(plot_dir, output_file, inputs, xlim, ylim):
     tools.makeDir(plot_dir)
+    colors = [
+                "xkcd:cherry red",
+                "xkcd:apple green",
+                "xkcd:bright blue",
+                "xkcd:tangerine",
+                "xkcd:electric purple",
+                "xkcd:aqua blue",
+                "xkcd:reddish orange",
+                "xkcd:grass green",
+                "xkcd:lilac",
+                "xkcd:coral",
+    ]
 
     fig, ax = plt.subplots(figsize=(6, 6))
     
-    for item in inputs:
+    for i, item in enumerate(inputs):
         x_values = item["x_values"]
         y_values = item["y_values"]
-        color    = item["color"]
         label    = item["label"]
-        plt.plot(x_values, y_values, 'o', color=color, label=label)
+        color    = colors[i]
+        plt.plot(x_values, y_values, 'o', label=label, color=color)
 
     ax.set_yscale('symlog')
     ax.legend(loc='upper right')
