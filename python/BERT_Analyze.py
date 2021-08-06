@@ -121,7 +121,7 @@ def makeCombinedPlots():
     plot_dir    = "plots/BERT_Scans"
     output_file = "BERT_Scans_001"
     xlim = [49.0, 101.0]
-    ylim = [0.0, 1.0e9]
+    ylim = [0.0, 1.0e12]
     inputs = []
     addEntry(
         input_list  = inputs,
@@ -137,9 +137,21 @@ def makeCombinedPlots():
     )
     addEntry(
         input_list  = inputs,
-        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink101/scan_001.log",
-        label       = "Double DP Double Bonn Double Yellow e-link 101",
+        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/flex0p10m/scan_001.log",
+        label       = "Add Double Yellow & flex (0.10 m)",
         color       = "xkcd:bright blue"
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/flex0p35m/scan_001.log",
+        label       = "Add Double Yellow & flex (0.35 m)",
+        color       = "xkcd:tangerine"
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink101/scan_001.log",
+        label       = "Add Double Yellow & e-link 101 (34 AWG, 0.35 m)",
+        color       = "xkcd:electric purple"
     )
     plotMultiple(plot_dir, output_file, inputs, xlim, ylim)
     
@@ -148,6 +160,34 @@ def makeCombinedPlots():
     # ---------------------------- #
     plot_dir    = "plots/BERT_Scans"
     output_file = "BERT_Scans_002"
+    xlim = [49.0, 101.0]
+    ylim = [0.0, 1.0e12]
+    inputs = []
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/flex0p10m/scan_001.log",
+        label       = "flex (0.10 m)",
+        color       = "xkcd:cherry red"
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/flex0p35m/scan_001.log",
+        label       = "flex (0.35 m)",
+        color       = "xkcd:apple green"
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/flex1p00m/scan_001.log",
+        label       = "flex (1.00 m)",
+        color       = "xkcd:bright blue"
+    )
+    plotMultiple(plot_dir, output_file, inputs, xlim, ylim)
+    
+    # ---------------------------- #
+    # --- create combined plot --- #
+    # ---------------------------- #
+    plot_dir    = "plots/BERT_Scans"
+    output_file = "BERT_Scans_003"
     xlim = [45.0, 305.0]
     ylim = [0.0, 1.0e13]
     inputs = []
@@ -193,7 +233,7 @@ def makeCombinedPlots():
     # --- create combined plot --- #
     # ---------------------------- #
     plot_dir    = "plots/BERT_Scans"
-    output_file = "BERT_Scans_003"
+    output_file = "BERT_Scans_004"
     xlim = [40.0, 610.0]
     ylim = [0.0, 1.0e13]
     inputs = []
@@ -239,7 +279,7 @@ def makeCombinedPlots():
     # --- create combined plot --- #
     # ---------------------------- #
     plot_dir    = "plots/BERT_Scans"
-    output_file = "BERT_Scans_004"
+    output_file = "BERT_Scans_005"
     xlim = [40.0, 610.0]
     ylim = [0.0, 1.0e13]
     inputs = []
@@ -285,7 +325,7 @@ def makeCombinedPlots():
     # --- create combined plot --- #
     # ---------------------------- #
     plot_dir    = "plots/BERT_Scans"
-    output_file = "BERT_Scans_005"
+    output_file = "BERT_Scans_006"
     xlim = [40.0, 610.0]
     ylim = [0.0, 1.0e13]
     inputs = []
