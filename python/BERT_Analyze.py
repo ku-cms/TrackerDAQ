@@ -79,6 +79,7 @@ def runDir(plot_dir, data_dir):
 
 # run over directories in base directory
 def runSet(base_plot_dir, base_data_dir):
+    print("Plotting data in {0}".format(base_data_dir))
     # get list of directories in base directory
     dirs = glob.glob(base_data_dir + "/*")
     for data_dir in dirs:
@@ -101,6 +102,10 @@ def analyzeScans():
     base_plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow"
     base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow"
     runSet(base_plot_dir, base_data_dir)
+    
+    base_plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DPAdapter"
+    base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter"
+    runSet(base_plot_dir, base_data_dir)
 
 # add entry to list of inputs
 # each entry is a dictionary
@@ -117,6 +122,9 @@ def makeCombinedPlots():
     # ---------------------------- #
     # --- create combined plot --- #
     # ---------------------------- #
+    # Description:
+    # compare readout chain setups
+    # flex cables using new power supply, others using old power supply
     plot_dir    = "plots/BERT_Scans"
     output_file = "BERT_Scans_001"
     xlim = [49.0, 101.0]
@@ -152,6 +160,9 @@ def makeCombinedPlots():
     # ---------------------------- #
     # --- create combined plot --- #
     # ---------------------------- #
+    # Description:
+    # flex cables, new power supply
+    # Bonn boards and yellow boards 
     plot_dir    = "plots/BERT_Scans"
     output_file = "BERT_Scans_002"
     xlim = [49.0, 101.0]
@@ -177,6 +188,9 @@ def makeCombinedPlots():
     # ---------------------------- #
     # --- create combined plot --- #
     # ---------------------------- #
+    # Description:
+    # Type 1B elinks, old power supply
+    # Bonn boards and yellow boards 
     plot_dir    = "plots/BERT_Scans"
     output_file = "BERT_Scans_003"
     xlim = [45.0, 305.0]
@@ -217,6 +231,9 @@ def makeCombinedPlots():
     # ---------------------------- #
     # --- create combined plot --- #
     # ---------------------------- #
+    # Description:
+    # Type 1B elinks, old power supply
+    # Bonn boards and yellow boards 
     plot_dir    = "plots/BERT_Scans"
     output_file = "BERT_Scans_004"
     xlim = [40.0, 610.0]
@@ -257,6 +274,9 @@ def makeCombinedPlots():
     # ---------------------------- #
     # --- create combined plot --- #
     # ---------------------------- #
+    # Description:
+    # Type 1B elinks, new power supply
+    # Bonn boards and yellow boards 
     plot_dir    = "plots/BERT_Scans"
     output_file = "BERT_Scans_005"
     xlim = [40.0, 610.0]
@@ -297,8 +317,54 @@ def makeCombinedPlots():
     # ---------------------------- #
     # --- create combined plot --- #
     # ---------------------------- #
+    # Description:
+    # Type 1B elinks, new power supply
+    # DP to Type 1 elink adapter board
     plot_dir    = "plots/BERT_Scans"
     output_file = "BERT_Scans_006"
+    xlim = [40.0, 610.0]
+    ylim = [0.0, 1.0e13]
+    inputs = []
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink101/scan_001.log",
+        label       = "e-link 101 (34 AWG, 0.35 m)",
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink102/scan_001.log",
+        label       = "e-link 102 (34 AWG, 0.80 m)",
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink104/scan_001.log",
+        label       = "e-link 104 (34 AWG, 1.00 m)",
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink106/scan_001.log",
+        label       = "e-link 106 (34 AWG, 1.60 m)",
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink111/scan_002.log",
+        label       = "e-link 111 (34 AWG, 1.80 m)",
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink113/scan_001.log",
+        label       = "e-link 113 (34 AWG, 2.00 m)",
+    )
+    plotMultiple(plot_dir, output_file, inputs, xlim, ylim)
+    
+    # ---------------------------- #
+    # --- create combined plot --- #
+    # ---------------------------- #
+    # Description:
+    # Type 2 elinks, new power supply
+    # Bonn boards and yellow boards 
+    plot_dir    = "plots/BERT_Scans"
+    output_file = "BERT_Scans_007"
     xlim = [40.0, 610.0]
     ylim = [0.0, 1.0e13]
     inputs = []

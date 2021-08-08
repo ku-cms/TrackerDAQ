@@ -4,8 +4,10 @@ import matplotlib.pyplot as plt
 import tools
 
 def plot(plot_dir, output_file, x_values, y_values):
+    useXKCDStyle = False
     tools.makeDir(plot_dir)
-
+    if useXKCDStyle:
+        plt.xkcd()
     fig, ax = plt.subplots(figsize=(6, 6))
     
     plt.plot(x_values, y_values, 'ro')
@@ -25,7 +27,11 @@ def plot(plot_dir, output_file, x_values, y_values):
     plt.close('all')
 
 def plotMultiple(plot_dir, output_file, inputs, xlim, ylim):
+    useXKCDStyle = False
     tools.makeDir(plot_dir)
+    if useXKCDStyle:
+        plt.xkcd()
+    fig, ax = plt.subplots(figsize=(6, 6))
     colors = [
                 "xkcd:cherry red",
                 "xkcd:apple green",
@@ -38,8 +44,6 @@ def plotMultiple(plot_dir, output_file, inputs, xlim, ylim):
                 "xkcd:lilac",
                 "xkcd:coral",
     ]
-
-    fig, ax = plt.subplots(figsize=(6, 6))
     
     for i, item in enumerate(inputs):
         x_values = item["x_values"]
