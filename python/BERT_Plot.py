@@ -39,10 +39,10 @@ def plotMultiple(plot_dir, output_file, inputs, xlim, ylim):
                 "xkcd:tangerine",
                 "xkcd:electric purple",
                 "xkcd:aqua blue",
-                "xkcd:reddish orange",
                 "xkcd:grass green",
                 "xkcd:lilac",
                 "xkcd:coral",
+                "xkcd:fuchsia"
     ]
     
     for i, item in enumerate(inputs):
