@@ -1,11 +1,11 @@
 # BERT_Plot.py
 
 import matplotlib.pyplot as plt
-import tools
+from tools import makeDir
 
 def plot(plot_dir, output_file, x_values, y_values):
     useXKCDStyle = False
-    tools.makeDir(plot_dir)
+    makeDir(plot_dir)
     if useXKCDStyle:
         plt.xkcd()
     fig, ax = plt.subplots(figsize=(6, 6))
@@ -28,7 +28,7 @@ def plot(plot_dir, output_file, x_values, y_values):
 
 def plotMultiple(plot_dir, output_file, inputs, xlim, ylim):
     useXKCDStyle = False
-    tools.makeDir(plot_dir)
+    makeDir(plot_dir)
     if useXKCDStyle:
         plt.xkcd()
     fig, ax = plt.subplots(figsize=(6, 6))
