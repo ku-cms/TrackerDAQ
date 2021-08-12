@@ -98,10 +98,10 @@ def analyzeScans():
     #plot_dir    = "plots/BERT_Scan_DoubleDP_DoubleBonn_Data"
     #data_dir    = "data/BERT_Scan_DoubleDP_DoubleBonn_Data"
     #runDir(plot_dir, data_dir)
-    #
-    #base_plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow"
-    #base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow"
-    #runSet(base_plot_dir, base_data_dir)
+    
+    base_plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow"
+    base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow"
+    runSet(base_plot_dir, base_data_dir)
     
     base_plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DPAdapter"
     base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter"
@@ -444,9 +444,76 @@ def makeCombinedPlots():
     )
     plotMultiple(plot_dir, output_file, inputs, xlim, ylim)
 
+def comparisonPlot(cable_map, plot_dir, xlim, ylim):
+    for cable in cable_map:
+        inputs = []
+        output_file = cable_map[cable]["output_file"]
+        addEntry(
+            input_list  = inputs,
+            input_file  = cable_map[cable]["input_file_1"],
+            label       = cable_map[cable]["label_1"],
+        )
+        addEntry(
+            input_list  = inputs,
+            input_file  = cable_map[cable]["input_file_2"],
+            label       = cable_map[cable]["label_2"],
+        )
+        plotMultiple(plot_dir, output_file, inputs, xlim, ylim)
+
+def makeComparisonPlots():
+    plot_dir    = "plots/BERT_Scan_Comparison"
+    xlim = [40.0, 610.0]
+    ylim = [0.0, 1.0e13]
+    cable_map = {
+        101 : {
+            "output_file"   : "BERT_Scans_elink101",
+            "input_file_1"  : "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink101/scan_005.log",
+            "input_file_2"  : "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink101/scan_001.log",
+            "label_1"       : "e-link 101 (34 AWG, 0.35 m) Setup 1",
+            "label_2"       : "e-link 101 (34 AWG, 0.35 m) Setup 2",
+        },
+        102 : {
+            "output_file"   : "BERT_Scans_elink102",
+            "input_file_1"  : "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink102/scan_003.log",
+            "input_file_2"  : "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink102/scan_001.log",
+            "label_1"       : "e-link 102 (34 AWG, 0.80 m) Setup 1",
+            "label_2"       : "e-link 102 (34 AWG, 0.80 m) Setup 2",
+        },
+        104 : {
+            "output_file"   : "BERT_Scans_elink104",
+            "input_file_1"  : "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink104/scan_003.log",
+            "input_file_2"  : "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink104/scan_001.log",
+            "label_1"       : "e-link 104 (34 AWG, 1.00 m) Setup 1",
+            "label_2"       : "e-link 104 (34 AWG, 1.00 m) Setup 2",
+        },
+        106 : {
+            "output_file"   : "BERT_Scans_elink106",
+            "input_file_1"  : "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink106/scan_003.log",
+            "input_file_2"  : "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink106/scan_001.log",
+            "label_1"       : "e-link 106 (34 AWG, 1.60 m) Setup 1",
+            "label_2"       : "e-link 106 (34 AWG, 1.60 m) Setup 2",
+        },
+        111 : {
+            "output_file"   : "BERT_Scans_elink111",
+            "input_file_1"  : "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink111/scan_003.log",
+            "input_file_2"  : "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink111/scan_002.log",
+            "label_1"       : "e-link 111 (34 AWG, 1.80 m) Setup 1",
+            "label_2"       : "e-link 111 (34 AWG, 1.80 m) Setup 2",
+        },
+        113 : {
+            "output_file"   : "BERT_Scans_elink113",
+            "input_file_1"  : "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink113/scan_003.log",
+            "input_file_2"  : "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink113/scan_001.log",
+            "label_1"       : "e-link 113 (34 AWG, 2.00 m) Setup 1",
+            "label_2"       : "e-link 113 (34 AWG, 2.00 m) Setup 2",
+        },
+    }
+    comparisonPlot(cable_map, plot_dir, xlim, ylim)
+
 def main():
     analyzeScans()
     makeCombinedPlots()
+    makeComparisonPlots()
 
 if __name__ == "__main__":
     main()
