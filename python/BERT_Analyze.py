@@ -510,6 +510,58 @@ def makeComparisonPlots():
         },
     }
     comparisonPlot(cable_map, plot_dir, xlim, ylim)
+    cable_map = {
+        136 : {
+            "output_file"   : "BERT_Scans_elink136",
+            "input_file_1"  : "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink136/scan_001.log",
+            "input_file_2"  : "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink136/scan_001.log",
+            "label_1"       : "e-link 136 (36 AWG, 0.35 m) Setup 1",
+            "label_2"       : "e-link 136 (36 AWG, 0.35 m) Setup 2",
+        },
+        140 : {
+            "output_file"   : "BERT_Scans_elink140",
+            "input_file_1"  : "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink140/scan_001.log",
+            "input_file_2"  : "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink140/scan_001.log",
+            "label_1"       : "e-link 140 (36 AWG, 0.80 m) Setup 1",
+            "label_2"       : "e-link 140 (36 AWG, 0.80 m) Setup 2",
+        },
+        145 : {
+            "output_file"   : "BERT_Scans_elink145",
+            "input_file_1"  : "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink145/scan_001.log",
+            "input_file_2"  : "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink145/scan_001.log",
+            "label_1"       : "e-link 145 (36 AWG, 1.00 m) Setup 1",
+            "label_2"       : "e-link 145 (36 AWG, 1.00 m) Setup 2",
+        },
+        149 : {
+            "output_file"   : "BERT_Scans_elink149",
+            "input_file_1"  : "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink149/scan_001.log",
+            "input_file_2"  : "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink149/scan_001.log",
+            "label_1"       : "e-link 149 (36 AWG, 1.40 m) Setup 1",
+            "label_2"       : "e-link 149 (36 AWG, 1.40 m) Setup 2",
+        },
+        154 : {
+            "output_file"   : "BERT_Scans_elink154",
+            "input_file_1"  : "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink154/scan_001.log",
+            "input_file_2"  : "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink154/scan_001.log",
+            "label_1"       : "e-link 154 (36 AWG, 1.60 m) Setup 1",
+            "label_2"       : "e-link 154 (36 AWG, 1.60 m) Setup 2",
+        },
+        172 : {
+            "output_file"   : "BERT_Scans_elink172",
+            "input_file_1"  : "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink172/scan_001.log",
+            "input_file_2"  : "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink172/scan_001.log",
+            "label_1"       : "e-link 172 (36 AWG, 1.80 m) Setup 1",
+            "label_2"       : "e-link 172 (36 AWG, 1.80 m) Setup 2",
+        },
+        178 : {
+            "output_file"   : "BERT_Scans_elink178",
+            "input_file_1"  : "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink178/scan_001.log",
+            "input_file_2"  : "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink178/scan_001.log",
+            "label_1"       : "e-link 178 (36 AWG, 2.00 m) Setup 1",
+            "label_2"       : "e-link 178 (36 AWG, 2.00 m) Setup 2",
+        },
+    }
+    comparisonPlot(cable_map, plot_dir, xlim, ylim)
 
 def main():
     analyzeScans()
