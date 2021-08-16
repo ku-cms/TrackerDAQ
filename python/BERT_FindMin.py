@@ -18,7 +18,9 @@ def run():
     plot_dir = "plots/BERT_Min_TAP0"
     xlim = [0.00, 2.50]
     ylim = [0.0, 500.0]
+    
     inputs = []
+    x_values = [0.35, 0.80, 1.00, 1.60, 1.80, 2.00]
     
     # Description:
     # Type 1B elinks, new power supply
@@ -30,13 +32,12 @@ def run():
     input_files.append("data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink106/scan_003.log")
     input_files.append("data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink111/scan_003.log")
     input_files.append("data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink113/scan_003.log")
-    x_values = [0.35, 0.80, 1.00, 1.60, 1.80, 2.00]
     y_values = [findMin(input_file) for input_file in input_files]
-    y_errors = [10.0] * 6 
+    y_errors = [10.0] * len(y_values)
     entry = {}
     entry["x_values"] = x_values
     entry["y_values"] = y_values
-    entry["label"]    = "Type 1B Setup 1"
+    entry["label"]    = "Type 1B (34 AWG) Setup 1"
     inputs.append(entry)
     plot(plot_dir, "Type1B_Setup1", x_values, y_values, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, y_errors=y_errors)
     
@@ -50,17 +51,61 @@ def run():
     input_files.append("data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink106/scan_001.log")
     input_files.append("data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink111/scan_002.log")
     input_files.append("data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink113/scan_001.log")
-    x_values = [0.35, 0.80, 1.00, 1.60, 1.80, 2.00]
     y_values = [findMin(input_file) for input_file in input_files]
-    y_errors = [10.0] * 6 
+    y_errors = [10.0] * len(y_values)
     entry = {}
     entry["x_values"] = x_values
     entry["y_values"] = y_values
-    entry["label"]    = "Type 1B Setup 2"
+    entry["label"]    = "Type 1B (34 AWG) Setup 2"
     inputs.append(entry)
     plot(plot_dir, "Type1B_Setup2", x_values, y_values, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, y_errors=y_errors)
 
     plotMultiple(plot_dir, "Type1B", inputs, xlim, ylim, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, y_errors=y_errors)
+
+    inputs = []
+    x_values = [0.35, 0.80, 1.00, 1.40, 1.60, 1.80, 2.00]
+    
+    # Description:
+    # Type 1A elinks, new power supply
+    # Bonn boards and yellow boards 
+    input_files = []
+    input_files.append("data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink136/scan_001.log")
+    input_files.append("data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink140/scan_001.log")
+    input_files.append("data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink145/scan_001.log")
+    input_files.append("data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink149/scan_001.log")
+    input_files.append("data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink154/scan_001.log")
+    input_files.append("data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink172/scan_001.log")
+    input_files.append("data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink178/scan_001.log")
+    y_values = [findMin(input_file) for input_file in input_files]
+    y_errors = [10.0] * len(y_values)
+    entry = {}
+    entry["x_values"] = x_values
+    entry["y_values"] = y_values
+    entry["label"]    = "Type 1A (36 AWG) Setup 1"
+    inputs.append(entry)
+    plot(plot_dir, "Type1A_Setup1", x_values, y_values, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, y_errors=y_errors)
+
+    # Description:
+    # Type 1A elinks, new power supply
+    # DP to Type 1 elink adapter board
+    input_files = []
+    input_files.append("data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink136/scan_001.log")
+    input_files.append("data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink140/scan_001.log")
+    input_files.append("data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink145/scan_001.log")
+    input_files.append("data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink149/scan_001.log")
+    input_files.append("data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink154/scan_001.log")
+    input_files.append("data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink172/scan_001.log")
+    input_files.append("data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink178/scan_001.log")
+    y_values = [findMin(input_file) for input_file in input_files]
+    y_errors = [10.0] * len(y_values)
+    entry = {}
+    entry["x_values"] = x_values
+    entry["y_values"] = y_values
+    entry["label"]    = "Type 1A (36 AWG) Setup 2"
+    inputs.append(entry)
+    plot(plot_dir, "Type1A_Setup2", x_values, y_values, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, y_errors=y_errors)
+
+    plotMultiple(plot_dir, "Type1A", inputs, xlim, ylim, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, y_errors=y_errors)
 
 
 def main():
