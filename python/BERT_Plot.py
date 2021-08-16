@@ -3,7 +3,7 @@
 import matplotlib.pyplot as plt
 from tools import makeDir
 
-def plot(plot_dir, output_file, x_values, y_values):
+def plot(plot_dir, output_file, x_values, y_values, x_label="TAP0 DAC", y_label="Bit errors per 10 seconds", setLogY=True):
     useXKCDStyle = False
     makeDir(plot_dir)
     if useXKCDStyle:
@@ -12,10 +12,11 @@ def plot(plot_dir, output_file, x_values, y_values):
     
     plt.plot(x_values, y_values, 'ro')
 
-    ax.set_yscale('symlog')
-    ax.set_title("BERT TAP0 Scan",              fontsize=20)
-    ax.set_xlabel("TAP0 DAC",                   fontsize=16)
-    ax.set_ylabel("Bit errors per 10 seconds",  fontsize=16)
+    if setLogY:
+        ax.set_yscale('symlog')
+    ax.set_title("BERT TAP0 Scan",  fontsize=20)
+    ax.set_xlabel(x_label,          fontsize=16)
+    ax.set_ylabel(y_label,          fontsize=16)
     
     output_png = "{0}/{1}.png".format(plot_dir, output_file)
     output_pdf = "{0}/{1}.pdf".format(plot_dir, output_file)
@@ -26,7 +27,7 @@ def plot(plot_dir, output_file, x_values, y_values):
     # close to avoid memory warning 
     plt.close('all')
 
-def plotMultiple(plot_dir, output_file, inputs, xlim, ylim):
+def plotMultiple(plot_dir, output_file, inputs, xlim, ylim, x_label="TAP0 DAC", y_label="Bit errors per 10 seconds", setLogY=True):
     useXKCDStyle = False
     makeDir(plot_dir)
     if useXKCDStyle:
@@ -52,13 +53,14 @@ def plotMultiple(plot_dir, output_file, inputs, xlim, ylim):
         color    = colors[i]
         plt.plot(x_values, y_values, 'o', label=label, color=color)
 
-    ax.set_yscale('symlog')
+    if setLogY:
+        ax.set_yscale('symlog')
     ax.legend(loc='upper right')
     ax.set_xlim(xlim)
     ax.set_ylim(ylim)
-    ax.set_title("BERT TAP0 Scan",              fontsize=20)
-    ax.set_xlabel("TAP0 DAC",                   fontsize=16)
-    ax.set_ylabel("Bit errors per 10 seconds",  fontsize=16)
+    ax.set_title("BERT TAP0 Scan",      fontsize=20)
+    ax.set_xlabel(x_label,              fontsize=16)
+    ax.set_ylabel(y_label,              fontsize=16)
     
     output_png = "{0}/{1}.png".format(plot_dir, output_file)
     output_pdf = "{0}/{1}.pdf".format(plot_dir, output_file)
