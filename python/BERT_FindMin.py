@@ -32,12 +32,13 @@ def run():
     input_files.append("data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink113/scan_003.log")
     x_values = [0.35, 0.80, 1.00, 1.60, 1.80, 2.00]
     y_values = [findMin(input_file) for input_file in input_files]
+    y_errors = [10.0] * 6 
     entry = {}
     entry["x_values"] = x_values
     entry["y_values"] = y_values
     entry["label"]    = "Type 1B Setup 1"
     inputs.append(entry)
-    plot(plot_dir, "Type1B_Setup1", x_values, y_values, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False)
+    plot(plot_dir, "Type1B_Setup1", x_values, y_values, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, y_errors=y_errors)
     
     # Description:
     # Type 1B elinks, new power supply
@@ -51,14 +52,15 @@ def run():
     input_files.append("data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink113/scan_001.log")
     x_values = [0.35, 0.80, 1.00, 1.60, 1.80, 2.00]
     y_values = [findMin(input_file) for input_file in input_files]
+    y_errors = [10.0] * 6 
     entry = {}
     entry["x_values"] = x_values
     entry["y_values"] = y_values
     entry["label"]    = "Type 1B Setup 2"
     inputs.append(entry)
-    plot(plot_dir, "Type1B_Setup2", x_values, y_values, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False)
+    plot(plot_dir, "Type1B_Setup2", x_values, y_values, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, y_errors=y_errors)
 
-    plotMultiple(plot_dir, "Type1B", inputs, xlim, ylim, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False)
+    plotMultiple(plot_dir, "Type1B", inputs, xlim, ylim, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, y_errors=y_errors)
 
 
 def main():

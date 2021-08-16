@@ -3,14 +3,17 @@
 import matplotlib.pyplot as plt
 from tools import makeDir
 
-def plot(plot_dir, output_file, x_values, y_values, x_label="TAP0 DAC", y_label="Bit errors per 10 seconds", setLogY=True):
+def plot(plot_dir, output_file, x_values, y_values, x_label="TAP0 DAC", y_label="Bit errors per 10 seconds", setLogY=True, y_errors=[]):
     useXKCDStyle = False
     makeDir(plot_dir)
     if useXKCDStyle:
         plt.xkcd()
     fig, ax = plt.subplots(figsize=(6, 6))
     
-    plt.plot(x_values, y_values, 'ro')
+    if y_errors:
+        plt.errorbar(x_values, y_values, yerr=y_errors, fmt='ro')
+    else:
+        plt.plot(x_values, y_values, 'ro')
 
     if setLogY:
         ax.set_yscale('symlog')
@@ -27,7 +30,7 @@ def plot(plot_dir, output_file, x_values, y_values, x_label="TAP0 DAC", y_label=
     # close to avoid memory warning 
     plt.close('all')
 
-def plotMultiple(plot_dir, output_file, inputs, xlim, ylim, x_label="TAP0 DAC", y_label="Bit errors per 10 seconds", setLogY=True):
+def plotMultiple(plot_dir, output_file, inputs, xlim, ylim, x_label="TAP0 DAC", y_label="Bit errors per 10 seconds", setLogY=True, y_errors=[]):
     useXKCDStyle = False
     makeDir(plot_dir)
     if useXKCDStyle:
@@ -51,7 +54,10 @@ def plotMultiple(plot_dir, output_file, inputs, xlim, ylim, x_label="TAP0 DAC", 
         y_values = item["y_values"]
         label    = item["label"]
         color    = colors[i]
-        plt.plot(x_values, y_values, 'o', label=label, color=color)
+        if y_errors:
+            plt.errorbar(x_values, y_values, yerr=y_errors, fmt='o', label=label, color=color)
+        else:
+            plt.plot(x_values, y_values, 'o', label=label, color=color)
 
     if setLogY:
         ax.set_yscale('symlog')
