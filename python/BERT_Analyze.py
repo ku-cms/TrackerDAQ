@@ -60,6 +60,10 @@ def analyzeScans():
     base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter"
     runSet(base_plot_dir, base_data_dir)
 
+    base_plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DPAdapter_ErnieCrossTalk"
+    base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter_ErnieCrossTalk"
+    runSet(base_plot_dir, base_data_dir)
+
 # add entry to list of inputs
 # each entry is a dictionary
 def addEntry(input_list, input_file, label):
@@ -442,6 +446,42 @@ def makeCombinedPlots():
         input_list  = inputs,
         input_file  = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink200/scan_001.log",
         label       = "e-link 200 (36 AWG, 2.00 m)",
+    )
+    plotMultiple(plot_dir, output_file, inputs, xlim, ylim)
+    
+    # ---------------------------- #
+    # --- create combined plot --- #
+    # ---------------------------- #
+    # Description:
+    # e-link 149 (36 AWG, 1.40 m)
+    # Type 1A elinks, new power supply
+    # DP to Type 1 elink adapter board
+    # Cross talk: wind cable with another secondary 1.4m 36 AWG cable on Ernie board
+    # change amplitude voltage for signals on secondary cable
+    plot_dir    = "plots/BERT_Scans"
+    output_file = "BERT_Scans_010"
+    xlim = [40.0, 210.0]
+    ylim = [0.0, 1.0e13]
+    inputs = []
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter_ErnieCrossTalk/elink149_OFF/scan_001.log",
+        label       = "e-link 149: secondary OFF",
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter_ErnieCrossTalk/elink149_269mV/scan_001.log",
+        label       = "e-link 149: secondary 269 mV",
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter_ErnieCrossTalk/elink149_741mV/scan_001.log",
+        label       = "e-link 149: secondary 741 mV",
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter_ErnieCrossTalk/elink149_1119mV/scan_001.log",
+        label       = "e-link 149: secondary 1119 mV",
     )
     plotMultiple(plot_dir, output_file, inputs, xlim, ylim)
 
