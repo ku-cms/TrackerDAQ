@@ -19,7 +19,11 @@ def run():
     xlim = [0.00, 2.50]
     ylim = [0.0, 500.0]
     
-    inputs = []
+    inputs_Type1B = []
+    inputs_Setup1 = []
+    inputs_Type1A = []
+    inputs_Setup2 = []
+
     x_values = [0.35, 0.80, 1.00, 1.60, 1.80, 2.00]
     
     # Description:
@@ -37,8 +41,10 @@ def run():
     entry = {}
     entry["x_values"] = x_values
     entry["y_values"] = y_values
+    entry["y_errors"] = y_errors
     entry["label"]    = "Type 1B (34 AWG) Setup 1"
-    inputs.append(entry)
+    inputs_Type1B.append(entry)
+    inputs_Setup1.append(entry)
     plot(plot_dir, "Type1B_Setup1", x_values, y_values, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, y_errors=y_errors)
     
     # Description:
@@ -56,13 +62,13 @@ def run():
     entry = {}
     entry["x_values"] = x_values
     entry["y_values"] = y_values
+    entry["y_errors"] = y_errors
     entry["label"]    = "Type 1B (34 AWG) Setup 2"
-    inputs.append(entry)
+    inputs_Type1B.append(entry)
+    inputs_Setup2.append(entry)
     plot(plot_dir, "Type1B_Setup2", x_values, y_values, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, y_errors=y_errors)
 
-    plotMultiple(plot_dir, "Type1B", inputs, xlim, ylim, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, y_errors=y_errors, alpha=0.5)
 
-    inputs = []
     x_values = [0.35, 0.80, 1.00, 1.40, 1.60, 1.80, 2.00]
     
     # Description:
@@ -81,8 +87,10 @@ def run():
     entry = {}
     entry["x_values"] = x_values
     entry["y_values"] = y_values
+    entry["y_errors"] = y_errors
     entry["label"]    = "Type 1A (36 AWG) Setup 1"
-    inputs.append(entry)
+    inputs_Type1A.append(entry)
+    inputs_Setup1.append(entry)
     plot(plot_dir, "Type1A_Setup1", x_values, y_values, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, y_errors=y_errors)
 
     # Description:
@@ -101,12 +109,16 @@ def run():
     entry = {}
     entry["x_values"] = x_values
     entry["y_values"] = y_values
+    entry["y_errors"] = y_errors
     entry["label"]    = "Type 1A (36 AWG) Setup 2"
-    inputs.append(entry)
+    inputs_Type1A.append(entry)
+    inputs_Setup2.append(entry)
     plot(plot_dir, "Type1A_Setup2", x_values, y_values, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, y_errors=y_errors)
 
-    plotMultiple(plot_dir, "Type1A", inputs, xlim, ylim, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, y_errors=y_errors, alpha=0.5)
-
+    plotMultiple(plot_dir, "Type1B", inputs_Type1B, xlim, ylim, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, alpha=0.5)
+    plotMultiple(plot_dir, "Type1A", inputs_Type1A, xlim, ylim, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, alpha=0.5)
+    plotMultiple(plot_dir, "Setup1", inputs_Setup1, xlim, ylim, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, alpha=0.5)
+    plotMultiple(plot_dir, "Setup2", inputs_Setup2, xlim, ylim, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, alpha=0.5)
 
 def main():
     run()
