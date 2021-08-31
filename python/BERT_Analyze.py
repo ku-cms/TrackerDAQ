@@ -410,7 +410,6 @@ def makeCombinedPlots():
     )
     plotMultiple(plot_dir, output_file, inputs, xlim, ylim)
     
-    
     # ---------------------------- #
     # --- create combined plot --- #
     # ---------------------------- #

@@ -60,7 +60,7 @@ def run():
     inputs.append(entry)
     plot(plot_dir, "Type1B_Setup2", x_values, y_values, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, y_errors=y_errors)
 
-    plotMultiple(plot_dir, "Type1B", inputs, xlim, ylim, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, y_errors=y_errors)
+    plotMultiple(plot_dir, "Type1B", inputs, xlim, ylim, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, y_errors=y_errors, alpha=0.5)
 
     inputs = []
     x_values = [0.35, 0.80, 1.00, 1.40, 1.60, 1.80, 2.00]
@@ -105,7 +105,7 @@ def run():
     inputs.append(entry)
     plot(plot_dir, "Type1A_Setup2", x_values, y_values, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, y_errors=y_errors)
 
-    plotMultiple(plot_dir, "Type1A", inputs, xlim, ylim, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, y_errors=y_errors)
+    plotMultiple(plot_dir, "Type1A", inputs, xlim, ylim, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, y_errors=y_errors, alpha=0.5)
 
 
 def main():

@@ -30,7 +30,7 @@ def plot(plot_dir, output_file, x_values, y_values, x_label="TAP0 DAC", y_label=
     # close to avoid memory warning 
     plt.close('all')
 
-def plotMultiple(plot_dir, output_file, inputs, xlim, ylim, x_label="TAP0 DAC", y_label="Bit errors per 10 seconds", setLogY=True, y_errors=[]):
+def plotMultiple(plot_dir, output_file, inputs, xlim, ylim, x_label="TAP0 DAC", y_label="Bit errors per 10 seconds", setLogY=True, y_errors=[], alpha=None):
     useXKCDStyle = False
     makeDir(plot_dir)
     if useXKCDStyle:
@@ -55,9 +55,9 @@ def plotMultiple(plot_dir, output_file, inputs, xlim, ylim, x_label="TAP0 DAC", 
         label    = item["label"]
         color    = colors[i]
         if y_errors:
-            plt.errorbar(x_values, y_values, yerr=y_errors, fmt='o', label=label, color=color)
+            plt.errorbar(x_values, y_values, yerr=y_errors, fmt='o', label=label, color=color, alpha=alpha)
         else:
-            plt.plot(x_values, y_values, 'o', label=label, color=color)
+            plt.plot(x_values, y_values, 'o', label=label, color=color, alpha=alpha)
 
     if setLogY:
         ax.set_yscale('symlog')
