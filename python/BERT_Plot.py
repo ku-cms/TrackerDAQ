@@ -62,12 +62,14 @@ def plotMultiple(plot_dir, output_file, inputs, xlim, ylim, x_label="TAP0 DAC", 
 
     if setLogY:
         ax.set_yscale('symlog')
-    ax.legend(loc='upper right')
+    ax.legend(loc='upper right', prop={'size': 16})
     ax.set_xlim(xlim)
     ax.set_ylim(ylim)
     ax.set_title("BERT TAP0 Scan",      fontsize=20)
     ax.set_xlabel(x_label,              fontsize=16)
     ax.set_ylabel(y_label,              fontsize=16)
+    
+    #plt.rcParams.update({'axes.labelsize': 'large'}) 
     
     output_png = "{0}/{1}.png".format(plot_dir, output_file)
     output_pdf = "{0}/{1}.pdf".format(plot_dir, output_file)

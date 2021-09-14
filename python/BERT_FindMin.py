@@ -63,7 +63,8 @@ def run():
     entry["x_values"] = x_values
     entry["y_values"] = y_values
     entry["y_errors"] = y_errors
-    entry["label"]    = "Type 1B (34 AWG) Setup 2"
+    #entry["label"]    = "Type 1B (34 AWG) Setup 2"
+    entry["label"]    = "Type 1B (34 AWG)"
     inputs_Type1B.append(entry)
     inputs_Setup2.append(entry)
     plot(plot_dir, "Type1B_Setup2", x_values, y_values, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, y_errors=y_errors)
@@ -110,7 +111,8 @@ def run():
     entry["x_values"] = x_values
     entry["y_values"] = y_values
     entry["y_errors"] = y_errors
-    entry["label"]    = "Type 1A (36 AWG) Setup 2"
+    #entry["label"]    = "Type 1A (36 AWG) Setup 2"
+    entry["label"]    = "Type 1A (36 AWG)"
     inputs_Type1A.append(entry)
     inputs_Setup2.append(entry)
     plot(plot_dir, "Type1A_Setup2", x_values, y_values, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, y_errors=y_errors)

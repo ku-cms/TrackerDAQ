@@ -465,22 +465,22 @@ def makeCombinedPlots():
     addEntry(
         input_list  = inputs,
         input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter_ErnieCrossTalk/elink149_OFF/scan_001.log",
-        label       = "e-link 149: secondary OFF",
+        label       = "Aggressor amplitude: OFF",
     )
     addEntry(
         input_list  = inputs,
         input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter_ErnieCrossTalk/elink149_269mV/scan_001.log",
-        label       = "e-link 149: secondary 269 mV",
+        label       = "Aggressor amplitude: 269 mV",
     )
     addEntry(
         input_list  = inputs,
         input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter_ErnieCrossTalk/elink149_741mV/scan_001.log",
-        label       = "e-link 149: secondary 741 mV",
+        label       = "Aggressor amplitude: 741 mV",
     )
     addEntry(
         input_list  = inputs,
         input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter_ErnieCrossTalk/elink149_1119mV/scan_001.log",
-        label       = "e-link 149: secondary 1119 mV",
+        label       = "Aggressor amplitude: 1119 mV",
     )
     plotMultiple(plot_dir, output_file, inputs, xlim, ylim)
 
