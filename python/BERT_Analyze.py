@@ -455,12 +455,13 @@ def makeCombinedPlots():
     # e-link 149 (36 AWG, 1.40 m)
     # Type 1A elinks, new power supply
     # DP to Type 1 elink adapter board
-    # Cross talk: wind cable with another secondary 1.4m 36 AWG cable on Ernie board
-    # change amplitude voltage for signals on secondary cable
+    # External cross talk: wind cable with another secondary 1.4m 36 AWG cable on Ernie board
+    # Change amplitude voltage for signals on secondary cable
     plot_dir    = "plots/BERT_Scans"
     output_file = "BERT_Scans_010"
     xlim = [40.0, 210.0]
-    ylim = [0.0, 1.0e13]
+    #ylim = [0.0, 1.0e13]
+    ylim = [1.0e-11, 1.0e3]
     inputs = []
     addEntry(
         input_list  = inputs,
@@ -482,7 +483,8 @@ def makeCombinedPlots():
         input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter_ErnieCrossTalk/elink149_1119mV/scan_001.log",
         label       = "Aggressor amplitude: 1119 mV",
     )
-    plotMultiple(plot_dir, output_file, inputs, xlim, ylim)
+    #plotMultiple(plot_dir, output_file, inputs, xlim, ylim)
+    plotMultiple(plot_dir, output_file, inputs, xlim, ylim, y_label="Bit Error Rate", setLogY=False, setBERY=True)
 
 def comparisonPlot(cable_map, plot_dir, xlim, ylim):
     for cable in cable_map:

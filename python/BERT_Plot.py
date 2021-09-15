@@ -1,9 +1,10 @@
 # BERT_Plot.py
 
 import matplotlib.pyplot as plt
+import numpy as np
 from tools import makeDir
 
-def plot(plot_dir, output_file, x_values, y_values, x_label="TAP0 DAC", y_label="Bit errors per 10 seconds", setLogY=True, y_errors=[]):
+def plot(plot_dir, output_file, x_values, y_values, x_label="TAP0 DAC", y_label="Bit errors per 10 seconds", setLogY=True, y_errors=[], setBERY=False):
     useXKCDStyle = False
     makeDir(plot_dir)
     if useXKCDStyle:
@@ -30,7 +31,7 @@ def plot(plot_dir, output_file, x_values, y_values, x_label="TAP0 DAC", y_label=
     # close to avoid memory warning 
     plt.close('all')
 
-def plotMultiple(plot_dir, output_file, inputs, xlim, ylim, x_label="TAP0 DAC", y_label="Bit errors per 10 seconds", setLogY=True, alpha=None):
+def plotMultiple(plot_dir, output_file, inputs, xlim, ylim, x_label="TAP0 DAC", y_label="Bit errors per 10 seconds", setLogY=True, alpha=None, setBERY=False):
     useXKCDStyle = False
     makeDir(plot_dir)
     if useXKCDStyle:
@@ -54,6 +55,14 @@ def plotMultiple(plot_dir, output_file, inputs, xlim, ylim, x_label="TAP0 DAC", 
         y_values = item["y_values"]
         label    = item["label"]
         color    = colors[i]
+        x_values = np.array(x_values)
+        y_values = np.array(y_values)
+        if setBERY:
+            # note: using this order of operations to fix floating point issue for 1e-11
+            y_values = 1e-10 * y_values
+            for i in range(len(y_values)):
+                if y_values[i] == 0.0:
+                    y_values[i] = 1e-11
         if "y_errors" in item:
             y_errors = item["y_errors"]
             plt.errorbar(x_values, y_values, yerr=y_errors, fmt='o', label=label, color=color, alpha=alpha)
@@ -62,7 +71,10 @@ def plotMultiple(plot_dir, output_file, inputs, xlim, ylim, x_label="TAP0 DAC", 
 
     if setLogY:
         ax.set_yscale('symlog')
-    ax.legend(loc='upper right', prop={'size': 16})
+    if setBERY:
+        ax.set_yscale('log')
+    #ax.legend(loc='upper right', prop={'size': 16})
+    ax.legend(loc='upper right', prop={'size': 12})
     ax.set_xlim(xlim)
     ax.set_ylim(ylim)
     ax.set_title("BERT TAP0 Scan",      fontsize=20)
