@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from tools import makeDir
 
-def plot(plot_dir, output_file, x_values, y_values, x_label="TAP0 DAC", y_label="Bit errors per 10 seconds", setLogY=True, y_errors=[], setBERY=False):
+def plot(plot_dir, output_file, x_values, y_values, x_label="TAP0 DAC", y_label="Bit errors per 10 seconds", setLogY=True, y_errors=[]):
     useXKCDStyle = False
     makeDir(plot_dir)
     if useXKCDStyle:
@@ -21,12 +21,14 @@ def plot(plot_dir, output_file, x_values, y_values, x_label="TAP0 DAC", y_label=
     ax.set_title("BERT TAP0 Scan",  fontsize=20)
     ax.set_xlabel(x_label,          fontsize=16)
     ax.set_ylabel(y_label,          fontsize=16)
+    ax.tick_params(axis='both', which='major', labelsize=10)
+    ax.tick_params(axis='both', which='minor', labelsize=8)
     
     output_png = "{0}/{1}.png".format(plot_dir, output_file)
     output_pdf = "{0}/{1}.pdf".format(plot_dir, output_file)
     
-    plt.savefig(output_png)
-    plt.savefig(output_pdf)
+    plt.savefig(output_png, bbox_inches='tight')
+    plt.savefig(output_pdf, bbox_inches='tight')
     
     # close to avoid memory warning 
     plt.close('all')
@@ -73,21 +75,23 @@ def plotMultiple(plot_dir, output_file, inputs, xlim, ylim, x_label="TAP0 DAC", 
         ax.set_yscale('symlog')
     if setBERY:
         ax.set_yscale('log')
-    #ax.legend(loc='upper right', prop={'size': 16})
-    ax.legend(loc='upper right', prop={'size': 12})
+    ax.legend(loc='upper right', prop={'size': 16})
+    #ax.legend(loc='upper right', prop={'size': 12})
     ax.set_xlim(xlim)
     ax.set_ylim(ylim)
-    ax.set_title("BERT TAP0 Scan",      fontsize=20)
-    ax.set_xlabel(x_label,              fontsize=16)
-    ax.set_ylabel(y_label,              fontsize=16)
+    ax.set_title("BERT TAP0 Scan", fontsize=20)
+    ax.set_xlabel(x_label,         fontsize=16)
+    ax.set_ylabel(y_label,         fontsize=16)
+    ax.tick_params(axis='both', which='major', labelsize=16)
+    ax.tick_params(axis='both', which='minor', labelsize=12)
     
     #plt.rcParams.update({'axes.labelsize': 'large'}) 
     
     output_png = "{0}/{1}.png".format(plot_dir, output_file)
     output_pdf = "{0}/{1}.pdf".format(plot_dir, output_file)
     
-    plt.savefig(output_png)
-    plt.savefig(output_pdf)
+    plt.savefig(output_png, bbox_inches='tight')
+    plt.savefig(output_pdf, bbox_inches='tight')
     
     # close to avoid memory warning 
     plt.close('all')

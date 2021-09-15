@@ -16,6 +16,7 @@ def findMin(input_file):
 
 def run():
     plot_dir = "plots/BERT_Min_TAP0"
+    y_axis_label = "TAP0 for BER=10^(-11)"
     xlim = [0.00, 2.50]
     ylim = [0.0, 500.0]
     
@@ -45,7 +46,7 @@ def run():
     entry["label"]    = "Type 1B (34 AWG) Setup 1"
     inputs_Type1B.append(entry)
     inputs_Setup1.append(entry)
-    plot(plot_dir, "Type1B_Setup1", x_values, y_values, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, y_errors=y_errors)
+    plot(plot_dir, "Type1B_Setup1", x_values, y_values, x_label="Length (m)", y_label=y_axis_label, setLogY=False, y_errors=y_errors)
     
     # Description:
     # Type 1B elinks, new power supply
@@ -67,7 +68,7 @@ def run():
     entry["label"]    = "Type 1B (34 AWG)"
     inputs_Type1B.append(entry)
     inputs_Setup2.append(entry)
-    plot(plot_dir, "Type1B_Setup2", x_values, y_values, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, y_errors=y_errors)
+    plot(plot_dir, "Type1B_Setup2", x_values, y_values, x_label="Length (m)", y_label=y_axis_label, setLogY=False, y_errors=y_errors)
 
 
     x_values = [0.35, 0.80, 1.00, 1.40, 1.60, 1.80, 2.00]
@@ -92,7 +93,7 @@ def run():
     entry["label"]    = "Type 1A (36 AWG) Setup 1"
     inputs_Type1A.append(entry)
     inputs_Setup1.append(entry)
-    plot(plot_dir, "Type1A_Setup1", x_values, y_values, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, y_errors=y_errors)
+    plot(plot_dir, "Type1A_Setup1", x_values, y_values, x_label="Length (m)", y_label=y_axis_label, setLogY=False, y_errors=y_errors)
 
     # Description:
     # Type 1A elinks, new power supply
@@ -115,12 +116,12 @@ def run():
     entry["label"]    = "Type 1A (36 AWG)"
     inputs_Type1A.append(entry)
     inputs_Setup2.append(entry)
-    plot(plot_dir, "Type1A_Setup2", x_values, y_values, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, y_errors=y_errors)
+    plot(plot_dir, "Type1A_Setup2", x_values, y_values, x_label="Length (m)", y_label=y_axis_label, setLogY=False, y_errors=y_errors)
 
-    plotMultiple(plot_dir, "Type1B", inputs_Type1B, xlim, ylim, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, alpha=0.5)
-    plotMultiple(plot_dir, "Type1A", inputs_Type1A, xlim, ylim, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, alpha=0.5)
-    plotMultiple(plot_dir, "Setup1", inputs_Setup1, xlim, ylim, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, alpha=0.5)
-    plotMultiple(plot_dir, "Setup2", inputs_Setup2, xlim, ylim, x_label="Length (m)", y_label="Min TAP0 for 0 errors", setLogY=False, alpha=0.5)
+    plotMultiple(plot_dir, "Type1B", inputs_Type1B, xlim, ylim, x_label="Length (m)", y_label=y_axis_label, setLogY=False, alpha=0.5)
+    plotMultiple(plot_dir, "Type1A", inputs_Type1A, xlim, ylim, x_label="Length (m)", y_label=y_axis_label, setLogY=False, alpha=0.5)
+    plotMultiple(plot_dir, "Setup1", inputs_Setup1, xlim, ylim, x_label="Length (m)", y_label=y_axis_label, setLogY=False, alpha=0.5)
+    plotMultiple(plot_dir, "Setup2", inputs_Setup2, xlim, ylim, x_label="Length (m)", y_label=y_axis_label, setLogY=False, alpha=0.5)
 
 def main():
     run()
