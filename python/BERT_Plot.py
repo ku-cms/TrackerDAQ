@@ -75,8 +75,10 @@ def plotMultiple(plot_dir, output_file, inputs, xlim, ylim, x_label="TAP0 DAC", 
         ax.set_yscale('symlog')
     if setBERY:
         ax.set_yscale('log')
-    ax.legend(loc='upper right', prop={'size': 16})
-    #ax.legend(loc='upper right', prop={'size': 12})
+    
+    legend_font_size = 12
+    #legend_font_size = 16
+    ax.legend(loc='upper right', prop={'size': legend_font_size})
     ax.set_xlim(xlim)
     ax.set_ylim(ylim)
     ax.set_title("BERT TAP0 Scan", fontsize=20)

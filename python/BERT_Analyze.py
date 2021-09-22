@@ -489,6 +489,7 @@ def makeCombinedPlots():
     )
     #plotMultiple(plot_dir, output_file, inputs, xlim, ylim)
     plotMultiple(plot_dir, output_file, inputs, xlim, ylim, y_label="Bit Error Rate", setLogY=False, setBERY=True)
+    
 
 def comparisonPlot(cable_map, plot_dir, xlim, ylim):
     for cable in cable_map:
@@ -604,6 +605,30 @@ def makeComparisonPlots():
             "input_file_2"  : "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink178/scan_001.log",
             "label_1"       : "e-link 178 (36 AWG, 2.00 m) Setup 1",
             "label_2"       : "e-link 178 (36 AWG, 2.00 m) Setup 2",
+        },
+    }
+    comparisonPlot(cable_map, plot_dir, xlim, ylim)
+    xlim = [40.0, 310.0]
+    ylim = [0.0, 1.0e13]
+    cable_map = {
+        151 : {
+            "output_file"   : "BERT_Scans_elink151",
+            "input_file_1"  : "data/BERT_Scan_Compare_SCC/scc173_elink151/scan_001.log",
+            "input_file_2"  : "data/BERT_Scan_Compare_SCC/scc212_elink151/scan_002.log",
+            "label_1"       : "e-link 151 (36 AWG, 1.4 m) SCC 173",
+            "label_2"       : "e-link 151 (36 AWG, 1.4 m) SCC 212",
+        },
+    }
+    comparisonPlot(cable_map, plot_dir, xlim, ylim)
+    xlim = [49.0, 71.0]
+    ylim = [0.0, 1.0e6]
+    cable_map = {
+        "SingleDP" : {
+            "output_file"   : "BERT_Scans_SingleDP",
+            "input_file_1"  : "data/BERT_Scan_Compare_SCC/scc173_SingleDP/scan_001.log",
+            "input_file_2"  : "data/BERT_Scan_Compare_SCC/scc212_SingleDP/scan_001.log",
+            "label_1"       : "Single DP SCC 173",
+            "label_2"       : "Single DP SCC 212",
         },
     }
     comparisonPlot(cable_map, plot_dir, xlim, ylim)
