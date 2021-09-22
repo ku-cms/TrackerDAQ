@@ -63,6 +63,10 @@ def analyzeScans():
     base_plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DPAdapter_ErnieCrossTalk"
     base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter_ErnieCrossTalk"
     runSet(base_plot_dir, base_data_dir)
+    
+    base_plot_dir    = "plots/BERT_Scan_Compare_SCC"
+    base_data_dir    = "data/BERT_Scan_Compare_SCC"
+    runSet(base_plot_dir, base_data_dir)
 
 # add entry to list of inputs
 # each entry is a dictionary
