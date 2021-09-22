@@ -1,7 +1,12 @@
 # TrackerDAQ
 Software for tracker DAQ seutp.
 
-## Instructions
+## Installation
+
+See [Ph2_ACF](https://gitlab.cern.ch/cms_tk_ph2/Ph2_ACF) to install the Ph2_ACF software.
+
+## Usage
+
 First turn on FC7.
 Check for communication:
 ```
@@ -13,7 +18,7 @@ Use 1.8 V for LDO power mode with 0.9 A as the current limit.
 Connect power to SCC.
 The current FC7 firmware version that we use is 4.1.
 
-Here is the required setup for the Ph2_ACF software and the FC7:
+Here is the setup required every time to use the Ph2_ACF software and the FC7:
 ```
 cd /home/kucms/TrackerDAQ/development/Ph2_ACF
 source setup.sh
