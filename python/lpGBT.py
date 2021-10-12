@@ -18,17 +18,29 @@ def plot(input_file, plot_dir):
     c = ROOT.TCanvas("c", "c", 2000, 1000)
     pad = c.cd()
     pad.SetLeftMargin(0.10)
-    pad.SetRightMargin(0.15)
+    pad.SetRightMargin(0.20)
     pad.SetTopMargin(0.10)
-    pad.SetBottomMargin(0.10)
+    pad.SetBottomMargin(0.15)
 
     # Format
+    label_size = 0.05
+    title_size = 0.05
     x_axis = h.GetXaxis()
     y_axis = h.GetYaxis()
     z_axis = h.GetZaxis()
     x_axis.SetTitle("Phase DAC")
     y_axis.SetTitle("Voltage DAC")
     z_axis.SetTitle("Transitions")
+    x_axis.SetLabelSize(label_size)
+    y_axis.SetLabelSize(label_size)
+    z_axis.SetLabelSize(label_size)
+    x_axis.SetTitleSize(title_size)
+    y_axis.SetTitleSize(title_size)
+    z_axis.SetTitleSize(title_size)
+    x_axis.SetTitleOffset(1.1)
+    y_axis.SetTitleOffset(0.8)
+    z_axis.SetTitleOffset(1.2)
+    
     h.SetStats(ROOT.kFALSE)
     h.SetTitle("Eye Opening Monitor")
     
