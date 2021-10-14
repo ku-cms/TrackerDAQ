@@ -14,7 +14,12 @@ def findMin(input_file):
             break
     return answer
 
-def run():
+def printValues(x_values, y_values, y_errors):
+    print("Length : TAP0")
+    for i in range(len(x_values)):
+        print("{0} : {1} +/- {2}".format(x_values[i], y_values[i], y_errors[i]))
+
+def run(verbose):
     plot_dir = "plots/BERT_Min_TAP0"
     y_axis_label = "TAP0 for BER=10^(-11)"
     xlim = [0.00, 2.50]
@@ -39,6 +44,9 @@ def run():
     input_files.append("data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink113/scan_003.log")
     y_values = [findMin(input_file) for input_file in input_files]
     y_errors = [10.0] * len(y_values)
+    if verbose:
+        print(" --- Type 1B e-links, Setup 1 --- ")
+        printValues(x_values, y_values, y_errors)
     entry = {}
     entry["x_values"] = x_values
     entry["y_values"] = y_values
@@ -60,6 +68,9 @@ def run():
     input_files.append("data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink113/scan_001.log")
     y_values = [findMin(input_file) for input_file in input_files]
     y_errors = [10.0] * len(y_values)
+    if verbose:
+        print(" --- Type 1B e-links, Setup 2 --- ")
+        printValues(x_values, y_values, y_errors)
     entry = {}
     entry["x_values"] = x_values
     entry["y_values"] = y_values
@@ -86,6 +97,9 @@ def run():
     input_files.append("data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow/elink178/scan_001.log")
     y_values = [findMin(input_file) for input_file in input_files]
     y_errors = [10.0] * len(y_values)
+    if verbose:
+        print(" --- Type 1A e-links, Setup 1 --- ")
+        printValues(x_values, y_values, y_errors)
     entry = {}
     entry["x_values"] = x_values
     entry["y_values"] = y_values
@@ -108,6 +122,9 @@ def run():
     input_files.append("data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink178/scan_001.log")
     y_values = [findMin(input_file) for input_file in input_files]
     y_errors = [10.0] * len(y_values)
+    if verbose:
+        print(" --- Type 1A e-links, Setup 2 --- ")
+        printValues(x_values, y_values, y_errors)
     entry = {}
     entry["x_values"] = x_values
     entry["y_values"] = y_values
@@ -124,7 +141,8 @@ def run():
     plotMultiple(plot_dir, "Setup2", inputs_Setup2, xlim, ylim, x_label="Length (m)", y_label=y_axis_label, setLogY=False, alpha=0.5)
 
 def main():
-    run()
+    verbose = True
+    run(verbose)
 
 if __name__ == "__main__":
     main()
