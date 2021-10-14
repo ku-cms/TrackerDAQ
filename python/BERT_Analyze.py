@@ -489,6 +489,121 @@ def makeCombinedPlots():
     )
     #plotMultiple(plot_dir, output_file, inputs, xlim, ylim)
     plotMultiple(plot_dir, output_file, inputs, xlim, ylim, y_label="Bit Error Rate", setLogY=False, setBERY=True)
+    # ---------------------------- #
+    # --- create combined plot --- #
+    # ---------------------------- #
+    # Description:
+    # e-link 206 (36 AWG, 1.40 m)
+    # Type 0 elink (33 pin to 33 pin)
+    # DP to Type 0 adapter board
+    plot_dir    = "plots/BERT_Scans"
+    output_file = "BERT_Scans_011"
+    xlim = [40.0, 610.0]
+    ylim = [0.0, 1.0e13]
+    inputs = []
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink206/scan_001.log",
+        label       = "Single adapter",
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink206/scan_002.log",
+        label       = "Two adapters",
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink206/scan_004.log",
+        label       = "Two adapters and 2mm spacing",
+    )
+    plotMultiple(plot_dir, output_file, inputs, xlim, ylim)
+    # ---------------------------- #
+    # --- create combined plot --- #
+    # ---------------------------- #
+    # Description:
+    # e-link 205 (36 AWG, 1.40 m)
+    # Type 0 elink (33 pin to 33 pin)
+    # DP to Type 0 adapter board
+    # SCC 173
+    plot_dir    = "plots/BERT_Scans"
+    output_file = "BERT_Scans_012"
+    xlim = [90.0, 310.0]
+    ylim = [0.0, 1.0e13]
+    inputs = []
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_Scan_Compare_SCC/scc173_elink205/scan_008.log",
+        label       = "SCC 173: Run 1",
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_Scan_Compare_SCC/scc173_elink205/scan_009.log",
+        label       = "SCC 173: Run 2",
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_Scan_Compare_SCC/scc173_elink205/scan_010.log",
+        label       = "SCC 173: Run 3",
+    )
+    plotMultiple(plot_dir, output_file, inputs, xlim, ylim)
+    # ---------------------------- #
+    # --- create combined plot --- #
+    # ---------------------------- #
+    # Description:
+    # e-link 205 (36 AWG, 1.40 m)
+    # Type 0 elink (33 pin to 33 pin)
+    # DP to Type 0 adapter board
+    # SCC 212
+    plot_dir    = "plots/BERT_Scans"
+    output_file = "BERT_Scans_013"
+    xlim = [90.0, 310.0]
+    ylim = [0.0, 1.0e13]
+    inputs = []
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_Scan_Compare_SCC/scc212_elink205/scan_005.log",
+        label       = "SCC 212: Run 1",
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_Scan_Compare_SCC/scc212_elink205/scan_006.log",
+        label       = "SCC 212: Run 2",
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_Scan_Compare_SCC/scc212_elink205/scan_007.log",
+        label       = "SCC 212: Run 3",
+    )
+    plotMultiple(plot_dir, output_file, inputs, xlim, ylim)
+    # ---------------------------- #
+    # --- create combined plot --- #
+    # ---------------------------- #
+    # Description:
+    # e-link 205 (36 AWG, 1.40 m)
+    # Type 0 elink (33 pin to 33 pin)
+    # DP to Type 0 adapter board
+    # SCC from CERN
+    plot_dir    = "plots/BERT_Scans"
+    output_file = "BERT_Scans_014"
+    xlim = [90.0, 310.0]
+    ylim = [0.0, 1.0e13]
+    inputs = []
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_Scan_Compare_SCC/sccCERN_elink205/scan_004.log",
+        label       = "SCC from CERN: Run 1",
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_Scan_Compare_SCC/sccCERN_elink205/scan_005.log",
+        label       = "SCC from CERN: Run 2",
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_Scan_Compare_SCC/sccCERN_elink205/scan_006.log",
+        label       = "SCC from CERN: Run 3",
+    )
+    plotMultiple(plot_dir, output_file, inputs, xlim, ylim)
     
 
 def comparisonPlot(cable_map, plot_dir, xlim, ylim):
