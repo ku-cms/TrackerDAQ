@@ -47,26 +47,38 @@ def analyzeScans():
     #plot_dir    = "plots/BERT_Scan_SingleDP_Data"
     #data_dir    = "data/BERT_Scan_SingleDP_Data"
     #runDir(plot_dir, data_dir)
-    # 
+    #
     #plot_dir    = "plots/BERT_Scan_DoubleDP_DoubleBonn_Data"
     #data_dir    = "data/BERT_Scan_DoubleDP_DoubleBonn_Data"
     #runDir(plot_dir, data_dir)
-    
-    base_plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow"
-    base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow"
-    runSet(base_plot_dir, base_data_dir)
+    #
+    #base_plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow"
+    #base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DoubleBonn_DoubleYellow"
+    #runSet(base_plot_dir, base_data_dir)
     
     base_plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DPAdapter"
     base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter"
     runSet(base_plot_dir, base_data_dir)
 
-    base_plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DPAdapter_ErnieCrossTalk"
-    base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter_ErnieCrossTalk"
-    runSet(base_plot_dir, base_data_dir)
+    #base_plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DPAdapter_ErnieCrossTalk"
+    #base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter_ErnieCrossTalk"
+    #runSet(base_plot_dir, base_data_dir)
+    #
+    #base_plot_dir    = "plots/BERT_Scan_Compare_SCC"
+    #base_data_dir    = "data/BERT_Scan_Compare_SCC"
+    #runSet(base_plot_dir, base_data_dir)
     
-    base_plot_dir    = "plots/BERT_Scan_Compare_SCC"
-    base_data_dir    = "data/BERT_Scan_Compare_SCC"
-    runSet(base_plot_dir, base_data_dir)
+    #base_plot_dir    = "plots/BERT_TAP0_Scans/SCC173_UnlashedElinks/0mm_Spacing"
+    #base_data_dir    = "data/BERT_TAP0_Scans/SCC173_UnlashedElinks/0mm_Spacing"
+    #runSet(base_plot_dir, base_data_dir)
+    #
+    #base_plot_dir    = "plots/BERT_TAP0_Scans/SCC173_UnlashedElinks/1mm_Spacing"
+    #base_data_dir    = "data/BERT_TAP0_Scans/SCC173_UnlashedElinks/1mm_Spacing"
+    #runSet(base_plot_dir, base_data_dir)
+    #
+    #base_plot_dir    = "plots/BERT_TAP0_Scans/SCC173_UnlashedElinks/2mm_Spacing"
+    #base_data_dir    = "data/BERT_TAP0_Scans/SCC173_UnlashedElinks/2mm_Spacing"
+    #runSet(base_plot_dir, base_data_dir)
 
 # add entry to list of inputs
 # each entry is a dictionary
