@@ -115,7 +115,7 @@
             HITOR_3_MASK_DIFF_0     = "65535"
             HITOR_3_MASK_DIFF_1     =     "1"
 
-            CML_TAP0_BIAS           =   "123"
+            CML_TAP0_BIAS           =   "100"
             CML_TAP1_BIAS           =     "0"
             CML_TAP2_BIAS           =     "0"
             
