@@ -2,7 +2,7 @@
 
 <HwDescription>
   <BeBoard Id="0" boardType="RD53" eventType="VR">
-    <connection id="nanocrate" uri="chtcp-2.0://kucms.phsx.ku.edu:10203?target=192.168.1.100:50001" address_table="file://${PH2ACF_BASE_DIR}/settings/address_tables/CMSIT_address_table.xml" />
+    <connection id="nanocrate" uri="ipbusudp-2.0://192.168.1.100:50001" address_table="file://${PH2ACF_BASE_DIR}/settings/address_tables/CMSIT_address_table.xml" />
     <!---
         <connection id="nanocrate" uri="chtcp-2.0://kucms.phsx.ku.edu:10203?target=192.168.1.100:50001" address_table="file://${PH2ACF_BASE_DIR}/settings/address_tables/CMSIT_address_table.xml" />
         <connection id="nanocrate" uri="ipbusudp-2.0://192.168.1.100:50001" address_table="file://${PH2ACF_BASE_DIR}/settings/address_tables/CMSIT_address_table.xml" />
