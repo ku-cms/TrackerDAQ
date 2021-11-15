@@ -1,0 +1,15 @@
+# Ph2_ACF commands
+
+# Setup
+cd /home/kucms/TrackerDAQ/development/Ph2_ACF
+source setup.sh
+cd DAQSettings_v1
+fpgaconfig -c CMSIT.xml -i IT-L12-CERN-L8-DIO5_1G28_v4p1
+CMSITminiDAQ -f CMSIT.xml -r
+ping fc7 -c 3
+CMSITminiDAQ -f CMSIT_BERT.xml -c bertest
+
+# TAP0 Scan:
+# Replace "elinkNumber" with cable number... e.g. elink150
+time python3 TrackerDAQ/python/BERT_Scan.py -a 100 -b 300 -c 10 -d BERT_TAP0_Scans/DoubleDP_DPAdapter/elinkNumber
+

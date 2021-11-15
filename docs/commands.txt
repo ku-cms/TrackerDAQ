@@ -1,0 +1,64 @@
+# Ph2_ACF commands
+
+# Setup
+
+# Turn on Linux computer and open the terminal
+# - The commands listed here should be entered in the terminal
+
+# Connect FC7 to SCC
+# - Use DP only, or DP + adapter + e-link
+
+# Turn on nano crate with FC7
+# - Some setup commands in the terminal are required
+
+# Turn on SCC with power supply
+# - First set jumpers to LDO mode
+# - Two power channels with 1.80V, current limit at 0.90A
+
+# After Linux computer is turned on, start rarpd:
+sudo systemctl start rarpd
+
+# Enable rarpd to start automatically after boot:
+sudo systemctl enable rarpd
+
+# Check if you can ping FC7
+ping fc7
+
+# Loading new firmware onto the SD card
+fpgaconfig -c <your_chosen_hardware_description_file.xml> -f <firmware_file_name_on_the_PC> -i <firmware_file_name_on_the_microSD>
+fpgaconfig -c CMSIT.xml -f IT-uDTC_L12-CERN-1xSCC_L8-DIO5_ELECTRICAL_RD53A_x1G28_v4p1.bit -i IT-L12-CERN-L8-DIO5_1G28_v4p1 
+
+# Load firmware on FC7 and reset FC7
+cd /home/kucms/TrackerDAQ/development/Ph2_ACF
+source setup.sh
+cd DAQSettings_v1
+
+fpgaconfig -c CMSIT.xml -l
+
+# FC7 FW v3.6
+fpgaconfig -c CMSIT.xml -i IT-L12-CERN-L8-DIO5_1G28 
+
+# FC7 FW v4.1
+fpgaconfig -c CMSIT.xml -i IT-L12-CERN-L8-DIO5_1G28_v4p1
+
+CMSITminiDAQ -f CMSIT.xml -r
+ping fc7
+
+# Data taking
+
+Initialize system:
+CMSITminiDAQ -f CMSIT.xml -p
+
+Latency scan:
+CMSITminiDAQ -f CMSIT_Latency.xml -c latency
+
+BERT:
+CMSITminiDAQ -f CMSIT_BERT.xml -c bertest
+
+Physics:
+CMSITminiDAQ -f CMSIT.xml -c physics
+
+# TAP0 Scan:
+# Replace "elinkNumber" with cable number... e.g. elink150
+time python3 TrackerDAQ/python/BERT_Scan.py -a 100 -b 300 -c 10 -d BERT_TAP0_Scans/DoubleDP_DPAdapter/elinkNumber
+
