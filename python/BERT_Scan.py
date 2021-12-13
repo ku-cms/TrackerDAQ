@@ -20,7 +20,9 @@ def run(tap0_min, tap0_max, tap0_step, signal, output_dir):
     output_file = getOutputFile(output_dir)
     for x in range(tap0_min, tap0_max + tap0_step, tap0_step):
         # Run BERT scan script
-        output = subprocess.run(["./TrackerDAQ/scripts/BERT_Scan.sh", str(x), str(signal), output_dir, output_file])
+        # Format signal type setting in 2-bit binary (e.g. 0b00, 0b01, ...)
+        sig_setting = format(signal, '#04b')
+        output = subprocess.run(["./TrackerDAQ/scripts/BERT_Scan.sh", str(x), sig_setting, output_dir, output_file])
         # append output to file
         with open(output_file, 'a') as f:
             f.write(str(output) + "\n")
