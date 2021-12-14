@@ -1,12 +1,15 @@
 # TrackerDAQ
 
-Software for tracker DAQ seutp.
+Software for Tracker DAQ seutp used at the University of Kansas (KU).
+Rock Chalk, Jayhawk!
 
 ## Setup
 
-See instructions [Ph2_ACF](https://gitlab.cern.ch/cms_tk_ph2/Ph2_ACF) to install the Ph2_ACF software.
-
-See instructions [here](https://cms-tracker-daq.web.cern.ch/cms-tracker-daq/tutorials/pc_connection/) and [here](https://cms-tracker-daq.web.cern.ch/cms-tracker-daq/tutorials/setting_up_sd/) to setup the FC7.
+The standard Ph2_ACF software (with instructions) is here: [standard](https://gitlab.cern.ch/cms_tk_ph2/Ph2_ACF).
+The development Ph2_ACF software (with instructions) is here: [dev](https://gitlab.cern.ch/cmsinnertracker/Ph2_ACF).
+In order to use the "SER_SEL_OUT_[0-3]" settings for the RD53 chip, install the development Ph2_ACF software,
+as this is not yet supported in the standard Ph2_ACF software.
+To setup the FC7, see instructions [here](https://cms-tracker-daq.web.cern.ch/cms-tracker-daq/tutorials/pc_connection/) and [here](https://cms-tracker-daq.web.cern.ch/cms-tracker-daq/tutorials/setting_up_sd/).
 
 ## Usage
 
