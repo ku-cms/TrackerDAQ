@@ -677,6 +677,40 @@ def makeCombinedPlots():
         label       = "Adapter Rev. C.2 (SMA side)",
     )
     plotMultiple(plot_dir, output_file, inputs, xlim, ylim)
+    # ---------------------------- #
+    # --- create combined plot --- #
+    # ---------------------------- #
+    # Description:
+    # e-link 207 (36 AWG, 1.4 m)
+    # 0 mm spacing
+    # DP to Type 1 elink adapter board
+    # SCC 173
+    plot_dir    = "plots/BERT_Scans"
+    output_file = "BERT_Scans_017"
+    xlim = [90.0, 310.0]
+    ylim = [0.0, 1.0e13]
+    inputs = []
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink207_0mm_SS0/scan_001.log",
+        label       = "207: 0mm, Clock",
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink207_0mm_SS1/scan_001.log",
+        label       = "207: 0mm, Aurora",
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink207_0mm_SS2/scan_001.log",
+        label       = "207: 0mm, PRBS",
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink207_0mm_SS3/scan_001.log",
+        label       = "207: 0mm, Ground",
+    )
+    plotMultiple(plot_dir, output_file, inputs, xlim, ylim)
     
 
 def comparisonPlot(cable_map, plot_dir, xlim, ylim):
