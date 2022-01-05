@@ -3,211 +3,218 @@
 *-------------------------------------------------------------------------------------------------------
 * RegName                 Addr          Defval                  Value                           BitSize
 *-------------------------------------------------------------------------------------------------------
-PIX_PORTAL                0x00          0x0000                  0x0000                             04
-REGION_COL                0x01          0x0000                  0x0000                             08
-REGION_ROW                0x02          0x0000                  0x0000                             08
-PIX_MODE                  0x03          0x0007                  0x0008                             08
-PIX_DEFAULT_CONFIG        0x04          0x9CE2                  0x0000                             16
+PIX_PORTAL                0x00          0b0000000000000000      0b0000000000000000                  4
+REGION_COL                0x01          0b00000000              0b00000000                          8
+REGION_ROW                0x02          0b00000000              0b00000000                          8
+PIX_MODE                  0x03          0b000111                0b000111                            8
+PIX_DEFAULT_CONFIG        0x04          0b1001110011100010      0b1001110011100010                 16
 
 *-------------------------------------------------------------------------------------------------------
 * Synchronous Front End
 *-------------------------------------------------------------------------------------------------------
 * RegName                 Addr          Defval                  Value                           BitSize
 *-------------------------------------------------------------------------------------------------------
-IBIASP1_SYNC              0x05          0x0064                  0x0064                             09
-IBIASP2_SYNC              0x06          0x0096                  0x0096                             09
-IBIAS_SF_SYNC             0x07          0x0050                  0x0050                             09
-IBIAS_KRUM_SYNC           0x08          0x0037                  0x0037                             09
-IBIAS_DISC_SYNC           0x09          0x012C                  0x0118                             09
-ICTRL_SYNCT_SYNC          0x0A          0x0064                  0x0064                             10
-VBL_SYNC                  0x0B          0x0168                  0x0168                             10
-VTH_SYNC                  0x0C          0x012C                  0x0190                             10
-VREF_KRUM_SYNC            0x0D          0x01C2                  0x01C2                             10
+IBIASP1_SYNC              0x05          0d100                   0d100                               9
+IBIASP2_SYNC              0x06          0d150                   0d150                               9
+IBIAS_SF_SYNC             0x07          0d080                   0d080                               9
+IBIAS_KRUM_SYNC           0x08          0d055                   0d055                               9
+IBIAS_DISC_SYNC           0x09          0d300                   0d300                               9
+ICTRL_SYNCT_SYNC          0x0A          0d100                   0d100                              10
+VBL_SYNC                  0x0B          0d360                   0d360                              10
+VTH_SYNC                  0x0C          0d300                   0d300                              10
+VREF_KRUM_SYNC            0x0D          0d450                   0d450                              10
 
 *-------------------------------------------------------------------------------------------------------
 * Linear Front End
 *-------------------------------------------------------------------------------------------------------
 * RegName                 Addr          Defval                  Value                           BitSize
 *-------------------------------------------------------------------------------------------------------
-PA_IN_BIAS_LIN            0x0E          0x015E                  0x015E                             09
-FC_BIAS_LIN               0x0F          0x0014                  0x0014                             08
-KRUM_CURR_LIN             0x10          0x001D                  0x001D                             09
-LDAC_LIN                  0x11          0x0082                  0x0082                             10
-COMP_LIN                  0x12          0x006E                  0x006E                             09
-REF_KRUM_LIN              0x13          0x012C                  0x012C                             10
-Vthreshold_LIN            0x14          0x0190                  0x0190                             10
+PA_IN_BIAS_LIN            0x0E          0d350                   0d350                               9
+FC_BIAS_LIN               0x0F          0d020                   0d020                               8
+KRUM_CURR_LIN             0x10          0d029                   0d029                               9
+LDAC_LIN                  0x11          0d130                   0d130                              10
+COMP_LIN                  0x12          0d110                   0d110                               9
+REF_KRUM_LIN              0x13          0d300                   0d300                              10
+Vthreshold_LIN            0x14          0d400                   0d400                              10
 
 *-------------------------------------------------------------------------------------------------------
 * Differential Front End
 *-------------------------------------------------------------------------------------------------------
 * RegName                 Addr          Defval                  Value                           BitSize
 *-------------------------------------------------------------------------------------------------------
-PRMP_DIFF                 0x15          0x01FF                  0x01FF                             10
-FOL_DIFF                  0x16          0x021E                  0x021E                             10
-PRECOMP_DIFF              0x17          0x0200                  0x0200                             10
-COMP_DIFF                 0x18          0x03FF                  0x03FF                             10
-VFF_DIFF                  0x19          0x0028                  0x0028                             10
-VTH1_DIFF                 0x1A          0x015E                  0x02BC                             10
-VTH2_DIFF                 0x1B          0x0032                  0x0064                             10
-LCC_DIFF                  0x1C          0x0014                  0x0014                             10
+PRMP_DIFF                 0x15          0d511                   0d511                              10
+FOL_DIFF                  0x16          0d542                   0d542                              10
+PRECOMP_DIFF              0x17          0d512                   0d512                              10
+COMP_DIFF                 0x18          0d1023                  0d1023                             10
+VFF_DIFF                  0x19          0d040                   0d040                              10
+VTH1_DIFF                 0x1A          0d350                   0d350                              10
+VTH2_DIFF                 0x1B          0d050                   0d050                              10
+LCC_DIFF                  0x1C          0d020                   0d020                              10
 
 *-------------------------------------------------------------------------------------------------------
 * Auxiliary Registers
 *-------------------------------------------------------------------------------------------------------
 * RegName                 Addr          Defval                  Value                           BitSize
 *-------------------------------------------------------------------------------------------------------
-CONF_FE_DIFF              0x1D          0x0002                  0x0000                             02
-CONF_FE_SYNC              0x1E          0x0004                  0x0002                             05
-VOLTAGE_TRIM              0x1F          0x0210                  0x0210                             10
+CONF_FE_DIFF              0x1D          0b10                    0b10                                2
+CONF_FE_SYNC              0x1E          0b00100                 0b00100                             5
+VOLTAGE_TRIM              0x1F          0b1000010000            0b1000010000                       10
 
 *-------------------------------------------------------------------------------------------------------
 * Digital Matrix
 *-------------------------------------------------------------------------------------------------------
 * RegName                 Addr          Defval                  Value                           BitSize
 *-------------------------------------------------------------------------------------------------------
-EN_CORE_COL_SYNC          0x20          0x0000                  0x0000                             16
-EN_CORE_COL_LIN_1         0x21          0x0000                  0xFFFF                             16
-EN_CORE_COL_LIN_2         0x22          0x0000                  0x0001                             01
-EN_CORE_COL_DIFF_1        0x23          0x0000                  0x0000                             16
-EN_CORE_COL_DIFF_2        0x24          0x0000                  0x0000                             01
-LATENCY_CONFIG            0x25          0x01F4                  0x008C                             09
-WR_SYNC_DELAY_SYNC        0x26          0x0010                  0x0010                             05
+EN_CORE_COL_SYNC          0x20          0b0000000000000000      0b0000000000000000                 16
+EN_CORE_COL_LIN_1         0x21          0b0000000000000000      0b0000000000000000                 16
+EN_CORE_COL_LIN_2         0x22          0b0                     0b0                                 1
+EN_CORE_COL_DIFF_1        0x23          0b0000000000000000      0b0000000000000000                 16
+EN_CORE_COL_DIFF_2        0x24          0b0                     0b0                                 1
+LATENCY_CONFIG            0x25          0b111110100             0b111110100                         9
+WR_SYNC_DELAY_SYNC        0x26          0b10000                 0b10000                             5
 
 *-------------------------------------------------------------------------------------------------------
 * Injection
 *-------------------------------------------------------------------------------------------------------
 * RegName                 Addr          Defval                  Value                           BitSize
 *-------------------------------------------------------------------------------------------------------
-INJECTION_SELECT          0x27          0x0020                  0x0009                             06
-CLK_DATA_DELAY            0x28          0x0000                  0x0000                             09
-VCAL_HIGH                 0x29          0x01F4                  0x0258                             12
-VCAL_MED                  0x2A          0x012C                  0x0064                             12
-CH_SYNC_CONF              0x2B          0x0208                  0x0208                             12
-GLOBAL_PULSE_ROUTE        0x2C          0x0000                  0x0100                             16
-MONITOR_FRAME_SKIP        0x2D          0x0032                  0x0032                             08
-EN_MACRO_COL_CAL_SYNC_1   0x2E          0xFFFF                  0xFFFF                             16
-EN_MACRO_COL_CAL_SYNC_2   0x2F          0xFFFF                  0xFFFF                             16
-EN_MACRO_COL_CAL_SYNC_3   0x30          0xFFFF                  0xFFFF                             16
-EN_MACRO_COL_CAL_SYNC_4   0x31          0xFFFF                  0xFFFF                             16
-EN_MACRO_COL_CAL_LIN_1    0x32          0xFFFF                  0xFFFF                             16
-EN_MACRO_COL_CAL_LIN_2    0x33          0xFFFF                  0xFFFF                             16
-EN_MACRO_COL_CAL_LIN_3    0x34          0xFFFF                  0xFFFF                             16
-EN_MACRO_COL_CAL_LIN_4    0x35          0xFFFF                  0xFFFF                             16
-EN_MACRO_COL_CAL_LIN_5    0x36          0x000F                  0x000F                             04
-EN_MACRO_COL_CAL_DIFF_1   0x37          0xFFFF                  0xFFFF                             16
-EN_MACRO_COL_CAL_DIFF_2   0x38          0xFFFF                  0xFFFF                             16
-EN_MACRO_COL_CAL_DIFF_3   0x39          0xFFFF                  0xFFFF                             16
-EN_MACRO_COL_CAL_DIFF_4   0x3A          0xFFFF                  0xFFFF                             16
-EN_MACRO_COL_CAL_DIFF_5   0x3B          0x000F                  0x000F                             04
+INJECTION_SELECT          0x27          0b100000                0b100000                            6
+CLK_DATA_DELAY            0x28          0b000000000             0b000000000                         9
+VCAL_HIGH                 0x29          0b000111110100          0b000111110100                     12
+VCAL_MED                  0x2A          0b000100101100          0b000100101100                     12
+CH_SYNC_CONF              0x2B          0b001000001000          0b001000001000                     12
+GLOBAL_PULSE_ROUTE        0x2C          0b0000000000000000      0b0000000000000000                 16
+MONITOR_FRAME_SKIP        0x2D          0b00110010              0b00110010                          8
+EN_MACRO_COL_CAL_SYNC_1   0x2E          0b1111111111111111      0b1111111111111111                 16
+EN_MACRO_COL_CAL_SYNC_2   0x2F          0b1111111111111111      0b1111111111111111                 16
+EN_MACRO_COL_CAL_SYNC_3   0x30          0b1111111111111111      0b1111111111111111                 16
+EN_MACRO_COL_CAL_SYNC_4   0x31          0b1111111111111111      0b1111111111111111                 16
+EN_MACRO_COL_CAL_LIN_1    0x32          0b1111111111111111      0b1111111111111111                 16
+EN_MACRO_COL_CAL_LIN_2    0x33          0b1111111111111111      0b1111111111111111                 16
+EN_MACRO_COL_CAL_LIN_3    0x34          0b1111111111111111      0b1111111111111111                 16
+EN_MACRO_COL_CAL_LIN_4    0x35          0b1111111111111111      0b1111111111111111                 16
+EN_MACRO_COL_CAL_LIN_5    0x36          0b1111                  0b1111                              4
+EN_MACRO_COL_CAL_DIFF_1   0x37          0b1111111111111111      0b1111111111111111                 16
+EN_MACRO_COL_CAL_DIFF_2   0x38          0b1111111111111111      0b1111111111111111                 16
+EN_MACRO_COL_CAL_DIFF_3   0x39          0b1111111111111111      0b1111111111111111                 16
+EN_MACRO_COL_CAL_DIFF_4   0x3A          0b1111111111111111      0b1111111111111111                 16
+EN_MACRO_COL_CAL_DIFF_5   0x3B          0b1111                  0b1111                              4
 
 *-------------------------------------------------------------------------------------------------------
 * I/O
 *-------------------------------------------------------------------------------------------------------
 * RegName                 Addr          Defval                  Value                           BitSize
 *-------------------------------------------------------------------------------------------------------
-DEBUG_CONFIG              0x3C          0x0000                  0x0000                             02
-OUTPUT_CONFIG             0x3D          0x0004                  0x0004                             09
-OUT_PAD_CONFIG            0x3E          0x1404                  0x1404                             14
-GP_LVDS_ROUTE             0x3F          0x0000                  0x0000                             16
-CDR_CONFIG                0x40          0x0418                  0x0418                             14
-CDR_VCO_BUFF_BIAS         0x41          0x0190                  0x0190                             10
-CDR_CP_IBIAS              0x42          0x0032                  0x0032                             10
-CDR_VCO_IBIAS             0x43          0x01F4                  0x01F4                             10
-SER_SEL_OUT               0x44          0x0055                  0x0001                             08
-CML_CONFIG                0x45          0x003F                  0x000F                             08
-CML_TAP0_BIAS             0x46          0x01F4                  0x01F4                             10
-CML_TAP1_BIAS             0x47          0x0000                  0x0000                             10
-CML_TAP2_BIAS             0x48          0x0000                  0x0000                             10
-AURORA_CC_CONFIG          0x49          0x0067                  0x0067                             08
-AURORA_CB_CONFIG0         0x4A          0x00F0                  0x00F0                             08
-AURORA_CB_CONFIG1         0x4B          0x000F                  0x000F                             16
-AURORA_INIT_WAIT          0x4C          0x0020                  0x0020                             11
+DEBUG_CONFIG              0x3C          0b00                    0b00                                2
+OUTPUT_CONFIG             0x3D          0b000000100             0b000000100                         9
+OUT_PAD_CONFIG            0x3E          0b01010000000100        0b01010000000100                   14
+GP_LVDS_ROUTE             0x3F          0b0000000000000000      0b0000000000000000                 16
+CDR_CONFIG                0x40          0b00010000011000        0b00010000011000                   14
+CDR_VCO_BUFF_BIAS         0x41          0b0110010000            0b0110010000                       10
+CDR_CP_IBIAS              0x42          0b0000110010            0b0000110010                       10
+CDR_VCO_IBIAS             0x43          0b0111110100            0b0111110100                       10
+SER_SEL_OUT               0x44          0b01010101              0b01010101                          8
+CML_CONFIG                0x45          0b00111111              0b00111111                          8
+CML_TAP0_BIAS             0x46          0b0111110100            0b0111110100                       10
+CML_TAP1_BIAS             0x47          0b0000000000            0b0000000000                       10
+CML_TAP2_BIAS             0x48          0b0000000000            0b0000000000                       10
+AURORA_CC_CONFIG          0x49          0b01100111              0b01100111                          8
+AURORA_CB_CONFIG0         0x4A          0b11110000              0b11110000                          8
+AURORA_CB_CONFIG1         0x4B          0b0000000000001111      0b0000000000001111                 16
+AURORA_INIT_WAIT          0x4C          0b00000100000           0b00000100000                      11
 
 *-------------------------------------------------------------------------------------------------------
 * Test and Monitoring Functions
 *-------------------------------------------------------------------------------------------------------
 * RegName                 Addr          Defval                  Value                           BitSize
 *-------------------------------------------------------------------------------------------------------
-MONITOR_SELECT            0x4D          0x1FFF                  0x1FFF                             14
-HITOR_0_MASK_SYNC         0x4E          0x0000                  0xFFFF                             16
-HITOR_1_MASK_SYNC         0x4F          0x0000                  0xFFFF                             16
-HITOR_2_MASK_SYNC         0x50          0x0000                  0xFFFF                             16
-HITOR_3_MASK_SYNC         0x51          0x0000                  0xFFFF                             16
-HITOR_0_MASK_LIN_0        0x52          0x0000                  0x0000                             16
-HITOR_0_MASK_LIN_1        0x53          0x0000                  0x0000                             01
-HITOR_1_MASK_LIN_0        0x54          0x0000                  0x0000                             16
-HITOR_1_MASK_LIN_1        0x55          0x0000                  0x0000                             01
-HITOR_2_MASK_LIN_0        0x56          0x0000                  0x0000                             16
-HITOR_2_MASK_LIN_1        0x57          0x0000                  0x0000                             01
-HITOR_3_MASK_LIN_0        0x58          0x0000                  0x0000                             16
-HITOR_3_MASK_LIN_1        0x59          0x0000                  0x0000                             01
-HITOR_0_MASK_DIFF_0       0x5A          0x0000                  0xFFFF                             16
-HITOR_0_MASK_DIFF_1       0x5B          0x0000                  0x0001                             01
-HITOR_1_MASK_DIFF_0       0x5C          0x0000                  0xFFFF                             16
-HITOR_1_MASK_DIFF_1       0x5D          0x0000                  0x0001                             01
-HITOR_2_MASK_DIFF_0       0x5E          0x0000                  0xFFFF                             16
-HITOR_2_MASK_DIFF_1       0x5F          0x0000                  0x0001                             01
-HITOR_3_MASK_DIFF_0       0x60          0x0000                  0xFFFF                             16
-HITOR_3_MASK_DIFF_1       0x61          0x0000                  0x0001                             01
-MONITOR_CONFIG            0x62          0x0000                  0x0305                             11
-SENSOR_CONFIG_0           0x63          0x0000                  0x0000                             12
-SENSOR_CONFIG_1           0x64          0x0000                  0x0000                             12
-AUTO_READ_0               0x65          0x0088                  0x0088                             09
-AUTO_READ_1               0x66          0x0082                  0x0082                             09
-AUTO_READ_2               0x67          0x0076                  0x0076                             09
-AUTO_READ_3               0x68          0x0077                  0x0077                             09
-AUTO_READ_4               0x69          0x0078                  0x0078                             09
-AUTO_READ_5               0x6A          0x0079                  0x0079                             09
-AUTO_READ_6               0x6B          0x007A                  0x007A                             09
-AUTO_READ_7               0x6C          0x007B                  0x007B                             09
-RING_OSC_ENABLE           0x6D          0x0000                  0x0000                             08
-RING_OSC_0                0x6E          0x0000                  0x0000                             16
-RING_OSC_1                0x6F          0x0000                  0x0000                             16
-RING_OSC_2                0x70          0x0000                  0x0000                             16
-RING_OSC_3                0x71          0x0000                  0x0000                             16
-RING_OSC_4                0x72          0x0000                  0x0000                             16
-RING_OSC_5                0x73          0x0000                  0x0000                             16
-RING_OSC_6                0x74          0x0000                  0x0000                             16
-RING_OSC_7                0x75          0x0000                  0x0000                             16
-BCID_CNT                  0x76          0x0000                  0x0000                             16
-TRIG_CNT                  0x77          0x0000                  0x0000                             16
-LOCKLOSS_CNT              0x78          0x0000                  0x0000                             16
-BITFLIP_WNG_CNT           0x79          0x0000                  0x0000                             16
-BITFLIP_ERR_CNT           0x7A          0x0000                  0x0000                             16
-CMDERR_CNT                0x7B          0x0000                  0x0000                             16
-WNGFIFO_FULL_CNT_0        0x7C          0x0000                  0x0000                             16
-WNGFIFO_FULL_CNT_1        0x7D          0x0000                  0x0000                             16
-WNGFIFO_FULL_CNT_2        0x7E          0x0000                  0x0000                             16
-WNGFIFO_FULL_CNT_3        0x7F          0x0000                  0x0000                             16
-AI_REGION_COL             0x80          0x0000                  0x0000                             08
-AI_REGION_ROW             0x81          0x0000                  0x0000                             09
-HITOR_0_CNT               0x82          0x0000                  0x0000                             16
-HITOR_1_CNT               0x83          0x0000                  0x0000                             16
-HITOR_2_CNT               0x84          0x0000                  0x0000                             16
-HITOR_3_CNT               0x85          0x0000                  0x0000                             16
-SKIPPED_TRIGGER_CNT       0x86          0x0000                  0x0000                             16
-ERRWNG_MASK               0x87          0x0000                  0x0000                             14
-MONITORING_DATA_ADC       0x88          0x0000                  0x0000                             12
-SELF_TRIGGER_ENABLE       0x89          0x0000                  0x0000                             04
+MONITOR_SELECT            0x4D          0b01111111111111        0b01111111111111                   14
+HITOR_0_MASK_SYNC         0x4E          0b0000000000000000      0b0000000000000000                 16
+HITOR_1_MASK_SYNC         0x4F          0b0000000000000000      0b0000000000000000                 16
+HITOR_2_MASK_SYNC         0x50          0b0000000000000000      0b0000000000000000                 16
+HITOR_3_MASK_SYNC         0x51          0b0000000000000000      0b0000000000000000                 16
+HITOR_0_MASK_LIN_0        0x52          0b0000000000000000      0b0000000000000000                 16
+HITOR_0_MASK_LIN_1        0x53          0b0                     0b0                                 1
+HITOR_1_MASK_LIN_0        0x54          0b0000000000000000      0b0000000000000000                 16
+HITOR_1_MASK_LIN_1        0x55          0b0                     0b0                                 1
+HITOR_2_MASK_LIN_0        0x56          0b0000000000000000      0b0000000000000000                 16
+HITOR_2_MASK_LIN_1        0x57          0b0                     0b0                                 1
+HITOR_3_MASK_LIN_0        0x58          0b0000000000000000      0b0000000000000000                 16
+HITOR_3_MASK_LIN_1        0x59          0b0                     0b0                                 1
+HITOR_0_MASK_DIFF_0       0x5A          0b0000000000000000      0b0000000000000000                 16
+HITOR_0_MASK_DIFF_1       0x5B          0b0                     0b0                                 1
+HITOR_1_MASK_DIFF_0       0x5C          0b0000000000000000      0b0000000000000000                 16
+HITOR_1_MASK_DIFF_1       0x5D          0b0                     0b0                                 1
+HITOR_2_MASK_DIFF_0       0x5E          0b0000000000000000      0b0000000000000000                 16
+HITOR_2_MASK_DIFF_1       0x5F          0b0                     0b0                                 1
+HITOR_3_MASK_DIFF_0       0x60          0b0000000000000000      0b0000000000000000                 16
+HITOR_3_MASK_DIFF_1       0x61          0b0                     0b0                                 1
+MONITOR_CONFIG            0x62          0b00000000000           0b00000000000                      11
+SENSOR_CONFIG_0           0x63          0b000000000000          0b000000000000                     12
+SENSOR_CONFIG_1           0x64          0b000000000000          0b000000000000                     12
+AUTO_READ_0               0x65          0b010001000             0b010001000                         9
+AUTO_READ_1               0x66          0b010000010             0b010000010                         9
+AUTO_READ_2               0x67          0b001110110             0b001110110                         9
+AUTO_READ_3               0x68          0b001110111             0b001110111                         9
+AUTO_READ_4               0x69          0b001111000             0b001111000                         9
+AUTO_READ_5               0x6A          0b001111001             0b001111001                         9
+AUTO_READ_6               0x6B          0b001111010             0b001111010                         9
+AUTO_READ_7               0x6C          0b001111011             0b001111011                         9
+RING_OSC_ENABLE           0x6D          0b00000000              0b00000000                          8
+RING_OSC_0                0x6E          0b0000000000000000      0b0000000000000000                 16
+RING_OSC_1                0x6F          0b0000000000000000      0b0000000000000000                 16
+RING_OSC_2                0x70          0b0000000000000000      0b0000000000000000                 16
+RING_OSC_3                0x71          0b0000000000000000      0b0000000000000000                 16
+RING_OSC_4                0x72          0b0000000000000000      0b0000000000000000                 16
+RING_OSC_5                0x73          0b0000000000000000      0b0000000000000000                 16
+RING_OSC_6                0x74          0b0000000000000000      0b0000000000000000                 16
+RING_OSC_7                0x75          0b0000000000000000      0b0000000000000000                 16
+BCID_CNT                  0x76          0b0000000000000000      0b0000000000000000                 16
+TRIG_CNT                  0x77          0b0000000000000000      0b0000000000000000                 16
+LOCKLOSS_CNT              0x78          0b0000000000000000      0b0000000000000000                 16
+BITFLIP_WNG_CNT           0x79          0b0000000000000000      0b0000000000000000                 16
+BITFLIP_ERR_CNT           0x7A          0b0000000000000000      0b0000000000000000                 16
+CMDERR_CNT                0x7B          0b0000000000000000      0b0000000000000000                 16
+WNGFIFO_FULL_CNT_0        0x7C          0b0000000000000000      0b0000000000000000                 16
+WNGFIFO_FULL_CNT_1        0x7D          0b0000000000000000      0b0000000000000000                 16
+WNGFIFO_FULL_CNT_2        0x7E          0b0000000000000000      0b0000000000000000                 16
+WNGFIFO_FULL_CNT_3        0x7F          0b0000000000000000      0b0000000000000000                 16
+AI_REGION_COL             0x80          0b00000000              0b00000000                          8
+AI_REGION_ROW             0x81          0b00000000              0b000000000                         9
+HITOR_0_CNT               0x82          0b0000000000000000      0b0000000000000000                 16
+HITOR_1_CNT               0x83          0b0000000000000000      0b0000000000000000                 16
+HITOR_2_CNT               0x84          0b0000000000000000      0b0000000000000000                 16
+HITOR_3_CNT               0x85          0b0000000000000000      0b0000000000000000                 16
+SKIPPED_TRIGGER_CNT       0x86          0b0000000000000000      0b0000000000000000                 16
+ERRWNG_MASK               0x87          0b00000000000000        0b00000000000000                   14
+MONITORING_DATA_ADC       0x88          0b000000000000          0b000000000000                     12
+SELF_TRIGGER_ENABLE       0x89          0b0000                  0b0000                              4
 
 *-------------------------------------------------------------------------------------------------------
 * Fake registers
 *-------------------------------------------------------------------------------------------------------
 * RegName                 Addr          Defval                  Value                           BitSize
 *-------------------------------------------------------------------------------------------------------
-HighGain_LIN              0xA0          0x0001                  0x0001                             01
-INJECTION_SELECT_DELAY    0xA1          0x0000                  0x0000                             04
-VOLTAGE_TRIM_DIG          0xA2          0x0010                  0x0010                             05
-VOLTAGE_TRIM_ANA          0xA3          0x0010                  0x0010                             05
-CLK_DATA_DELAY_CMD_DELAY  0xA4          0x0000                  0x0000                             04
-CLK_DATA_DELAY_CLK_DELAY  0xA5          0x0000                  0x0000                             04
-CLK_DATA_DELAY_2INV_DELAY 0xA6          0x0000                  0x0000                             01
-MONITOR_CONFIG_ADC        0xA7          0x0005                  0x0005                             06
-MONITOR_CONFIG_BG         0xA8          0x000C                  0x000C                             05
+HighGain_LIN              0xA0          0b1                     0b1                                 1
+INJECTION_SELECT_DELAY    0xA1          0b0000                  0b0000                              4
+VOLTAGE_TRIM_DIG          0xA2          0b10000                 0b10000                             5
+VOLTAGE_TRIM_ANA          0xA3          0b10000                 0b10000                             5
+CLK_DATA_DELAY_CMD_DELAY  0xA4          0b0000                  0b0000                              4
+CLK_DATA_DELAY_CLK_DELAY  0xA5          0b0000                  0b0000                              4
+CLK_DATA_DELAY_2INV_DELAY 0xA6          0b0                     0b0                                 1
+MONITOR_CONFIG_ADC        0xA7          0d5                     0d5                                 6
+MONITOR_CONFIG_BG         0xA8          0d12                    0d12                                5
+CML_CONFIG_SER_INV_TAP    0xA9          0b00                    0b00                                2
+CML_CONFIG_SER_EN_TAP     0xAA          0b00                    0b00                                2
+CML_CONFIG_EN_LANE        0xAB          0b1111                  0b1111                              4
+SER_SEL_OUT_0             0xAC          0b1                     0b1                                 2
+SER_SEL_OUT_1             0xAD          0b1                     0b1                                 2
+SER_SEL_OUT_2             0xAE          0b1                     0b1                                 2
+SER_SEL_OUT_3             0xAF          0b1                     0b1                                 2
 
-ADC_OFFSET_VOLT           0xA9          0x003F                  0x003F                             16
-ADC_MAXIMUM_VOLT          0xAA          0x0347                  0x0347                             16
-TEMPSENS_IDEAL_FACTOR     0xAB          0x04C9                  0x04C9                             16
+ADC_OFFSET_VOLT           0xB0          0d63                    0d63                               16
+ADC_MAXIMUM_VOLT          0xB1          0d839                   0d839                              16
+TEMPSENS_IDEAL_FACTOR     0xB2          0d1225                  0d1225                             16
 
 *-------------------------------------------------------------------------------------------------------
 PIXELCONFIGURATION
@@ -2611,4 +2618,3 @@ ENABLE 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
 HITBUS 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 INJEN  0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 TDAC   15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15
-
