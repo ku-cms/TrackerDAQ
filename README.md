@@ -76,14 +76,16 @@ and they can be set to any of the four 2 bit settings (0b00 to 0b11).
 The script BERT_Scan.sh handles the xml config file modification automatically.
 To scan through TAP0 values, use BERT_Scan.py, which calls BERT_Scan.sh for different TAP0 values.
 Provide the min TAP0 (-a), max TAP0 (-b), TAP0 step size (-c), secondary signal type (-d), and an output directory (-e).
-For the secondary signal type, use decimal values 0-3, which correspond to binary values 0b00 to 0b11.
-The python script handles the conversion from decimal to binary.
 ```
 time python3 TrackerDAQ/python/BERT_Scan.py -a <min TAP0> -b <max TAP0> -c <step TAP0> -d <secondary signal type> -e <output directory>
 ```
+For standard e-link testing, use a min TAP0 of 100, a max TAP0 of 300, and a TAP0 step size of 10.
+For the secondary signal type, use 0 for clock.
+To test different secondary signals (e.g. for cross talk studies), use decimal values 0-3, which correspond to binary values 0b00 to 0b11.
+The python script handles the conversion from decimal to binary.
 This script will output the results to a unique file name in the specified directory.
 
-There is a simple script to rsync data to your local machine if needed.
+There is a simple script to rsync data to your local machine if needed:
 ```
 ./scripts/getData.sh
 ```
