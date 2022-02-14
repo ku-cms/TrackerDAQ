@@ -27,7 +27,7 @@ set both channels on the power supply to 1.8 V and 0.9 A as the current limit.
 Here is the setup required every time to use the Ph2_ACF software and the FC7.
 The current FC7 firmware version that we use is 4.1.
 ```
-cd /home/kucms/TrackerDAQ/development/Ph2_ACF
+cd /home/kucms/TrackerDAQ/update/Ph2_ACF
 source setup.sh
 cd DAQSettings_v1
 fpgaconfig -c CMSIT.xml -i IT-L12-CERN-L8-DIO5_1G28_v4p1
