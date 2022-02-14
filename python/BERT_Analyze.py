@@ -745,7 +745,7 @@ def makeCombinedPlots():
     )
     plotMultiple(plot_dir, output_file, inputs, xlim, ylim)
     
-def crossTalkPlot(cable_number):
+def crossTalkPlot(cable_number, custom_files={}):
     signal_map = {
         0 : "Clock",
         1 : "Aurora",
@@ -758,40 +758,42 @@ def crossTalkPlot(cable_number):
     ylim = [0.0, 1.0e13]
     inputs = []
 
-    for i in range(4):
-        addEntry(
-            input_list  = inputs,
-            input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink{0}_SS{1}/scan_001.log".format(cable_number, i),
-            label       = "{0}, {1}".format(cable_number, signal_map[i]),
-        )
-    
-    #addEntry(
-    #    input_list  = inputs,
-    #    input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink154_SS0/scan_001.log",
-    #    label       = "{0}, Clock".format(cable_number),
-    #)
-    #addEntry(
-    #    input_list  = inputs,
-    #    input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink154_SS1/scan_001.log",
-    #    label       = "{0}, Aurora".format(cable_number),
-    #)
-    #addEntry(
-    #    input_list  = inputs,
-    #    input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink154_SS2/scan_001.log",
-    #    label       = "{0}, PRBS".format(cable_number),
-    #)
-    #addEntry(
-    #    input_list  = inputs,
-    #    input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink154_SS3/scan_001.log",
-    #    label       = "{0}, Ground".format(cable_number),
-    #)
+    # use custom file paths
+    if custom_files:
+        for i in range(4):
+            addEntry(
+                input_list  = inputs,
+                input_file  = custom_files[i],
+                label       = "{0}, {1}".format(cable_number, signal_map[i]),
+            )
+    # use default file paths
+    else:
+        for i in range(4):
+            addEntry(
+                input_list  = inputs,
+                input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink{0}_SS{1}/scan_001.log".format(cable_number, i),
+                label       = "{0}, {1}".format(cable_number, signal_map[i]),
+            )
     
     plotMultiple(plot_dir, output_file, inputs, xlim, ylim)
 
 def makeCrossTalkPlots():
-    cables = [144, 153, 154]
-    for cable in cables:
-        crossTalkPlot(cable)
+    
+    custom_files_elink153 = {
+        0 : "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink153_SS0/scan_001.log",
+        1 : "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink153_SS1/scan_001.log",
+        2 : "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink153_SS2_v2/scan_001.log",
+        3 : "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink153_SS3/scan_001.log",
+    }
+    custom_files_elink154 = {
+        0 : "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink154_SS0_v2/scan_001.log",
+        1 : "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink154_SS1/scan_001.log",
+        2 : "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink154_SS2_v2/scan_001.log",
+        3 : "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink154_SS3/scan_001.log",
+    }
+    crossTalkPlot(144)
+    crossTalkPlot(153, custom_files_elink153)
+    crossTalkPlot(154, custom_files_elink154)
 
 def comparisonPlot(cable_map, plot_dir, xlim, ylim):
     for cable in cable_map:
