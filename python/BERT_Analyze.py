@@ -5,6 +5,46 @@ import glob
 from BERT_Plot import plot, plotMultiple
 from tools import getBERTData
 
+# find min TAP0 for 0 errors from a scan
+def findMin_v1(x_values, y_values):
+    n = len(x_values)
+    # search data starting with the last point
+    # iterate over list backwards
+    for i in range(n-1, -1, -1):
+        if y_values[i] > 0:
+            if i < n - 1:
+                # found min TAP0
+                return x_values[i + 1]
+            else:
+                # did not find min TAP0
+                return -1
+    # did not find min TAP0
+    return -1
+
+# find min TAP0 for 0 errors from a scan
+def findMin_v2(x_values, y_values):
+    # search data starting with the last point
+    # iterate over list backwards
+    result = -1
+    search = True
+    n = len(x_values)
+    i = n - 1
+    while search:
+        if i < 0:
+            break
+        if y_values[i] > 0:
+            if i < n - 1:
+                # found min TAP0
+                result = x_values[i + 1]
+                search = False
+            else:
+                # did not find min TAP0
+                result = -1
+                search = False
+        i -= 1
+    return result
+
+# analyze data from a scan
 def analyze(input_file, plot_dir, output_file):
     debug = False
     data = getBERTData(input_file)
@@ -18,6 +58,8 @@ def analyze(input_file, plot_dir, output_file):
     if debug:
         print("input file: {0}, num x vals: {1}, num y vals: {2}".format(input_file, len(x_values), len(y_values)))
     plot(plot_dir, output_file, x_values, y_values)
+    min_value = findMin_v1(x_values, y_values)
+    print("Min TAP0: {0}".format(min_value))
 
 # run over a single directory
 def runDir(plot_dir, data_dir):
