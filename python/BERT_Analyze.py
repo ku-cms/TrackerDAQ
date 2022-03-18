@@ -64,7 +64,7 @@ def analyze(input_file, plot_dir, output_file):
     return min_value
 
 # run over a single directory
-def runDir(plot_dir, data_dir, table):
+def runDir(plot_dir, data_dir, table, data_name):
     # get list of input files in directory
     files = glob.glob(data_dir + "/scan_*.log")
     for input_file in files:
@@ -73,7 +73,7 @@ def runDir(plot_dir, data_dir, table):
         x           = name.split(".")[0]
         output_file = "BERT_" + x
         min_value = analyze(input_file, plot_dir, output_file)
-        table.append([-1, -1, min_value])
+        table.append([data_name, x, min_value])
 
 # run over directories in base directory
 def runSet(base_plot_dir, base_data_dir, output_csv_name = ""):
@@ -86,7 +86,9 @@ def runSet(base_plot_dir, base_data_dir, output_csv_name = ""):
         name = os.path.basename(data_dir)
         plot_dir = "{0}/{1}".format(base_plot_dir, name)
         print(" - {0}".format(name))
-        runDir(plot_dir, data_dir, table)
+        runDir(plot_dir, data_dir, table, name)
+    # sort table alphabetically
+    table.sort()
     # output min TAP0 values to a table
     if output_csv_name:
         with open(output_csv_name, 'w', newline='') as output_csv:
