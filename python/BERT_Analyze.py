@@ -2,9 +2,50 @@
 
 import os
 import glob
+import csv
 from BERT_Plot import plot, plotMultiple
 from tools import getBERTData
 
+# find min TAP0 for 0 errors from a scan
+def findMin_v1(x_values, y_values):
+    n = len(x_values)
+    # search data starting with the last point
+    # iterate over list backwards
+    for i in range(n-1, -1, -1):
+        if y_values[i] > 0:
+            if i < n - 1:
+                # found min TAP0
+                return x_values[i + 1]
+            else:
+                # did not find min TAP0
+                return -1
+    # did not find min TAP0
+    return -1
+
+# find min TAP0 for 0 errors from a scan
+def findMin_v2(x_values, y_values):
+    # search data starting with the last point
+    # iterate over list backwards
+    result = -1
+    search = True
+    n = len(x_values)
+    i = n - 1
+    while search:
+        if i < 0:
+            break
+        if y_values[i] > 0:
+            if i < n - 1:
+                # found min TAP0
+                result = x_values[i + 1]
+                search = False
+            else:
+                # did not find min TAP0
+                result = -1
+                search = False
+        i -= 1
+    return result
+
+# analyze data from a scan
 def analyze(input_file, plot_dir, output_file):
     debug = False
     data = getBERTData(input_file)
@@ -18,9 +59,12 @@ def analyze(input_file, plot_dir, output_file):
     if debug:
         print("input file: {0}, num x vals: {1}, num y vals: {2}".format(input_file, len(x_values), len(y_values)))
     plot(plot_dir, output_file, x_values, y_values)
+    min_value = findMin_v1(x_values, y_values)
+    #print("Min TAP0: {0}".format(min_value))
+    return min_value
 
 # run over a single directory
-def runDir(plot_dir, data_dir):
+def runDir(plot_dir, data_dir, table, data_name):
     # get list of input files in directory
     files = glob.glob(data_dir + "/scan_*.log")
     for input_file in files:
@@ -28,10 +72,12 @@ def runDir(plot_dir, data_dir):
         name        = os.path.basename(input_file)
         x           = name.split(".")[0]
         output_file = "BERT_" + x
-        analyze(input_file, plot_dir, output_file)
+        min_value = analyze(input_file, plot_dir, output_file)
+        table.append([data_name, x, min_value])
 
 # run over directories in base directory
-def runSet(base_plot_dir, base_data_dir):
+def runSet(base_plot_dir, base_data_dir, output_csv_name = ""):
+    table = []
     print("Plotting data in {0}".format(base_data_dir))
     # get list of directories in base directory
     dirs = glob.glob(base_data_dir + "/*")
@@ -40,7 +86,17 @@ def runSet(base_plot_dir, base_data_dir):
         name = os.path.basename(data_dir)
         plot_dir = "{0}/{1}".format(base_plot_dir, name)
         print(" - {0}".format(name))
-        runDir(plot_dir, data_dir)
+        runDir(plot_dir, data_dir, table, name)
+    # sort table alphabetically
+    table.sort()
+    # output min TAP0 values to a table
+    if output_csv_name:
+        with open(output_csv_name, 'w', newline='') as output_csv:
+            output_writer = csv.writer(output_csv)
+            output_column_titles = ["cable", "run", "min_value"]
+            output_writer.writerow(output_column_titles)
+            for row in table:
+                output_writer.writerow(row)
 
 # make a plot for each scan
 def analyzeScans():
@@ -58,7 +114,8 @@ def analyzeScans():
     
     base_plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DPAdapter"
     base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter"
-    runSet(base_plot_dir, base_data_dir)
+    output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
+    runSet(base_plot_dir, base_data_dir, output_csv_name)
 
     #base_plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DPAdapter_ErnieCrossTalk"
     #base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter_ErnieCrossTalk"
@@ -711,7 +768,89 @@ def makeCombinedPlots():
         label       = "207: 0mm, Ground",
     )
     plotMultiple(plot_dir, output_file, inputs, xlim, ylim)
+    # ---------------------------- #
+    # --- create combined plot --- #
+    # ---------------------------- #
+    # Description:
+    # e-link 154 (36 AWG, 1.6 m)
+    # DP to Type 1 elink adapter board
+    # SCC 173
+    plot_dir    = "plots/BERT_Scans"
+    output_file = "BERT_Scans_018"
+    xlim = [90.0, 310.0]
+    ylim = [0.0, 1.0e13]
+    inputs = []
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink154_SS0/scan_001.log",
+        label       = "154, Clock",
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink154_SS1/scan_001.log",
+        label       = "154, Aurora",
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink154_SS2/scan_001.log",
+        label       = "154, PRBS",
+    )
+    addEntry(
+        input_list  = inputs,
+        input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink154_SS3/scan_001.log",
+        label       = "154, Ground",
+    )
+    plotMultiple(plot_dir, output_file, inputs, xlim, ylim)
     
+def crossTalkPlot(cable_number, custom_files={}):
+    signal_map = {
+        0 : "Clock",
+        1 : "Aurora",
+        2 : "PRBS",
+        3 : "Ground",
+    }
+    plot_dir    = "plots/BERT_Scan_SCC_Crosstalk"
+    output_file = "elink{0}".format(cable_number)
+    xlim = [90.0, 310.0]
+    ylim = [0.0, 1.0e13]
+    inputs = []
+
+    # use custom file paths
+    if custom_files:
+        for i in range(4):
+            addEntry(
+                input_list  = inputs,
+                input_file  = custom_files[i],
+                label       = "{0}, {1}".format(cable_number, signal_map[i]),
+            )
+    # use default file paths
+    else:
+        for i in range(4):
+            addEntry(
+                input_list  = inputs,
+                input_file  = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink{0}_SS{1}/scan_001.log".format(cable_number, i),
+                label       = "{0}, {1}".format(cable_number, signal_map[i]),
+            )
+    
+    plotMultiple(plot_dir, output_file, inputs, xlim, ylim)
+
+def makeCrossTalkPlots():
+    
+    custom_files_elink153 = {
+        0 : "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink153_SS0/scan_001.log",
+        1 : "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink153_SS1/scan_001.log",
+        2 : "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink153_SS2_v2/scan_001.log",
+        3 : "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink153_SS3/scan_001.log",
+    }
+    custom_files_elink154 = {
+        0 : "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink154_SS0_v2/scan_001.log",
+        1 : "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink154_SS1/scan_001.log",
+        2 : "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink154_SS2_v2/scan_001.log",
+        3 : "data/BERT_TAP0_Scans/DoubleDP_DPAdapter/elink154_SS3/scan_001.log",
+    }
+    crossTalkPlot(144)
+    crossTalkPlot(153, custom_files_elink153)
+    crossTalkPlot(154, custom_files_elink154)
 
 def comparisonPlot(cable_map, plot_dir, xlim, ylim):
     for cable in cable_map:
@@ -859,6 +998,7 @@ def main():
     analyzeScans()
     makeCombinedPlots()
     makeComparisonPlots()
+    makeCrossTalkPlots()
 
 if __name__ == "__main__":
     main()
