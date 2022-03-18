@@ -2,6 +2,7 @@
 
 import os
 import glob
+import csv
 from BERT_Plot import plot, plotMultiple
 from tools import getBERTData
 
@@ -59,10 +60,11 @@ def analyze(input_file, plot_dir, output_file):
         print("input file: {0}, num x vals: {1}, num y vals: {2}".format(input_file, len(x_values), len(y_values)))
     plot(plot_dir, output_file, x_values, y_values)
     min_value = findMin_v1(x_values, y_values)
-    print("Min TAP0: {0}".format(min_value))
+    #print("Min TAP0: {0}".format(min_value))
+    return min_value
 
 # run over a single directory
-def runDir(plot_dir, data_dir):
+def runDir(plot_dir, data_dir, table):
     # get list of input files in directory
     files = glob.glob(data_dir + "/scan_*.log")
     for input_file in files:
@@ -70,10 +72,12 @@ def runDir(plot_dir, data_dir):
         name        = os.path.basename(input_file)
         x           = name.split(".")[0]
         output_file = "BERT_" + x
-        analyze(input_file, plot_dir, output_file)
+        min_value = analyze(input_file, plot_dir, output_file)
+        table.append([-1, -1, min_value])
 
 # run over directories in base directory
-def runSet(base_plot_dir, base_data_dir):
+def runSet(base_plot_dir, base_data_dir, output_csv_name = ""):
+    table = []
     print("Plotting data in {0}".format(base_data_dir))
     # get list of directories in base directory
     dirs = glob.glob(base_data_dir + "/*")
@@ -82,7 +86,15 @@ def runSet(base_plot_dir, base_data_dir):
         name = os.path.basename(data_dir)
         plot_dir = "{0}/{1}".format(base_plot_dir, name)
         print(" - {0}".format(name))
-        runDir(plot_dir, data_dir)
+        runDir(plot_dir, data_dir, table)
+    # output min TAP0 values to a table
+    if output_csv_name:
+        with open(output_csv_name, 'w', newline='') as output_csv:
+            output_writer = csv.writer(output_csv)
+            output_column_titles = ["cable", "run", "min_value"]
+            output_writer.writerow(output_column_titles)
+            for row in table:
+                output_writer.writerow(row)
 
 # make a plot for each scan
 def analyzeScans():
@@ -100,7 +112,8 @@ def analyzeScans():
     
     base_plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DPAdapter"
     base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter"
-    runSet(base_plot_dir, base_data_dir)
+    output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
+    runSet(base_plot_dir, base_data_dir, output_csv_name)
 
     #base_plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DPAdapter_ErnieCrossTalk"
     #base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter_ErnieCrossTalk"
