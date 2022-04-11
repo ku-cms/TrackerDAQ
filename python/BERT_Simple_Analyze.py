@@ -1,10 +1,18 @@
 # BERT_Analyze.py
 
+import re
 import os
 import glob
 import csv
+import argparse
 from BERT_Plot import plot
 from tools import getBERTData, makeDir
+
+# get cable number from directory name
+def getNumber(name):
+    number = re.search(r'\d+', name).group()
+    number = int(number)
+    return number
 
 # find min TAP0 for 0 errors from a scan
 def findMin(x_values, y_values):
@@ -53,7 +61,8 @@ def runDir(plot_dir, data_dir, table, data_name):
         table.append([data_name, x, min_value])
 
 # run over directories in base directory
-def runSet(base_plot_dir, base_data_dir, output_csv_dir="", output_csv_name=""):
+def runSet(base_plot_dir, base_data_dir, cable_number=-1, output_csv_dir="", output_csv_name=""):
+    foundCable = False
     table = []
     print("Plotting data in {0}".format(base_data_dir))
     # get list of directories in base directory
@@ -63,11 +72,18 @@ def runSet(base_plot_dir, base_data_dir, output_csv_dir="", output_csv_name=""):
     for data_dir in dirs:
         # get name for plot directory
         name = os.path.basename(data_dir)
-        plot_dir = "{0}/{1}".format(base_plot_dir, name)
-        print(" - {0}".format(name))
-        runDir(plot_dir, data_dir, table, name)
-    # sort table alphabetically
-    table.sort()
+        # get number from directory name
+        number_from_name = getNumber(name)
+        # compare number from directory name with cable number
+        if cable_number < 0 or cable_number == number_from_name:
+            foundCable = True
+            plot_dir = "{0}/{1}".format(base_plot_dir, name)
+            # result is appended to table
+            runDir(plot_dir, data_dir, table, name)
+            # get result from last row in table
+            last_row = table[-1]
+            min_value = last_row[2]
+            print(" - {0}: e-link {1}, min value = {2}".format(name, number_from_name, min_value))
     # output min TAP0 values to a table
     if output_csv_dir and output_csv_name:
         makeDir(output_csv_dir)
@@ -75,19 +91,34 @@ def runSet(base_plot_dir, base_data_dir, output_csv_dir="", output_csv_name=""):
             output_writer = csv.writer(output_csv)
             output_column_titles = ["cable", "run", "min_value"]
             output_writer.writerow(output_column_titles)
+            # sort table alphabetically
+            table.sort()
             for row in table:
                 output_writer.writerow(row)
+    if not foundCable:
+        print("No data found for e-link {0}".format(cable_number))
 
 # make a plot for each scan
-def analyzeScans():
+def analyzeScans(cable_number):
     base_plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DPAdapter"
     base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter"
     output_csv_dir   = "output"
     output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
-    runSet(base_plot_dir, base_data_dir, output_csv_dir, output_csv_name)
+    if cable_number < 0:
+        # run for all cables
+        runSet(base_plot_dir, base_data_dir, cable_number, output_csv_dir, output_csv_name)
+    else:
+        # run for a specific cable
+        runSet(base_plot_dir, base_data_dir, cable_number)
 
 def main():
-    analyzeScans()
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument("--cable_number",  "-a",  default=-1,  help="Cable number to analyze a specific cable; to run over all cables, use default (-1).")
+    
+    options      = parser.parse_args()
+    cable_number = int(options.cable_number)
+    
+    analyzeScans(cable_number)
 
 if __name__ == "__main__":
     main()
