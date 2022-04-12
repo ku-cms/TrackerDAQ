@@ -33,7 +33,7 @@ def main():
     parser.add_argument("--tap0_max",     "-b",   default=-1,   help="Maximum TAP0 value")
     parser.add_argument("--tap0_step",    "-c",   default=-1,   help="Step size for TAP0")
     parser.add_argument("--signal",       "-d",   default=-1,   help="Select type of secondary signal [0-3]")
-    parser.add_argument("--output_dir",   "-e",   default="",   help="output directory")
+    parser.add_argument("--output_dir",   "-e",   default="",   help="Output directory")
     
     options     = parser.parse_args()
     tap0_min    = int(options.tap0_min)
