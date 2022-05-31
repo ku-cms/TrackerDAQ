@@ -15,6 +15,9 @@ def main():
     input("Press enter to continue... ")
 
     # TODO:
+    # - add default output directory
+    # - add defaults for everything except cable number
+    # DONE:
     # - add function to check for valid inputs
     
     run(tap0_min, tap0_max, tap0_step, signal, output_dir)

@@ -4,6 +4,31 @@ import subprocess
 import argparse
 import os
 
+# Check for valid inputs
+def validInputs(tap0_min, tap0_max, tap0_step, signal, output_dir):
+    min_val = 0
+    max_val = 1023
+    signal_types = [0, 1, 2, 3]
+    if tap0_min < min_val or tap0_min > max_val:
+        print("The tap0_min value {0} is not valid. It must be in the range {1} to {2}.".format(tap0_min, min_val, max_val))
+        return False
+    if tap0_max < min_val or tap0_max > max_val:
+        print("The tap0_max value {0} is not valid. It must be in the range {1} to {2}.".format(tap0_max, min_val, max_val))
+        return False
+    if tap0_min > tap0_max:
+        print("tap0_min ({0}) must be less than or equal to tap0_max ({1})".format(tap0_min, tap0_max))
+        return False
+    if tap0_step <= 0:
+        print("tap0_step ({0}) must be greater than 0".format(tap0_step))
+        return False
+    if signal not in signal_types:
+        print("The signal type must be one of these: {0}".format(signal_types))
+        return False
+    if not output_dir:
+        print("No output directory provided; please provide an output directory.")
+        return False
+    return True
+
 # Get unique output file name
 def getOutputFile(output_dir):
     i = 1
@@ -17,6 +42,10 @@ def getOutputFile(output_dir):
 
 # Scan over TAP0 DAQ settings
 def run(tap0_min, tap0_max, tap0_step, signal, output_dir):
+    valid = validInputs(tap0_min, tap0_max, tap0_step, signal, output_dir)
+    if not valid:
+        print("ERROR: Invalid inputs provided. Quitting now!")
+        return
     output_file = getOutputFile(output_dir)
     for x in range(tap0_min, tap0_max + tap0_step, tap0_step):
         # Run BERT scan script
