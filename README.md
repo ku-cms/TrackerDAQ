@@ -79,8 +79,11 @@ Provide the min TAP0 (-a), max TAP0 (-b), TAP0 step size (-c), secondary signal 
 ```
 time python3 TrackerDAQ/python/BERT_Scan.py -a <min TAP0> -b <max TAP0> -c <step TAP0> -d <secondary signal type> -e <output directory>
 ```
+
 For standard e-link testing, use a min TAP0 of 100, a max TAP0 of 300, and a TAP0 step size of 10.
 For the secondary signal type, use 0 for clock.
+For the output directory, follow this format (example for elink 100, secondary signal 0): "BERT_TAP0_Scans/DoubleDP_DPAdapter/elink100_SS0".
+
 To test different secondary signals (e.g. for cross talk studies), use decimal values 0-3, which correspond to binary values 0b00 to 0b11.
 The python script handles the conversion from decimal to binary.
 This script will output the results to a unique file name in the specified directory.
