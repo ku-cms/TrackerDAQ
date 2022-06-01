@@ -4,6 +4,38 @@ import subprocess
 import argparse
 import os
 
+# Get default inputs
+def getDefaultInputs(cable_number):
+    # Default input parameters
+    inputs      = {}
+    tap0_min    = 100
+    tap0_max    = 200
+    tap0_step   = 10
+    signal      = 0
+    output_dir  = "BERT_TAP0_Scans/DoubleDP_DPAdapter/elink{0}_SS{1}".format(cable_number, signal)
+    inputs["tap0_min"]      = tap0_min
+    inputs["tap0_max"]      = tap0_max
+    inputs["tap0_step"]     = tap0_step
+    inputs["signal"]        = signal
+    inputs["output_dir"]    = output_dir
+    return inputs
+
+# Get user inputs
+def getUserInputs():
+    # Prompt user for input parameters
+    inputs      = {}
+    tap0_min    = int(input("Enter min TAP0 value: "))
+    tap0_max    = int(input("Enter max TAP0 value: "))
+    tap0_step   = int(input("Enter step size for TAP0: "))
+    signal      = int(input("Select type of secondary signal [0-3]: "))
+    output_dir  = str(input("Output directory: "))
+    inputs["tap0_min"]      = tap0_min
+    inputs["tap0_max"]      = tap0_max
+    inputs["tap0_step"]     = tap0_step
+    inputs["signal"]        = signal
+    inputs["output_dir"]    = output_dir
+    return inputs
+
 # Check for valid inputs
 def validInputs(tap0_min, tap0_max, tap0_step, signal, output_dir):
     min_val = 0
