@@ -53,16 +53,23 @@ fpgaconfig -c <your_chosen_hardware_description_file.xml> -f <firmware_file_name
 
 ## Running BERTs
 
-To run the standard BERT program:
+First, run the standard BERT program:
 ```
 CMSITminiDAQ -f CMSIT.xml -c bertest
 ```
+This is useful to check that the data link is working.
+If the BERT runs successfully and there are 0 errors, then follow the procedure in the "New Method" section.
+
+If if the link is not working or if there are more than 0 errors, make sure that all the FC7 setup commands were successful
+and that all hardware connections are good (display port cables, e-link, and CERN FMC on the FC7).
+Sometimes the CERN FMC sits on an angle and becomes disconnected from the FC7 due to torque from the display port cable.
+In addition, turning the RD53 off and then on can fix link problems in some cases.
 
 ### New Method
 
-The new method starts now. Get ready, y'all.
+The new method starts now. Get excited, y'all!
 
-First, make connect one e-link and two display port cables to the red adapter board,
+First, connect one e-link and two display port cables to the red adapter board,
 and connect the display port cables to the FC7 and SCC.
 If not already done, power on the FC7 and SCC and run the FC7 setup commands.
 Once these are done, you are ready to take data!
@@ -79,12 +86,13 @@ If other inputs are required, you can enter 'n' and then specify each input.
 
 Once the scan is finished, you can analyze the data.
 To analyze the data for a specific cable, run this script from the "DAQSettings_v1" directory
-and provide the cable number as the first argument.
+and provide the cable number as the first argument (this must be an integer).
 ```
 ./TrackerDAQ/scripts/analyze.sh <cable number>
 ```
 This script copies the data to the "data" directory (yes, it's a fancy name)
 and then runs a python script to create plots of all scans for that cable.
+The plots are stored in... yes, you guessed it... the "plots" directory.
 
 NOTE: The script also prints out the result for one of the scans found in the directory,
 but currently this is a random scan based on the order of matching files for that cable number.
