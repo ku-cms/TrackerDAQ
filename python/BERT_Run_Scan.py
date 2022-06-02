@@ -3,13 +3,13 @@
 from BERT_Scan import run, getDefaultInputs, getUserInputs
  
 # TODO:
-# - Update README: use new data taking and analysis scripts
 # DONE:
 # - add function to check for valid inputs
 # - use cable number
 # - prompt user for using defaults
 # - add default output directory
 # - add defaults for everything except cable number
+# - update README: use new data taking and analysis scripts
 
 def main():
     # yes answers (assume lowercase)
