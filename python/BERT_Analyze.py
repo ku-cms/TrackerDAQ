@@ -4,7 +4,7 @@ import os
 import glob
 import csv
 from BERT_Plot import plot, plotMultiple
-from tools import getBERTData
+from tools import getBERTData, makeDir
 
 # find min TAP0 for 0 errors from a scan
 def findMin_v1(x_values, y_values):
@@ -76,11 +76,13 @@ def runDir(plot_dir, data_dir, table, data_name):
         table.append([data_name, x, min_value])
 
 # run over directories in base directory
-def runSet(base_plot_dir, base_data_dir, output_csv_name = ""):
+def runSet(base_plot_dir, base_data_dir, output_csv_dir="", output_csv_name=""):
     table = []
     print("Plotting data in {0}".format(base_data_dir))
     # get list of directories in base directory
     dirs = glob.glob(base_data_dir + "/*")
+    # sort directories alphabetically
+    dirs.sort()
     for data_dir in dirs:
         # get name for plot directory
         name = os.path.basename(data_dir)
@@ -90,7 +92,8 @@ def runSet(base_plot_dir, base_data_dir, output_csv_name = ""):
     # sort table alphabetically
     table.sort()
     # output min TAP0 values to a table
-    if output_csv_name:
+    if output_csv_dir and output_csv_name:
+        makeDir(output_csv_dir)
         with open(output_csv_name, 'w', newline='') as output_csv:
             output_writer = csv.writer(output_csv)
             output_column_titles = ["cable", "run", "min_value"]
@@ -114,8 +117,9 @@ def analyzeScans():
     
     base_plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DPAdapter"
     base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter"
+    output_csv_dir   = "output"
     output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
-    runSet(base_plot_dir, base_data_dir, output_csv_name)
+    runSet(base_plot_dir, base_data_dir, output_csv_dir, output_csv_name)
 
     #base_plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DPAdapter_ErnieCrossTalk"
     #base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter_ErnieCrossTalk"
