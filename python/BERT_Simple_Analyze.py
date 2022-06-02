@@ -75,15 +75,24 @@ def runSet(base_plot_dir, base_data_dir, cable_number=-1, output_csv_dir="", out
         # get number from directory name
         number_from_name = getNumber(name)
         # compare number from directory name with cable number
+        # run analysis over data in directory if cable number matches the number from the directory,
+        # or if cable number is negative (for negative cable numbers, analyze all directories)
         if cable_number < 0 or cable_number == number_from_name:
             foundCable = True
             plot_dir = "{0}/{1}".format(base_plot_dir, name)
             # result is appended to table
             runDir(plot_dir, data_dir, table, name)
             # get result from last row in table
-            last_row = table[-1]
+            # TODO: when multiple scans are present...
+            # - could print latest scan (largest scan number)
+            # - could print min value or max value out of all scans
+            # - could print number of scans, min, max, median, average, std dev...
+            last_row  = table[-1]
             min_value = last_row[2]
             print(" - {0}: e-link {1}, min value = {2}".format(name, number_from_name, min_value))
+    
+    #print(table)
+    
     # output min TAP0 values to a table
     if output_csv_dir and output_csv_name:
         makeDir(output_csv_dir)
