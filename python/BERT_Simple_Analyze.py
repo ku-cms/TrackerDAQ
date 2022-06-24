@@ -43,7 +43,10 @@ def analyze(input_file, plot_dir, output_file):
         return
     if debug:
         print("input file: {0}, num x vals: {1}, num y vals: {2}".format(input_file, len(x_values), len(y_values)))
+    
     plot(plot_dir, output_file, x_values, y_values)
+    #plot(plot_dir, output_file, x_values, y_values,setLogY=False)
+    
     min_value = findMin(x_values, y_values)
     #print("Min TAP0: {0}".format(min_value))
     return min_value
