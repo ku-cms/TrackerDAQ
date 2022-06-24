@@ -42,7 +42,7 @@ CMSITminiDAQ -f CMSIT.xml -c bertest
 
 Here are some additional fpgaconfig commands that are useful for the FC7.
 
-Command to list avaiable FC7 firmware versions loaded on the SD card:
+Command to list available FC7 firmware versions loaded on the SD card:
 ```
 fpgaconfig -c CMSIT.xml -l
 ```
