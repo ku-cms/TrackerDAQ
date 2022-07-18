@@ -62,6 +62,8 @@ def runDir(plot_dir, data_dir, table, data_name):
         output_file = "BERT_" + x
         min_value = analyze(input_file, plot_dir, output_file)
         table.append([data_name, x, min_value])
+    # sort so that the latest file is last
+    table.sort()
 
 # run over directories in base directory
 def runSet(base_plot_dir, base_data_dir, cable_number=-1, output_csv_dir="", output_csv_name=""):
@@ -86,10 +88,6 @@ def runSet(base_plot_dir, base_data_dir, cable_number=-1, output_csv_dir="", out
             # result is appended to table
             runDir(plot_dir, data_dir, table, name)
             # get result from last row in table
-            # TODO: when multiple scans are present...
-            # - could print latest scan (largest scan number)
-            # - could print min value or max value out of all scans
-            # - could print number of scans, min, max, median, average, std dev...
             last_row  = table[-1]
             min_value = last_row[2]
             print(" - {0}: e-link {1}, min value = {2}".format(name, number_from_name, min_value))
