@@ -16,7 +16,7 @@ import tools
 warnings.filterwarnings("ignore")
 
 def main():
-    plot_dir  = "plots"
+    plot_dir  = "process_plots"
     tools.makeDir(plot_dir)
     file_path = input("Enter file path: ")
 

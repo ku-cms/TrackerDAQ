@@ -6,12 +6,12 @@ from tools import makeDir
 # import sympy as sym
 from iminuit.cost import LeastSquares
 from iminuit import Minuit, __version__
-from tools import ToErrRate, Xtrap
+from extrap_tools import ToErrRate, Xtrap
 
 def plot(plot_dir, output_file, x_values, y_values,name,min_value, x_label="TAP0 DAC", y_label="Bit error rate", setLogY=True, y_errors=[]):
 
     useXKCDStyle = False
-    test = True
+    test = False
     
     makeDir(plot_dir)
     table = []
@@ -74,14 +74,14 @@ def plot(plot_dir, output_file, x_values, y_values,name,min_value, x_label="TAP0
                 
                 ax1.legend(title="\n".join(fit_info));
                 
-                # output_png = "{0}/{1}.png".format(plot_dir, output_file)
-                # output_pdf = "{0}/{1}.pdf".format(plot_dir, output_file)
+                output_png = "{0}/{1}.png".format(plot_dir, output_file)
+                output_pdf = "{0}/{1}.pdf".format(plot_dir, output_file)
                 
-                # plt.savefig(output_png, bbox_inches='tight')
-                # plt.savefig(output_pdf, bbox_inches='tight')
+                plt.savefig(output_png, bbox_inches='tight')
+                plt.savefig(output_pdf, bbox_inches='tight')
                 
-                # #close to avoid memory warning 
-                # plt.close('all')
+                #close to avoid memory warning 
+                plt.close('all')
                 
     elif test:
         if len(y_values) > 2:
@@ -186,16 +186,3 @@ if __name__ == "__main__":
     main()
     
     
-   
-        
-        
-
-    
-        
-        
-        
-            
-    
-        
-        
-

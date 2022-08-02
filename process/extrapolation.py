@@ -192,9 +192,6 @@ def main():
     # list of mean change in TAP0 by sizes
     size_means = [np.mean(np.array([i[1]])) for i in size_list]
     print(size_means)
-            
-        
-    
     
     # print(round(np.mean(ReducedChi),0))
     # print(round(np.mean(change_in_TAP0),0))

@@ -16,13 +16,11 @@ from iminuit import Minuit, __version__
 file_path = input("Enter file path: ")
 
 ds = pd.read_csv(
-f"{file_path}",
+    f"{file_path}",
 )
 
-size_data = input('Enter integer index of column with size data:')
+size_data = input('Enter integer index of column with size data: ')
 size_data = int(size_data)
-
-
 
 def getsize(ds):
     vals = ds.iloc[:,size_data]
@@ -139,7 +137,7 @@ def main():
         plt.ylabel('Average TAP0 for BERT = 10E-11')
         plt.xlabel('Length (m)')
         plt.savefig(f"{title_name}.pdf")
-        plt.show()
+        #plt.show()
 #------------------------------------------------------------------------------------     
     elif (fit_style == 'lin'):
         
@@ -225,7 +223,7 @@ def main():
         plt.ylabel('Average TAP0 for BERT = 10E-11')
         plt.xlabel('Length (m)')
         plt.savefig(f"{title_name}.pdf")
-        plt.show()
+        #plt.show()
    
 #------------------------------------------------------------------------------------
     elif (fit_style == 'exp'):
@@ -312,24 +310,9 @@ def main():
         plt.ylabel('Average TAP0 for BERT = 10E-11')
         plt.xlabel('Length (m)')
         plt.savefig(f"{title_name}.pdf")
-        plt.show()
+        #plt.show()
         
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
