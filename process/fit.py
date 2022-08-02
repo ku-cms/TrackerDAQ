@@ -12,6 +12,7 @@ import numpy as np
 import sympy as sym
 from iminuit.cost import LeastSquares
 from iminuit import Minuit, __version__
+import tools
 
 file_path = input("Enter file path: ")
 
@@ -31,17 +32,20 @@ def getsize(ds):
     return sizes
 
 def main():
-                    
+    plot_dir  = "process_plots"
+    tools.makeDir(plot_dir)
+    
     sl = getsize(ds)
     sl = np.array(sl,dtype = 'd')
     
     index_num = input("Enter integer index of column with data to be plotted: ")
     index_num = int(index_num)
     
-    
     title_name = input("Enter title of plot: ")
     
     fit_style = input("Fit style? (lin/exp/quad): ")
+    
+    output_name = "{0}/{1}.pdf".format(plot_dir, title_name)
     
     dl = ds.groupby(ds.iloc[:,size_data].name)[ds.iloc[:,index_num].name].apply(list)# select column to be plotted by integer index
     
@@ -55,8 +59,6 @@ def main():
 ### end of options ###
 #------------------------------------------------------------------------------------  
     if (fit_style == 'quad'):
-        
-       
         print('iminuit version', __version__)
     
         def line(x, a, b, c): # model for fit line
@@ -68,7 +70,7 @@ def main():
         m.migrad()  # finds minimum of least_squares function
         m.hesse()  # computes errors
         
-###total differential of fit model
+        ### total differential of fit model
 
         a, b, c, x= sym.symbols('a b c x')
 
@@ -92,7 +94,7 @@ def main():
             vals = np.append(vals,z(i))
             vals = vals.astype(float)
             
-###plotting all the lines
+        ### plotting all the lines
 
         x = np.linspace(0.35,2.3)
         err1 = vals + line(np.linspace(0.35,2.3), *m.values)
@@ -110,7 +112,7 @@ def main():
         ax1.errorbar(sl,means,yerr = TAP0err, fmt = "s",color = "royalblue", ecolor = "k",elinewidth = 3, capsize = 5) #plots errorbars and points
         ax1.plot(np.linspace(0.35,2.3), line(np.linspace(0.35,2.3), *m.values),'-', label= 'f [a + bx + cx\N{SUPERSCRIPT TWO}]',color = 'darkorange')  #plots line
         
-###legend and console info
+        ### legend and console info
    
         r = m.fval / (len(means) - len(m.parameters))
         
@@ -136,12 +138,9 @@ def main():
         plt.xlim(0,2.3)
         plt.ylabel('Average TAP0 for BERT = 10E-11')
         plt.xlabel('Length (m)')
-        plt.savefig(f"{title_name}.pdf")
-        #plt.show()
+        plt.savefig(output_name)
 #------------------------------------------------------------------------------------     
     elif (fit_style == 'lin'):
-        
-        
         print('iminuit version', __version__)
     
         def line(x, a, b): # model for fit line
@@ -153,7 +152,7 @@ def main():
         m.migrad()  # finds minimum of least_squares function
         m.hesse()  # computes errors
         
-###total differential of fit model
+        ### total differential of fit model
 
         a, b, x= sym.symbols('a b x')
 
@@ -176,12 +175,11 @@ def main():
             vals = np.append(vals,z(i))
             vals = vals.astype(float)
             
-###plotting all the lines
+        ### plotting all the lines
 
         x = np.linspace(0.35,2.3)
         F_errP = vals + line(np.linspace(0.35,2.3), *m.values)
         F_errN = line(np.linspace(0.35,2.3), *m.values) - vals
-
 
         fig = plt.figure()
         ax1 = fig.add_subplot(111)
@@ -194,7 +192,7 @@ def main():
         ax1.errorbar(sl,means,yerr = TAP0err, fmt = "s",color = "royalblue", ecolor = "k",elinewidth = 3, capsize = 5) #plots errorbars and points
         ax1.plot(np.linspace(0.35,2.3), line(np.linspace(0.35,2.3), *m.values),'-', label= 'a + bx',color = 'darkorange')  #plots line
         
-###legend and console info
+        ### legend and console info
     
         r = m.fval / (len(means) - len(m.parameters))
     
@@ -212,7 +210,6 @@ def main():
         for p in m.parameters: 
             print("{} = {} +- {}".format(p,m.values[p], m.errors[p]))
     
-        
         print('') 
         print('chi squared:', m.fval) 
         print('number of degrees of freedom', (len(means)-len(m.parameters))) 
@@ -222,9 +219,7 @@ def main():
         plt.xlim(0,2.3)
         plt.ylabel('Average TAP0 for BERT = 10E-11')
         plt.xlabel('Length (m)')
-        plt.savefig(f"{title_name}.pdf")
-        #plt.show()
-   
+        plt.savefig(output_name)
 #------------------------------------------------------------------------------------
     elif (fit_style == 'exp'):
         
@@ -239,7 +234,7 @@ def main():
         m.migrad()  # finds minimum of least_squares function
         m.hesse()  # computes errors
     
-###total differential of fit model
+        ### total differential of fit model
 
         a, b, c, x= sym.symbols('a b c x')
  
@@ -263,12 +258,11 @@ def main():
             vals = np.append(vals,z(i))
             vals = vals.astype(float)
             
-###plotting all the lines 
+        ### plotting all the lines 
 
         x = np.linspace(0.35,2.3)
         err1 = vals + line(np.linspace(0.35,2.3), *m.values)
         err2 = line(np.linspace(0.35,2.3), *m.values) - vals
-
 
         fig = plt.figure()
         ax1 = fig.add_subplot(111)
@@ -281,7 +275,7 @@ def main():
         ax1.errorbar(sl,means,yerr = TAP0err, fmt = "s",color = "royalblue", ecolor = "k",elinewidth = 3, capsize = 5) #plots errorbars and points
         ax1.plot(np.linspace(0.35,2.3), line(np.linspace(0.35,2.3), *m.values),'-', label= "a + b$\mathregular{e^{cx}}$",color = 'darkorange')  #plots line
         
-###legend and console info       
+        ### legend and console info       
     
         r = m.fval / (len(means) - len(m.parameters))
     
@@ -299,7 +293,6 @@ def main():
         for p in m.parameters: 
             print("{} = {} +- {}".format(p,m.values[p], m.errors[p]))
     
-        
         print('') 
         print('chi squared:', m.fval) 
         print('number of degrees of freedom', (len(means)-len(m.parameters))) 
@@ -309,8 +302,7 @@ def main():
         plt.xlim(0,2.3)
         plt.ylabel('Average TAP0 for BERT = 10E-11')
         plt.xlabel('Length (m)')
-        plt.savefig(f"{title_name}.pdf")
-        #plt.show()
+        plt.savefig(output_name)
         
 if __name__ == "__main__":
     main()

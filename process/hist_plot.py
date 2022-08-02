@@ -13,6 +13,7 @@ import numpy as np
 import sympy as sym
 import warnings
 import tools
+
 warnings.filterwarnings("ignore")
 
 def main():
@@ -89,7 +90,6 @@ def main():
                                                                                                                                                                                                                                     
         g.fig.legend(title = f"Cable Length (m)\n                 [$\\mu$,$\\sigma$]", labels = ['_n','_n',"_n",f'2.0 [{sl_mean[6]:.0f} , {sl_std[6]:.0f}]',f'1.8 [{sl_mean[5]:.0f} , {sl_std[5]:.0f}]',f'1.6 [{sl_mean[4]:.0f} , {sl_std[4]:.0f}]',f'1.4 [{sl_mean[3]:.0f} , {sl_std[3]:.0f}]',f'1.0 [{sl_mean[2]:.0f} , {sl_std[2]:.0f}]',f'0.8 [{sl_mean[1]:.0f} , {sl_std[1]:.0f}]',f'0.35 [{sl_mean[0]:.0f} , {sl_std[0]:.0f}]'],loc = "center right", bbox_to_anchor=(1,0.65),fontsize = '11');
         
-        #plt.savefig(f"{title_name}.pdf")
         plt.savefig(output_name)
         
     elif (plot_type == 'n'):
@@ -117,7 +117,6 @@ def main():
     
         g.fig.legend(title="",fontsize = '16', loc = 'center right',bbox_to_anchor=(1,.8));
         
-        #plt.savefig(f"{title_name}.pdf")
         plt.savefig(output_name)
 
 
