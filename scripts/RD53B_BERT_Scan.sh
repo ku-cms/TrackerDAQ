@@ -29,7 +29,8 @@ RD53BminiDAQ -f CROC_BERT.xml -t RD53BTools.toml BERscanTest > "$dataDir/scan.lo
 #RD53BminiDAQ_TAP0_50_100 -f CROC_BERT.xml -t RD53BTools.toml BERscanTest > "$dataDir/scan.log"
 
 # Write values to output log file
-grep Final "$dataDir/scan.log" >> $outFile
+#grep Final "$dataDir/scan.log" >> $outFile
+grep 'DEBUG\|Final' "$dataDir/scan.log" >> $outFile
 
 # Remove color codes from log file
 # https://superuser.com/questions/380772/removing-ansi-color-codes-from-text-stream
