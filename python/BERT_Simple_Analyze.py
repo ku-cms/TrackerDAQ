@@ -10,6 +10,7 @@ from tools import getBERTData, makeDir
 
 # get cable number from directory name
 def getNumber(name):
+    print("DEBUG: name = {0}".format(name))
     number = re.search(r'\d+', name).group()
     number = int(number)
     return number
@@ -32,13 +33,16 @@ def findMin(x_values, y_values):
 
 # analyze data from a scan
 def analyze(input_file, plot_dir, output_file):
-    debug = False
+    debug = True
     data = getBERTData(input_file)
     x_values = data[0]
     y_values = data[1]
+    if debug:
+        print("x_values: {0}".format(x_values))
+        print("y_values: {0}".format(y_values))
     # check for the same number of x and y values
     if len(x_values) != len(y_values):
-        print("ERROR: number of x and v values do not match")
+        print("ERROR: number of x and y values do not match")
         print("input file: {0}, num x vals: {1}, num y vals: {2}".format(input_file, len(x_values), len(y_values)))
         return
     if debug:
@@ -109,7 +113,7 @@ def runSet(base_plot_dir, base_data_dir, cable_number=-1, output_csv_dir="", out
         print("No data found for e-link {0}".format(cable_number))
 
 # make a plot for each scan
-def analyzeScans(cable_number):
+def analyzeScansRD53A(cable_number):
     base_plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DPAdapter"
     base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter"
     output_csv_dir   = "output"
@@ -121,14 +125,31 @@ def analyzeScans(cable_number):
         # run for a specific cable
         runSet(base_plot_dir, base_data_dir, cable_number)
 
+def analyzeScansRD53B(cable_number):
+    base_plot_dir    = "plots/BERT_TAP0_Scans/SingleDP"
+    base_data_dir    = "data/BERT_TAP0_Scans/SingleDP"
+    output_csv_dir   = "output"
+    output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
+    if cable_number < 0:
+        # run for all cables
+        runSet(base_plot_dir, base_data_dir, cable_number, output_csv_dir, output_csv_name)
+    else:
+        # run for a specific cable
+        runSet(base_plot_dir, base_data_dir, cable_number)
+
 def main():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument("--cable_number",  "-a",  default=-1,  help="Cable number to analyze a specific cable; to run over all cables, use default (-1).")
+    parser.add_argument("--cable_number",  "-n",  default=-1,       help="Cable number to analyze a specific cable; to run over all cables, use default (-1).")
+    parser.add_argument("--rd53_b",        "-b",  default=False,    action='store_true',    help="Analyze RD53B data (default False).")
     
     options      = parser.parse_args()
     cable_number = int(options.cable_number)
+    rd53_b       = options.rd53_b
     
-    analyzeScans(cable_number)
+    if rd53_b:
+        analyzeScansRD53B(cable_number)
+    else:
+        analyzeScansRD53A(cable_number)
 
 if __name__ == "__main__":
     main()
