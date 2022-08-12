@@ -181,7 +181,7 @@ Digital Scan
 RD53BminiDAQ -f CROC.xml -t RD53BTools.toml DigitalScan
 ```
 
-BERT
+Basic BERT TAP0 Scans
 ```
 RD53BminiDAQ -f CROC_BERT.xml -t RD53BTools.toml BERscanTest
 RD53BminiDAQ_TAP0_50_250 -f CROC_BERT.xml -t RD53BTools.toml BERscanTest
@@ -190,6 +190,22 @@ RD53BminiDAQ_TAP0_350_550 -f CROC_BERT.xml -t RD53BTools.toml BERscanTest
 RD53BminiDAQ_TAP0_500_700 -f CROC_BERT.xml -t RD53BTools.toml BERscanTest
 RD53BminiDAQ_TAP0_650_850 -f CROC_BERT.xml -t RD53BTools.toml BERscanTest
 RD53BminiDAQ_TAP0_800_1000 -f CROC_BERT.xml -t RD53BTools.toml BERscanTest
+```
+
+BERT TAP0 Scan script examples:
+```
+# Single DP cable
+./TrackerDAQ/scripts/RD53B_BERT_Scan.sh BERT_TAP0_Scans/SingleDP/no_elink_0 BERT_TAP0_Scans/SingleDP/no_elink_0/scan_001.log
+# e-link with two DP cables and adapter board
+./TrackerDAQ/scripts/RD53B_BERT_Scan.sh BERT_TAP0_Scans/DoubleDP_DPAdapter/elink_137 BERT_TAP0_Scans/DoubleDP_DPAdapter/elink_137/scan_001.log
+```
+
+Analyze data:
+```
+# specific e-link
+./TrackerDAQ/scripts/analyze_RD53B.sh 137
+# all e-links
+./TrackerDAQ/scripts/analyze_RD53B.sh
 ```
 
 Programs: see RD53BTools.toml for available programs (e.g. BERscanTest)
