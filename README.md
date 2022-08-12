@@ -2,6 +2,9 @@
 
 Software for Tracker DAQ seutp used at the University of Kansas (KU).
 Rock Chalk, Jayhawk!
+There are instructions for both RD53A and RD53B single chip cards (SCC). 
+
+# RD53A
 
 ## Teststand Setup Information
 
@@ -19,7 +22,7 @@ Check for communication:
 ping fc7 -c 3
 ```
 
-Before powering on the SCC, set the DIP switches on the SCC for LDO power mode.
+Before powering on the single chip card (SCC), set the DIP switches on the SCC for LDO power mode.
 To power the Single Chip card (SCC), you need a power supply with two channels.
 Before connecting the SCC, to use LDO power mode,
 set both channels on the power supply to 1.8 V and 0.9 A as the current limit.
@@ -152,5 +155,94 @@ To plot the data from the log file, use BERT_Analyze.py.
 This can create plots of single BERT scans and multiple BERT scans in the same plot.
 ```
 python3 python/BERT_Analyze.py 
+```
+
+# RD53B 
+
+Check FC7 communication
+```
+ping fc7 -c 3
+```
+
+Setup commands for RD53B CROC
+```
+cd /home/kucms/TrackerDAQ/croc/Ph2_ACF
+source setup.sh
+cd DAQSettings_v1
+fpgaconfig -c CROC.xml -i IT-L12-KSU-L8-DIO5_CROC_v4p4
+RD53BminiDAQ -f CROC.xml -r
+ping fc7 -c 3
+RD53BminiDAQ -f CROC.xml -t RD53BTools.toml DigitalScan
+RD53BminiDAQ -f CROC_BERT.xml -t RD53BTools.toml BERscanTest
+```
+
+Digital Scan
+```
+RD53BminiDAQ -f CROC.xml -t RD53BTools.toml DigitalScan
+```
+
+Basic BERT TAP0 Scans
+```
+RD53BminiDAQ -f CROC_BERT.xml -t RD53BTools.toml BERscanTest
+RD53BminiDAQ_TAP0_50_250 -f CROC_BERT.xml -t RD53BTools.toml BERscanTest
+RD53BminiDAQ_TAP0_200_400 -f CROC_BERT.xml -t RD53BTools.toml BERscanTest
+RD53BminiDAQ_TAP0_350_550 -f CROC_BERT.xml -t RD53BTools.toml BERscanTest
+RD53BminiDAQ_TAP0_500_700 -f CROC_BERT.xml -t RD53BTools.toml BERscanTest
+RD53BminiDAQ_TAP0_650_850 -f CROC_BERT.xml -t RD53BTools.toml BERscanTest
+RD53BminiDAQ_TAP0_800_1000 -f CROC_BERT.xml -t RD53BTools.toml BERscanTest
+```
+
+BERT TAP0 Scan script examples:
+```
+# Single DP cable
+./TrackerDAQ/scripts/RD53B_BERT_Scan.sh BERT_TAP0_Scans/SingleDP/no_elink_0 BERT_TAP0_Scans/SingleDP/no_elink_0/scan_001.log
+# e-link with two DP cables and adapter board
+./TrackerDAQ/scripts/RD53B_BERT_Scan.sh BERT_TAP0_Scans/DoubleDP_DPAdapter/elink_137 BERT_TAP0_Scans/DoubleDP_DPAdapter/elink_137/scan_001.log
+```
+
+Analyze data:
+```
+# specific e-link
+./TrackerDAQ/scripts/analyze_RD53B.sh 137
+# all e-links
+./TrackerDAQ/scripts/analyze_RD53B.sh
+```
+
+Programs: see RD53BTools.toml for available programs (e.g. BERscanTest)
+
+List FC7 firmware versions loaded on SD card
+```
+fpgaconfig -c CROC.xml -l
+```
+
+Load new FC7 firmware onto the SD card
+```
+fpgaconfig -c <your_chosen_hardware_description_file.xml> -f <firmware_file_name_on_the_PC> -i <firmware_file_name_on_the_microSD>
+```
+
+Example
+```
+fpgaconfig -c CROC.xml -f IT-uDTC_L12-KSU-4xSCC_L8-DIO5_ELECTRICAL_CROC.bit -i IT-L12-KSU-L8-DIO5_CROC_v4p4
+```
+
+File defining RD53B BERT scan program: tools/RD53B/RD53BBERTscan.h.
+
+Compiling Ph2_ACF
+
+Full recompile
+```
+rm -rf build
+mkdir build
+cd build
+cmake ..
+make -j8
+cd ..
+```
+
+Compile (only make)
+```
+cd build
+make -j8
+cd ..
 ```
 
