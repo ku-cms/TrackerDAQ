@@ -37,21 +37,14 @@ def findErrorsRD53B(input_file):
     for i, line in enumerate(lines):
         # check for errors
         if "TAP0" in line:
-            print("Found TAP0 in line {0}".format(i))
-            #print(line)
-            # # get all numbers in string
-            # numbers = re.findall(r'\d+', line)
-            # # first number is TAP0 setting
-            # z = int(numbers[0])
-            # if there are two TAP0 lines in a row, there was an error
+            #print("Found TAP0 in line {0}".format(i))
             array = line.split()
             z = int(array[-1])
+            # if this TAP0 and the previous are two lines apart (yes, the log files are weird), there was an error
             if i - 2 == previous_TAP0_line_number:
-                #print("ERROR: {0}".format(line), end='')
                 errors.append(previous_TAP0_value)
             # if this is the last line in the file, there was an error
             if i == f_len - 1:
-                #print("ERROR: {0}".format(line), end='')
                 errors.append(z)
             previous_TAP0_value = z
             previous_TAP0_line_number = i
@@ -62,7 +55,6 @@ def findErrorsRD53B(input_file):
 # x = TAP0 setting
 # y = bit error rate
 def getBERTData(input_file, useRD53B):
-    print("DEBUG: Running getBERTData: input_file = {0}, useRD53B = {1}".format(input_file, useRD53B))
     # check for errors
     printError = True
     errors = []
@@ -70,11 +62,10 @@ def getBERTData(input_file, useRD53B):
         errors = findErrorsRD53B(input_file)
     else:
         errors = findErrorsRD53A(input_file)
-    print("DEBUG: errors = {0}".format(errors))
     if errors and printError:
         print("ERROR for {0}".format(input_file))
-        print("There were errors for these TAP0 settings: {0}".format(errors))
-        print("These will be skipped.")
+        print(" - There were errors for these TAP0 settings: {0}".format(errors))
+        print(" - These data points will be skipped.")
     f = open(input_file, 'r')
     x_values = []
     y_values = []

@@ -10,7 +10,6 @@ from tools import getBERTData, makeDir
 
 # get cable number from directory name
 def getNumber(name):
-    print("DEBUG: name = {0}".format(name))
     number = re.search(r'\d+', name).group()
     number = int(number)
     return number
@@ -33,7 +32,7 @@ def findMin(x_values, y_values):
 
 # analyze data from a scan
 def analyze(input_file, plot_dir, output_file, useRD53B):
-    debug = True
+    debug = False
     data = getBERTData(input_file, useRD53B)
     x_values = data[0]
     y_values = data[1]
@@ -128,8 +127,10 @@ def analyzeScansRD53A(cable_number):
 
 def analyzeScansRD53B(cable_number):
     useRD53B = True
-    base_plot_dir    = "plots/BERT_TAP0_Scans/SingleDP"
-    base_data_dir    = "data/BERT_TAP0_Scans/SingleDP"
+    #base_plot_dir    = "plots/BERT_TAP0_Scans/SingleDP"
+    #base_data_dir    = "data/BERT_TAP0_Scans/SingleDP"
+    base_plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DPAdapter"
+    base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter"
     output_csv_dir   = "output"
     output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
     if cable_number < 0:
