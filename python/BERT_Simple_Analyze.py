@@ -90,10 +90,17 @@ def runSet(base_plot_dir, base_data_dir, useRD53B, cable_number=-1, output_csv_d
             plot_dir = "{0}/{1}".format(base_plot_dir, name)
             # result is appended to table
             runDir(plot_dir, data_dir, table, name, useRD53B)
-            # get result from last row in table
-            last_row  = table[-1]
-            min_value = last_row[2]
-            print(" - {0}: e-link {1}, min value = {2}".format(name, number_from_name, min_value))
+            # print all results in table
+            for row in table:
+                cable       = row[0]
+                run         = row[1]
+                min_value   = row[2]
+                print(" - {0}, {1}: min value = {2}".format(cable, run, min_value))
+            # print result for the latest scan, defined as last entry in sorted table
+            #last_row    = table[-1]
+            #run         = last_row[1]
+            #min_value   = last_row[2]
+            #print(" - {0}: Latest scan ({1}) for e-link {2}: min value = {3}".format(name, run, number_from_name, min_value))
     
     #print(table)
     
