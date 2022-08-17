@@ -173,8 +173,15 @@ fpgaconfig -c CROC.xml -i IT-L12-KSU-L8-DIO5_CROC_v4p4
 RD53BminiDAQ -f CROC.xml -r
 ping fc7 -c 3
 RD53BminiDAQ -f CROC.xml -t RD53BTools.toml DigitalScan
-RD53BminiDAQ -f CROC_BERT.xml -t RD53BTools.toml BERscanTest
 ```
+
+**Important note:**
+DigitalScan runs quickly and creates various plots. BERscanTest takes longer.
+Use DigitalScan to initialize communication with the RD53B chip.
+For BERscanTest, do not stop in the middle of the test if you want to run more tests.
+Stopping BERscanTest leaves the chip in a strange state (likely sending PRBS signals) where communication no longer works,
+and a power cycle is required to restore communication.
+DigitalScan works well for quickly establishing communication.
 
 Digital Scan
 ```
