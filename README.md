@@ -14,10 +14,10 @@ In order to use the "SER_SEL_OUT_[0-3]" settings for the RD53 chip, install the 
 as this is not yet supported in the standard Ph2_ACF software.
 To setup the FC7, see instructions [here](https://cms-tracker-daq.web.cern.ch/cms-tracker-daq/tutorials/pc_connection/) and [here](https://cms-tracker-daq.web.cern.ch/cms-tracker-daq/tutorials/setting_up_sd/).
 
-## Using the FC7
+## Using the RD53A
 
-First turn on FC7.
-Check for communication:
+First, turn on the FC7.
+Check that FC7 communication is working:
 ```
 ping fc7 -c 3
 ```
@@ -161,17 +161,20 @@ python3 python/BERT_Analyze.py
 
 ## Documentation
 
-These links require a CERN login! 
-Instructions for setting up the RD53B chip: [CROC Testing User Guide](https://croc-testing-user-guide.docs.cern.ch)
-Main code repository (use RD53 branch): [Ph2_ACF for RD53B](https://gitlab.cern.ch/alpapado/Ph2_ACF)
-Custom KU version of repository (use RD53B_KU_DEV branch): [Custom Ph2_ACF for RD53B](https://gitlab.cern.ch/caleb/Ph2_ACF/-/tree/RD53B_KU_DEV)
+Useful links for setting up an RD53B Single Chip Card (SCC) CROC teststand:
+- Instructions for setting up the RD53B chip (requires CERN account login): [CROC Testing User Guide](https://croc-testing-user-guide.docs.cern.ch)
+- Main code repository (use RD53 branch): [Ph2_ACF for RD53B](https://gitlab.cern.ch/alpapado/Ph2_ACF)
+- Custom KU version of repository (use RD53B_KU_DEV branch): [Custom Ph2_ACF for RD53B](https://gitlab.cern.ch/caleb/Ph2_ACF/-/tree/RD53B_KU_DEV)
 
-Check FC7 communication
+## Using the RD53B
+
+First, turn on the FC7.
+Check that FC7 communication is working:
 ```
 ping fc7 -c 3
 ```
 
-Setup commands for RD53B CROC
+Setup commands for RD53B SCC (CROC):
 ```
 cd /home/kucms/TrackerDAQ/croc/Ph2_ACF
 source setup.sh
