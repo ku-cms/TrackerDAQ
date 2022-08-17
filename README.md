@@ -159,6 +159,13 @@ python3 python/BERT_Analyze.py
 
 # RD53B 
 
+## Documentation
+
+These links require a CERN login! 
+Instructions for setting up the RD53B chip: [CROC Testing User Guide](https://croc-testing-user-guide.docs.cern.ch)
+Main code repository (use RD53 branch): [Ph2_ACF for RD53B](https://gitlab.cern.ch/alpapado/Ph2_ACF)
+Custom KU version of repository (use RD53B_KU_DEV branch): [Custom Ph2_ACF for RD53B](https://gitlab.cern.ch/caleb/Ph2_ACF/-/tree/RD53B_KU_DEV)
+
 Check FC7 communication
 ```
 ping fc7 -c 3
