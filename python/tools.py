@@ -2,6 +2,7 @@
 
 import os
 import re
+import numpy as np
 
 # creates directory if it does not exist
 def makeDir(dir_name):
@@ -95,4 +96,19 @@ def getBERTData(input_file, useRD53B):
     
     f.close()
     return [x_values, y_values]
+
+# Get temperature for RD53B; input: voltage (mV), output: temperature (C)
+# - Based on functions from excel file from Matt Joyce (matthew.lawrence.joyce@cern.ch)
+# - The excel file is "Temperature_NTC.xlsx" in the attachments section here: https://twiki.cern.ch/twiki/bin/view/Main/USTFPXPhase2
+def getTempRD53B(voltage_mv):
+    # current in amps
+    current     = 0.05
+    parameter_1 = current / 4990.0
+    # convert voltage from mV to V
+    voltage_v   = voltage_mv / 1e3
+    # resistance (ohms?)
+    resistance  = (voltage_v / parameter_1) / 1e3
+    # temperature (C)
+    temperature = 1.0 / (1.0 / 298.15 + np.log(resistance / 10) / 3435.0) - 273.15
+    return temperature
 
