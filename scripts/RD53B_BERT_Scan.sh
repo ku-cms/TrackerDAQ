@@ -23,6 +23,9 @@ fi
 # Create directory for data if it does not exist
 mkdir -p "$dataDir"
 
+# TODO: make option to select executable
+# TODO: make executables that write/read CML BIAS 0,1,2 settings for all TAP0 ranges
+
 # Run BERT and send output to file
 echo "Running RD53B BERT TAP0 Scan" 
 #RD53BminiDAQ -f CROC_BERT.xml -t RD53BTools.toml BERscanTest > "$dataDir/scan.log"
