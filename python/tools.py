@@ -37,6 +37,7 @@ def findErrorsRD53B(input_file):
     f_len = len(lines)
     for i, line in enumerate(lines):
         # check for errors
+        # Warning: can't use only "TAP0" due to new header in log file
         if "Setting TAP0" in line:
             #print("Found TAP0 in line {0}".format(i))
             array = line.split()
@@ -73,6 +74,7 @@ def getBERTData(input_file, useRD53B):
     for line in f:
         # TAP0 DAC Setting (x values)
         if useRD53B:
+            # Warning: can't use only "TAP0" due to new header in log file
             if "Setting TAP0" in line:
                 array = line.split()
                 x = int(array[-1])

@@ -209,18 +209,33 @@ RD53BminiDAQ_TAP0_650_850 -f CROC_BERT.xml -t RD53BTools.toml BERscanTest
 RD53BminiDAQ_TAP0_800_1000 -f CROC_BERT.xml -t RD53BTools.toml BERscanTest
 ```
 
-BERT TAP0 Scan script examples:
+BERT TAP0 Scan script examples (new):
+```
+python3 TrackerDAQ/python/RD53B_BERT_Run_Scan.py
+```
+
+Answer the prompts.
+For channel, enter the channel: D0 (RD53B connected to 45 pin side) or D3 (RD53B connected to 33 pin side).
+For voltage, enter the voltage (mV) from the multimeter connected to GND and NTC on the RD53B SCC.
+```
+Enter cable number (must be a positive integer): 138
+Enter channel [D0, D3]: D0
+Enter voltage (mV) for temperature (must be a positive integer): 74
+Press enter to continue... 
+```
+
+BERT TAP0 Scan script examples (old):
 ```
 # Single DP cable
 ./TrackerDAQ/scripts/RD53B_BERT_Scan.sh BERT_TAP0_Scans/SingleDP/no_elink_0 BERT_TAP0_Scans/SingleDP/no_elink_0/scan_001.log
 # e-link with two DP cables and adapter board
-./TrackerDAQ/scripts/RD53B_BERT_Scan.sh BERT_TAP0_Scans/DoubleDP_DPAdapter/elink_137 BERT_TAP0_Scans/DoubleDP_DPAdapter/elink_137/scan_001.log
+./TrackerDAQ/scripts/RD53B_BERT_Scan.sh BERT_TAP0_Scans/DoubleDP_DPAdapter/elink_138 BERT_TAP0_Scans/DoubleDP_DPAdapter/elink_138/scan_001.log
 ```
 
 Analyze data:
 ```
 # specific e-link
-./TrackerDAQ/scripts/analyze_RD53B.sh 137
+./TrackerDAQ/scripts/analyze_RD53B.sh 138
 # all e-links
 ./TrackerDAQ/scripts/analyze_RD53B.sh
 ```
