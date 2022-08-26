@@ -2,7 +2,8 @@
 
 import subprocess
 from BERT_Scan import getOutputFile 
-from tools import getTempRD53B
+from tools import getTempRD53B, makeDir
+from datetime import datetime
 
 # Get user inputs
 def getUserInputs():
@@ -36,14 +37,52 @@ def validInputs(cable_number, channel, voltage, output_dir):
     return True
 
 def run(cable_number, channel, voltage, output_dir):
+    # Check for valid inputs
     valid = validInputs(cable_number, channel, voltage, output_dir)
     if not valid:
         print("ERROR: Invalid inputs provided. Quitting now!")
         return
-    temperature = getTempRD53B(voltage)
-    print("Voltage: {0} mV, Temperature: {1:.1f} C".format(voltage, temperature))
+    
+    makeDir(output_dir)
     output_file = getOutputFile(output_dir)
-    #output = subprocess.run(["./TrackerDAQ/scripts/RD53B_BERT_Scan.sh", output_dir, output_file])
-    #print("---------- output ----------")
-    #print(output)
+
+    # message for log file
+    message = ""
+    # Get date and time
+    now = datetime.now()
+    #now_string = now.strftime("%Y-%m-%d %H:%M:%S")
+    date = now.strftime("%Y-%m-%d")
+    time = now.strftime("%H:%M:%S")
+    # Convert voltage (mV) to temperature (C)
+    temperature = getTempRD53B(voltage)
+    #temp_log = "voltage: {0} mV, temperature: {1:.1f} C".format(voltage, temperature) 
+    
+    line            = "------------------------------"
+    title_log       = "RD53B BERT TAP0 Scan"
+    date_log        = "date: {0}".format(date)
+    time_log        = "time: {0}".format(time)
+    cable_log       = "cable: {0}".format(cable_number)
+    channel_log     = "channel: {0}".format(channel)
+    voltage_log     = "voltage: {0} mV".format(voltage)
+    temperature_log = "temperature: {0:.1f} C".format(temperature)
+
+    message += line             + "\n"
+    message += title_log        + "\n"
+    message += line             + "\n"
+    message += date_log         + "\n"
+    message += time_log         + "\n"
+    message += cable_log        + "\n"
+    message += channel_log      + "\n"
+    message += voltage_log      + "\n"
+    message += temperature_log  + "\n"
+    message += line             + "\n"
+    
+    print(message, end='')
+    
+    # append voltage and temperature to file
+    with open(output_file, 'a') as f:
+        f.write(message)
+    
+    output = subprocess.run(["./TrackerDAQ/scripts/RD53B_BERT_Scan.sh", output_dir, output_file])
+    print("Done")
 
