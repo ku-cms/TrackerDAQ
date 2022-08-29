@@ -14,10 +14,10 @@ In order to use the "SER_SEL_OUT_[0-3]" settings for the RD53 chip, install the 
 as this is not yet supported in the standard Ph2_ACF software.
 To setup the FC7, see instructions [here](https://cms-tracker-daq.web.cern.ch/cms-tracker-daq/tutorials/pc_connection/) and [here](https://cms-tracker-daq.web.cern.ch/cms-tracker-daq/tutorials/setting_up_sd/).
 
-## Using the FC7
+## Using the RD53A
 
-First turn on FC7.
-Check for communication:
+First, turn on the FC7.
+Check that FC7 communication is working:
 ```
 ping fc7 -c 3
 ```
@@ -159,12 +159,22 @@ python3 python/BERT_Analyze.py
 
 # RD53B 
 
-Check FC7 communication
+## Documentation
+
+Useful links for setting up an RD53B Single Chip Card (SCC) CROC teststand:
+- Instructions for setting up the RD53B chip (requires CERN account login): [CROC Testing User Guide](https://croc-testing-user-guide.docs.cern.ch)
+- Main code repository (use RD53 branch): [Ph2_ACF for RD53B](https://gitlab.cern.ch/alpapado/Ph2_ACF)
+- Custom KU version of repository (use RD53B_KU_DEV branch): [Custom Ph2_ACF for RD53B](https://gitlab.cern.ch/caleb/Ph2_ACF/-/tree/RD53B_KU_DEV)
+
+## Using the RD53B
+
+First, turn on the FC7.
+Check that FC7 communication is working:
 ```
 ping fc7 -c 3
 ```
 
-Setup commands for RD53B CROC
+Setup commands for RD53B SCC (CROC):
 ```
 cd /home/kucms/TrackerDAQ/croc/Ph2_ACF
 source setup.sh
@@ -199,18 +209,33 @@ RD53BminiDAQ_TAP0_650_850 -f CROC_BERT.xml -t RD53BTools.toml BERscanTest
 RD53BminiDAQ_TAP0_800_1000 -f CROC_BERT.xml -t RD53BTools.toml BERscanTest
 ```
 
-BERT TAP0 Scan script examples:
+BERT TAP0 Scan script examples (new):
+```
+python3 TrackerDAQ/python/RD53B_BERT_Run_Scan.py
+```
+
+Answer the prompts.
+For channel, enter the channel: D0 (RD53B connected to 45 pin side) or D3 (RD53B connected to 33 pin side).
+For voltage, enter the voltage (mV) from the multimeter connected to GND and NTC on the RD53B SCC.
+```
+Enter cable number (must be a positive integer): 138
+Enter channel [D0, D3]: D0
+Enter voltage (mV) for temperature (must be a positive integer): 74
+Press enter to continue... 
+```
+
+BERT TAP0 Scan script examples (old):
 ```
 # Single DP cable
 ./TrackerDAQ/scripts/RD53B_BERT_Scan.sh BERT_TAP0_Scans/SingleDP/no_elink_0 BERT_TAP0_Scans/SingleDP/no_elink_0/scan_001.log
 # e-link with two DP cables and adapter board
-./TrackerDAQ/scripts/RD53B_BERT_Scan.sh BERT_TAP0_Scans/DoubleDP_DPAdapter/elink_137 BERT_TAP0_Scans/DoubleDP_DPAdapter/elink_137/scan_001.log
+./TrackerDAQ/scripts/RD53B_BERT_Scan.sh BERT_TAP0_Scans/DoubleDP_DPAdapter/elink_138 BERT_TAP0_Scans/DoubleDP_DPAdapter/elink_138/scan_001.log
 ```
 
 Analyze data:
 ```
 # specific e-link
-./TrackerDAQ/scripts/analyze_RD53B.sh 137
+./TrackerDAQ/scripts/analyze_RD53B.sh 138
 # all e-links
 ./TrackerDAQ/scripts/analyze_RD53B.sh
 ```
