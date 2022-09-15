@@ -5,14 +5,15 @@ import argparse
 import os
 
 # Get default inputs
-def getDefaultInputs(cable_number):
+def getDefaultInputs(cable_number, channel):
     # Default input parameters
     inputs      = {}
     tap0_min    = 100
-    tap0_max    = 200
+    tap0_max    = 300
     tap0_step   = 10
     signal      = 0
-    output_dir  = "BERT_TAP0_Scans/DoubleDP_DPAdapter/elink{0}_SS{1}".format(cable_number, signal)
+    #output_dir  = "BERT_TAP0_Scans/DoubleDP_DPAdapter/elink{0}_SS{1}".format(cable_number, signal)
+    output_dir  = "BERT_TAP0_Scans/KSU_FMC_DoubleDP_DPAdapter/elink{0}_{1}_SS{2}".format(cable_number, channel, signal)
     inputs["tap0_min"]      = tap0_min
     inputs["tap0_max"]      = tap0_max
     inputs["tap0_step"]     = tap0_step

@@ -123,8 +123,10 @@ def runSet(base_plot_dir, base_data_dir, useRD53B, cable_number=-1, output_csv_d
 # make a plot for each scan
 def analyzeScansRD53A(cable_number):
     useRD53B = False
-    base_plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DPAdapter"
-    base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter"
+    #base_plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DPAdapter"
+    #base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter"
+    base_plot_dir    = "plots/BERT_TAP0_Scans/KSU_FMC_DoubleDP_DPAdapter"
+    base_data_dir    = "data/BERT_TAP0_Scans/KSU_FMC_DoubleDP_DPAdapter"
     output_csv_dir   = "output"
     output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
     if cable_number < 0:
