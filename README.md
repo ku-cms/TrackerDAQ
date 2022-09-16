@@ -14,6 +14,42 @@ In order to use the "SER_SEL_OUT_[0-3]" settings for the RD53 chip, install the 
 as this is not yet supported in the standard Ph2_ACF software.
 To setup the FC7, see instructions [here](https://cms-tracker-daq.web.cern.ch/cms-tracker-daq/tutorials/pc_connection/) and [here](https://cms-tracker-daq.web.cern.ch/cms-tracker-daq/tutorials/setting_up_sd/).
 
+## FC7 Setup
+
+First, turn on the FC7.
+
+Check that FC7 communication is working:
+```
+ping fc7 -c 3
+```
+
+Here are useful commands for the FC7.
+
+Help menu:
+```
+fpgaconfig --help
+```
+Load FC7 firmware from SD card:
+```
+fpgaconfig -c <config_file.xml> -i <FW_File_SD>
+```
+Reset FC7 after loading firmware:
+```
+CMSITminiDAQ -f <config_file.xml> -r
+```
+List available FC7 firmware versions loaded on the SD card:
+```
+fpgaconfig -c CMSIT.xml -l
+```
+Load new FC7 firmware onto the SD card:
+```
+fpgaconfig -c <config_file.xml> -f <FW_File_PC> -i <FW_File_SD>
+```
+Delete FC7 firmware from SD card:
+```
+fpgaconfig  -c <config_file.xml> -d <FW_File_SD>
+```
+
 ## Using the RD53A
 
 First, turn on the FC7.
@@ -28,7 +64,8 @@ Before connecting the SCC, to use LDO power mode,
 set both channels on the power supply to 1.8 V and 0.9 A as the current limit.
 
 Here is the setup required every time to use the Ph2_ACF software and the FC7.
-The current FC7 firmware version that we use is 4.1.
+
+Setup for RD53A using the CERN FMC:
 ```
 cd /home/kucms/TrackerDAQ/update/Ph2_ACF
 source setup.sh
@@ -38,20 +75,21 @@ CMSITminiDAQ -f CMSIT.xml -r
 ping fc7 -c 3
 CMSITminiDAQ -f CMSIT.xml -p
 ```
+
+Setup for RD53A using the KSU FMC:
+```
+cd /home/kucms/TrackerDAQ/update/Ph2_ACF
+source setup.sh
+cd DAQSettings_v1
+fpgaconfig -c CMSIT.xml -i IT-L12-KSU-L8-DIO5_1G28_v4p2
+CMSITminiDAQ -f CMSIT.xml -r
+ping fc7 -c 3
+CMSITminiDAQ -f CMSIT.xml -p
+```
+
 To run the standard BERT program:
 ```
 CMSITminiDAQ -f CMSIT.xml -c bertest
-```
-
-Here are some additional fpgaconfig commands that are useful for the FC7.
-
-Command to list available FC7 firmware versions loaded on the SD card:
-```
-fpgaconfig -c CMSIT.xml -l
-```
-Command to load new FC7 firmware onto the SD card:
-```
-fpgaconfig -c <your_chosen_hardware_description_file.xml> -f <firmware_file_name_on_the_PC> -i <firmware_file_name_on_the_microSD>
 ```
 
 ## Running BERTs
@@ -241,21 +279,6 @@ Analyze data:
 ```
 
 Programs: see RD53BTools.toml for available programs (e.g. BERscanTest)
-
-List FC7 firmware versions loaded on SD card
-```
-fpgaconfig -c CROC.xml -l
-```
-
-Load new FC7 firmware onto the SD card
-```
-fpgaconfig -c <your_chosen_hardware_description_file.xml> -f <firmware_file_name_on_the_PC> -i <firmware_file_name_on_the_microSD>
-```
-
-Example
-```
-fpgaconfig -c CROC.xml -f IT-uDTC_L12-KSU-4xSCC_L8-DIO5_ELECTRICAL_CROC.bit -i IT-L12-KSU-L8-DIO5_CROC_v4p4
-```
 
 File defining RD53B BERT scan program: tools/RD53B/RD53BBERTscan.h.
 
