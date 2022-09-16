@@ -8,8 +8,8 @@ import os
 def getDefaultInputs(cable_number, channel):
     # Default input parameters
     inputs      = {}
-    tap0_min    = 100
-    tap0_max    = 300
+    tap0_min    = 350
+    tap0_max    = 450
     tap0_step   = 10
     signal      = 0
     #output_dir  = "BERT_TAP0_Scans/DoubleDP_DPAdapter/elink{0}_SS{1}".format(cable_number, signal)
