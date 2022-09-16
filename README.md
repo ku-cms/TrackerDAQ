@@ -4,17 +4,7 @@ Software for Tracker DAQ seutp used at the University of Kansas (KU).
 Rock Chalk, Jayhawk!
 There are instructions for both RD53A and RD53B single chip cards (SCC). 
 
-# RD53A
-
-## Teststand Setup Information
-
-The standard Ph2_ACF software (with instructions) is here: [standard](https://gitlab.cern.ch/cms_tk_ph2/Ph2_ACF).
-The development Ph2_ACF software (with instructions) is here: [dev](https://gitlab.cern.ch/cmsinnertracker/Ph2_ACF).
-In order to use the "SER_SEL_OUT_[0-3]" settings for the RD53 chip, install the development Ph2_ACF software,
-as this is not yet supported in the standard Ph2_ACF software.
-To setup the FC7, see instructions [here](https://cms-tracker-daq.web.cern.ch/cms-tracker-daq/tutorials/pc_connection/) and [here](https://cms-tracker-daq.web.cern.ch/cms-tracker-daq/tutorials/setting_up_sd/).
-
-## FC7 Setup
+# FC7
 
 First, turn on the FC7.
 
@@ -24,6 +14,7 @@ ping fc7 -c 3
 ```
 
 Here are useful commands for the FC7.
+You will need run the Ph2_ACF setup script before using these commands (see RD53A/B setup below for details). 
 
 Help menu:
 ```
@@ -49,6 +40,16 @@ Delete FC7 firmware from SD card:
 ```
 fpgaconfig  -c <config_file.xml> -d <FW_File_SD>
 ```
+
+# RD53A
+
+## Teststand Setup Information
+
+The standard Ph2_ACF software (with instructions) is here: [standard](https://gitlab.cern.ch/cms_tk_ph2/Ph2_ACF).
+The development Ph2_ACF software (with instructions) is here: [dev](https://gitlab.cern.ch/cmsinnertracker/Ph2_ACF).
+In order to use the "SER_SEL_OUT_[0-3]" settings for the RD53 chip, install the development Ph2_ACF software,
+as this is not yet supported in the standard Ph2_ACF software.
+To setup the FC7, see instructions [here](https://cms-tracker-daq.web.cern.ch/cms-tracker-daq/tutorials/pc_connection/) and [here](https://cms-tracker-daq.web.cern.ch/cms-tracker-daq/tutorials/setting_up_sd/).
 
 ## Using the RD53A
 
