@@ -125,13 +125,17 @@ def analyzeScansRD53A(cable_number):
     useRD53B = False
     output_csv_dir   = "output"
     
+    base_plot_dir    = "plots/BERT_TAP0_Scans/SingleDP"
+    base_data_dir    = "data/BERT_TAP0_Scans/SingleDP"
+    output_csv_name  = "output/BERT_Min_TAP0_Values_SingleDP.csv"
+    
     #base_plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DPAdapter"
     #base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter"
     #output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
     
-    base_plot_dir    = "plots/BERT_TAP0_Scans/KSU_FMC_DoubleDP_DPAdapter"
-    base_data_dir    = "data/BERT_TAP0_Scans/KSU_FMC_DoubleDP_DPAdapter"
-    output_csv_name  = "output/BERT_Min_TAP0_Values_KSU_FMC.csv"
+    #base_plot_dir    = "plots/BERT_TAP0_Scans/KSU_FMC_DoubleDP_DPAdapter"
+    #base_data_dir    = "data/BERT_TAP0_Scans/KSU_FMC_DoubleDP_DPAdapter"
+    #output_csv_name  = "output/BERT_Min_TAP0_Values_KSU_FMC.csv"
     
     if cable_number < 0:
         # run for all cables
