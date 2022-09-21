@@ -1,5 +1,6 @@
 # tools.py
 
+import csv
 import os
 import re
 import numpy as np
@@ -8,6 +9,15 @@ import numpy as np
 def makeDir(dir_name):
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
+
+# takes a csv file as input and outputs data in a matrix
+def getCSVData(input_file):
+    data = []
+    with open(input_file, "r") as f:
+        reader = csv.reader(f)
+        for row in reader:
+            data.append(row)
+    return data
 
 # return list of TAP0 settings that had errors for RD53A data
 def findErrorsRD53A(input_file):

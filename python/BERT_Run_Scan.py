@@ -14,8 +14,9 @@ def main():
     inputs = {}
     if use_defaults in yes_answers:
         # get default inputs
-        cable_number = int(input("Enter cable number: "))
-        inputs = getDefaultInputs(cable_number)
+        cable_number    = int(input("Enter cable number: "))
+        channel         = input("Enter channel [D0, D3]: ")
+        inputs = getDefaultInputs(cable_number, channel)
     else:
         # get user inputs
         inputs = getUserInputs()
