@@ -8,12 +8,13 @@ import os
 def getDefaultInputs(cable_number, channel):
     # Default input parameters
     inputs      = {}
-    tap0_min    = 30
-    tap0_max    = 40
-    tap0_step   = 2
+    tap0_min    = 50
+    tap0_max    = 100
+    tap0_step   = 5
     signal      = 0
-    output_dir  = "BERT_TAP0_Scans/SingleDP/CERN_FMC_FC7_FW_v4.5"
-    #output_dir  = "BERT_TAP0_Scans/SingleDP/KSU_FMC_FC7_FW_v4.1"
+    #output_dir  = "BERT_TAP0_Scans/SingleDP/CERN_FMC_FC7_FW_v4.5"
+    #output_dir  = "BERT_TAP0_Scans/SingleDP/KSU_FMC_FC7_FW_v4.2"
+    output_dir  = "BERT_TAP0_Scans/SingleDP/KSU_FMC_FC7_FW_v4.2_HybridID_3"
     #output_dir  = "BERT_TAP0_Scans/DoubleDP_DPAdapter/elink{0}_SS{1}".format(cable_number, signal)
     #output_dir  = "BERT_TAP0_Scans/KSU_FMC_DoubleDP_DPAdapter/elink{0}_{1}_SS{2}".format(cable_number, channel, signal)
     inputs["tap0_min"]      = tap0_min
