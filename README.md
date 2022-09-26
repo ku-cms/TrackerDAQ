@@ -71,7 +71,7 @@ Setup for RD53A using the CERN FMC:
 cd /home/kucms/TrackerDAQ/update/Ph2_ACF
 source setup.sh
 cd DAQSettings_v1
-fpgaconfig -c CMSIT.xml -i IT-L12-CERN-L8-DIO5_1G28_v4p1
+fpgaconfig -c CMSIT.xml -i IT-L12-CERN-L8-DIO5_1G28_v4p2
 CMSITminiDAQ -f CMSIT.xml -r
 ping fc7 -c 3
 CMSITminiDAQ -f CMSIT.xml -p
