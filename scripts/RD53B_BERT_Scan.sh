@@ -36,7 +36,8 @@ echo "Running RD53B BERT TAP0 Scan"
 #RD53BminiDAQ_TAP0_350_550 -f CROC_BERT.xml -t RD53BTools.toml BERscanTest > "$dataDir/scan.log"
 
 #RD53BminiDAQ_TAP0_20_100_TAP1_100 -f CROC_BERT.xml -t RD53BTools.toml BERscanTest > "$dataDir/scan.log"
-RD53BminiDAQ_TAP0_50_200_TAP1_100 -f CROC_BERT.xml -t RD53BTools.toml BERscanTest > "$dataDir/scan.log"
+#RD53BminiDAQ_TAP0_50_200_TAP1_100 -f CROC_BERT.xml -t RD53BTools.toml BERscanTest > "$dataDir/scan.log"
+RD53BminiDAQ_TAP0_50_250 -f CROC_BERT.xml -t RD53BTools.toml BERscanTest > "$dataDir/scan.log"
 
 # Write values to output log file
 #grep Final "$dataDir/scan.log" >> $outFile

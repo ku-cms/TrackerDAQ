@@ -10,8 +10,13 @@ from tools import getBERTData, makeDir
 
 # get cable number from directory name
 def getNumber(name):
-    number = re.search(r'\d+', name).group()
-    number = int(number)
+    # use try/except in case the directory name does not contain a number
+    try:
+        number = re.search(r'\d+', name).group()
+        number = int(number)
+    except:
+        print("WARNING: No number found in the name '{0}'.".format(name))
+        number = -1
     return number
 
 # find min TAP0 for 0 errors from a scan
@@ -125,9 +130,9 @@ def analyzeScansRD53A(cable_number):
     useRD53B = False
     output_csv_dir   = "output"
     
-   # base_plot_dir    = "plots/BERT_TAP0_Scans/SingleDP"
-   # base_data_dir    = "data/BERT_TAP0_Scans/SingleDP"
-   # output_csv_name  = "output/BERT_Min_TAP0_Values_SingleDP.csv"
+    base_plot_dir    = "plots/BERT_TAP0_Scans/SingleDP"
+    base_data_dir    = "data/BERT_TAP0_Scans/SingleDP"
+    output_csv_name  = "output/BERT_Min_TAP0_Values_SingleDP.csv"
     
     #base_plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DPAdapter"
     #base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter"
@@ -137,9 +142,9 @@ def analyzeScansRD53A(cable_number):
     #base_data_dir    = "data/BERT_TAP0_Scans/KSU_FMC_DoubleDP_DPAdapter"
     #output_csv_name  = "output/BERT_Min_TAP0_Values_KSU_FMC.csv"
    
-    base_plot_dir    = "plots/BERT_TAP0_Scans/CERN_FMC_DoubleDP_DPAdapter"
-    base_data_dir    = "data/BERT_TAP0_Scans/CERN_FMC_DoubleDP_DPAdapter"
-    output_csv_name  = "output/BERT_Min_TAP0_Values_CERN_FMC.csv"
+    #base_plot_dir    = "plots/BERT_TAP0_Scans/CERN_FMC_DoubleDP_DPAdapter"
+    #base_data_dir    = "data/BERT_TAP0_Scans/CERN_FMC_DoubleDP_DPAdapter"
+    #output_csv_name  = "output/BERT_Min_TAP0_Values_CERN_FMC.csv"
    
     if cable_number < 0:
         # run for all cables
@@ -159,13 +164,13 @@ def analyzeScansRD53B(cable_number):
     #base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter"
     #output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
     
-    base_plot_dir    = "plots/BERT_TAP0_Scans/ShortDoubleDP_DPAdapter"
-    base_data_dir    = "data/BERT_TAP0_Scans/ShortDoubleDP_DPAdapter"
-    output_csv_name  = "output/BERT_Min_TAP0_Values_ShortDoubleDP_DPAdapter.csv"
+    #base_plot_dir    = "plots/BERT_TAP0_Scans/ShortDoubleDP_DPAdapter"
+    #base_data_dir    = "data/BERT_TAP0_Scans/ShortDoubleDP_DPAdapter"
+    #output_csv_name  = "output/BERT_Min_TAP0_Values_ShortDoubleDP_DPAdapter.csv"
     
-    #base_plot_dir    = "plots/BERT_TAP0_Scans/ShortDP"
-    #base_data_dir    = "data/BERT_TAP0_Scans/ShortDP"
-    #output_csv_name  = "output/BERT_Min_TAP0_Values_ShortDP.csv"
+    base_plot_dir    = "plots/BERT_TAP0_Scans/ShortDP"
+    base_data_dir    = "data/BERT_TAP0_Scans/ShortDP"
+    output_csv_name  = "output/BERT_Min_TAP0_Values_ShortDP.csv"
     
     if cable_number < 0:
         # run for all cables
