@@ -164,13 +164,13 @@ def analyzeScansRD53B(cable_number):
     #base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter"
     #output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
     
-    #base_plot_dir    = "plots/BERT_TAP0_Scans/ShortDoubleDP_DPAdapter"
-    #base_data_dir    = "data/BERT_TAP0_Scans/ShortDoubleDP_DPAdapter"
-    #output_csv_name  = "output/BERT_Min_TAP0_Values_ShortDoubleDP_DPAdapter.csv"
+    base_plot_dir    = "plots/BERT_TAP0_Scans/ShortDoubleDP_DPAdapter"
+    base_data_dir    = "data/BERT_TAP0_Scans/ShortDoubleDP_DPAdapter"
+    output_csv_name  = "output/BERT_Min_TAP0_Values_ShortDoubleDP_DPAdapter.csv"
     
-    base_plot_dir    = "plots/BERT_TAP0_Scans/ShortDP"
-    base_data_dir    = "data/BERT_TAP0_Scans/ShortDP"
-    output_csv_name  = "output/BERT_Min_TAP0_Values_ShortDP.csv"
+    #base_plot_dir    = "plots/BERT_TAP0_Scans/ShortDP"
+    #base_data_dir    = "data/BERT_TAP0_Scans/ShortDP"
+    #output_csv_name  = "output/BERT_Min_TAP0_Values_ShortDP.csv"
     
     if cable_number < 0:
         # run for all cables

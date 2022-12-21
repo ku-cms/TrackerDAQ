@@ -14,11 +14,12 @@ def getUserInputs():
     voltage                 = int(input("Enter voltage (mV) for temperature (must be a positive integer): "))
     
     #output_dir              = "BERT_TAP0_Scans/DoubleDP_DPAdapter/elink_{0}_{1}".format(cable_number, channel)
-    #output_dir              = "BERT_TAP0_Scans/ShortDoubleDP_DPAdapter/elink_{0}_{1}".format(cable_number, channel)
+    output_dir              = "BERT_TAP0_Scans/ShortDoubleDP_DPAdapter/elink_{0}_{1}".format(cable_number, channel)
     #output_dir              = "BERT_TAP0_Scans/ShortDP/DP_TAP1_90"
     #output_dir              = "BERT_TAP0_Scans/ShortDP/DP_CERNFMC"
-    output_dir              = "BERT_TAP0_Scans/ShortDP/DP_KSUFMC"
+    #output_dir              = "BERT_TAP0_Scans/ShortDP/DP_KSUFMC"
     #output_dir              = "BERT_TAP0_Scans/ShortDoubleDP_DPAdapter/elink_{0}_{1}_TAP1_100".format(cable_number, channel)
+    
     
     inputs["cable_number"]  = cable_number
     inputs["channel"]       = channel
