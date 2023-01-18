@@ -306,11 +306,12 @@ cd ..
 
 There is a script to backup Ph2_ACF working areas and e-link data to R drive.
 
-This directory on kucms-01:
+These directories on kucms-01:
 ```
 /home/kucms/TrackerDAQ
+/data1/kucms/bump_bond
 ```
-is backed up to this directory on the R drive:
+are backed up to this directory on the R drive:
 ```
 /mnt/kucms/BEAN_GRP/e-links/kucms-01
 ```
@@ -329,7 +330,7 @@ mnt-bean
 
 Run backup script:
 ```
-/home/kucms/TrackerDAQ/TrackerDAQ/scripts/backup.sh
+time /home/kucms/TrackerDAQ/TrackerDAQ/scripts/backup.sh
 ```
 
 When you are done using the R drive:

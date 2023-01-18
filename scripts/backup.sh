@@ -18,7 +18,8 @@
 # umnt-bean
 # kdestroy -A
 
-source_path=/home/kucms/TrackerDAQ
+source_path_1=/home/kucms/TrackerDAQ
+source_path_2=/data1/kucms/bump_bond
 target_path=/mnt/kucms/BEAN_GRP/e-links/kucms-01
 
 # check if R drive is mounted and directory exists
@@ -28,8 +29,12 @@ then
     echo "------------------------"
     echo "--- Starting backup. ---"
     echo "------------------------"
+
+    echo "--- Backing up '${source_path_1}' to '${target_path}' ---"
+    time rsync -avz ${source_path_1} ${target_path}
     
-    time rsync -avz ${source_path} ${target_path}
+    echo "--- Backing up '${source_path_2}' to '${target_path}' ---"
+    time rsync -avz ${source_path_2} ${target_path}
     
     echo "------------------------"
     echo "--- Backup complete! ---"
