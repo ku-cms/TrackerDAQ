@@ -6,7 +6,12 @@ There are instructions for both RD53A and RD53B single chip cards (SCC).
 
 # FC7
 
-First, turn on the FC7.
+To setup the FC7, see instructions [here](https://cms-tracker-daq.web.cern.ch/cms-tracker-daq/tutorials/pc_connection/) and [here](https://cms-tracker-daq.web.cern.ch/cms-tracker-daq/tutorials/setting_up_sd/).
+The FC7 firmware of various flavors is [here](/home/kucms/TrackerDAQ/FC7_firmware).
+You should use an FC7 firmware version that is compatible with the Ph2_ACF software version.
+Also, use an FC7 version that matches your hardware setup: RD53A or RD53B, CERN or KSU FMC, electrical or optical readout, etc.
+
+To use the FC7, first turn it on.
 
 Check that FC7 communication is working:
 ```
@@ -46,10 +51,9 @@ fpgaconfig  -c <config_file.xml> -d <FW_File_SD>
 ## Teststand Setup Information
 
 The standard Ph2_ACF software (with instructions) is here: [standard](https://gitlab.cern.ch/cms_tk_ph2/Ph2_ACF).
-The development Ph2_ACF software (with instructions) is here: [dev](https://gitlab.cern.ch/cmsinnertracker/Ph2_ACF).
+The development inner tracker Ph2_ACF software (with instructions) is here: [dev](https://gitlab.cern.ch/cmsinnertracker/Ph2_ACF).
 In order to use the "SER_SEL_OUT_[0-3]" settings for the RD53 chip, install the development Ph2_ACF software,
 as this is not yet supported in the standard Ph2_ACF software.
-To setup the FC7, see instructions [here](https://cms-tracker-daq.web.cern.ch/cms-tracker-daq/tutorials/pc_connection/) and [here](https://cms-tracker-daq.web.cern.ch/cms-tracker-daq/tutorials/setting_up_sd/).
 
 ## Using the RD53A
 
