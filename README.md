@@ -7,7 +7,7 @@ There are instructions for both RD53A and RD53B single chip cards (SCC).
 # FC7
 
 To setup the FC7, see instructions [here](https://cms-tracker-daq.web.cern.ch/cms-tracker-daq/tutorials/pc_connection/) and [here](https://cms-tracker-daq.web.cern.ch/cms-tracker-daq/tutorials/setting_up_sd/).
-The FC7 firmware of various flavors is [here](/home/kucms/TrackerDAQ/FC7_firmware).
+The FC7 firmware of various flavors is [here](https://gitlab.cern.ch/cmstkph2-IT/d19c-firmware/-/releases).
 You should use an FC7 firmware version that is compatible with the Ph2_ACF software version.
 Also, use an FC7 version that matches your hardware setup: RD53A or RD53B, CERN or KSU FMC, electrical or optical readout, etc.
 
