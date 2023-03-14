@@ -36,7 +36,7 @@ scan_configuration = {
     #'min_occupancy': 1000  # All pixels with more hits than this threshold are masked as noisy
     
     # x-ray settings from Massimiliano:
-    'n_triggers': 5e7,     # Total number of triggers which are sent
+    'n_triggers': 1e8,     # Total number of triggers which are sent
     'min_occupancy': 1e19  # All pixels with more hits than this threshold are masked as noisy
 }
 
