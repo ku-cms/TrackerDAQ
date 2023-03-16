@@ -121,6 +121,7 @@ def runSet(base_plot_dir, base_data_dir, cable_number=-1, output_csv_dir="", out
             # last_row  = table[-1]
             # min_value = last_row[2]
             # print("$--- {0}: e-link {1}, min value = {2}".format(name, number_from_name, min_value),'\n')
+            print("e-link: {0}, name: {1}, number_from_name: {2}".format(cable_number, name, number_from_name))
     
     #print(table)
     
