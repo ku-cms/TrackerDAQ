@@ -6,7 +6,12 @@ There are instructions for both RD53A and RD53B single chip cards (SCC).
 
 # FC7
 
-First, turn on the FC7.
+To setup the FC7, see instructions [here](https://cms-tracker-daq.web.cern.ch/cms-tracker-daq/tutorials/pc_connection/) and [here](https://cms-tracker-daq.web.cern.ch/cms-tracker-daq/tutorials/setting_up_sd/).
+The FC7 firmware of various flavors is [here](https://gitlab.cern.ch/cmstkph2-IT/d19c-firmware/-/releases).
+You should use an FC7 firmware version that is compatible with the Ph2_ACF software version.
+Also, use an FC7 version that matches your hardware setup: RD53A or RD53B, CERN or KSU FMC, electrical or optical readout, etc.
+
+To use the FC7, first turn it on.
 
 Check that FC7 communication is working:
 ```
@@ -46,10 +51,9 @@ fpgaconfig  -c <config_file.xml> -d <FW_File_SD>
 ## Teststand Setup Information
 
 The standard Ph2_ACF software (with instructions) is here: [standard](https://gitlab.cern.ch/cms_tk_ph2/Ph2_ACF).
-The development Ph2_ACF software (with instructions) is here: [dev](https://gitlab.cern.ch/cmsinnertracker/Ph2_ACF).
+The development inner tracker Ph2_ACF software (with instructions) is here: [dev](https://gitlab.cern.ch/cmsinnertracker/Ph2_ACF).
 In order to use the "SER_SEL_OUT_[0-3]" settings for the RD53 chip, install the development Ph2_ACF software,
 as this is not yet supported in the standard Ph2_ACF software.
-To setup the FC7, see instructions [here](https://cms-tracker-daq.web.cern.ch/cms-tracker-daq/tutorials/pc_connection/) and [here](https://cms-tracker-daq.web.cern.ch/cms-tracker-daq/tutorials/setting_up_sd/).
 
 ## Using the RD53A
 
@@ -65,8 +69,10 @@ Before connecting the SCC, to use LDO power mode,
 set both channels on the power supply to 1.8 V and 0.9 A as the current limit.
 
 Here is the setup required every time to use the Ph2_ACF software and the FC7.
+Note the different hardware and computers for each setup.
 
-Setup for RD53A using the CERN FMC:
+Setup for an RD53A SCC with electrical readout using a CERN FMC.
+Commands should be run in a terminal on the linux computer kucms-01.
 ```
 cd /home/kucms/TrackerDAQ/update/Ph2_ACF
 source setup.sh
@@ -77,7 +83,8 @@ ping fc7 -c 3
 CMSITminiDAQ -f CMSIT.xml -p
 ```
 
-Setup for RD53A using the KSU FMC:
+Setup for an RD53A SCC with electrical readout using a KSU FMC.
+Commands should be run in a terminal on the linux computer kucms-01.
 ```
 cd /home/kucms/TrackerDAQ/update/Ph2_ACF
 source setup.sh
@@ -88,9 +95,26 @@ ping fc7 -c 3
 CMSITminiDAQ -f CMSIT.xml -p
 ```
 
+Setup for an RD53A quad module with electrical readout using a KSU FMC.
+Commands should be run in a terminal on the linux computer kucms.
+```
+cd /home/kucms/TrackerDAQ/croc/Ph2_ACF
+source setup.sh
+cd DAQSettings_v2
+fpgaconfig -c CMSIT_RD53A_Electrical.xml -i IT-L12-KSU-RD53A_QUAD_v4p5
+CMSITminiDAQ -f CMSIT_RD53A_Electrical.xml -r
+ping fc7 -c 3
+CMSITminiDAQ -f CMSIT_RD53A_Electrical.xml -p
+```
+
 To run the standard BERT program:
 ```
 CMSITminiDAQ -f CMSIT.xml -c bertest
+```
+
+To run the standard pixel alive program:
+```
+CMSITminiDAQ -f CMSIT.xml -c pixelalive
 ```
 
 ## Running BERTs
@@ -213,7 +237,8 @@ Check that FC7 communication is working:
 ping fc7 -c 3
 ```
 
-Setup commands for RD53B SCC (CROC):
+Setup for an RD53B SCC (CROCv1) with electrical readout using a KSU FMC.
+Commands should be run in a terminal on the linux computer kucms-01.
 ```
 cd /home/kucms/TrackerDAQ/croc/Ph2_ACF
 source setup.sh
@@ -223,6 +248,19 @@ RD53BminiDAQ -f CROC.xml -r
 ping fc7 -c 3
 RD53BminiDAQ -f CROC.xml -t RD53BTools.toml DigitalScan
 ```
+
+Setup for an RD53B SCC (CROCv1) with optical readout using an optical FMC.
+Commands should be run in a terminal on the linux computer kucms.
+```
+cd /home/kucms/TrackerDAQ/croc/Ph2_ACF
+source setup.sh
+cd DAQSettings_v1
+fpgaconfig -c CMSIT_RD53B_Optical.xml -i IT-L8-OPTO_CROC_v4p5
+CMSITminiDAQ -f CMSIT_RD53B_Optical.xml -r
+ping fc7 -c 3
+CMSITminiDAQ -f CMSIT_RD53B_Optical.xml -p
+```
+
 
 **Important note:**
 DigitalScan runs quickly and creates various plots. BERscanTest takes longer.
@@ -290,7 +328,7 @@ Full recompile
 rm -rf build
 mkdir build
 cd build
-cmake ..
+cmake3 ..
 make -j8
 cd ..
 ```
