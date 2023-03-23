@@ -10,14 +10,14 @@
     <!-- Frontend chip configuration -->
     <OpticalGroup Id="0" FMCId="0">
       <lpGBT_Files path="${PWD}/" />
-      <lpGBT Id="0" version="1" configfile="CMSIT_LpGBT-v1.txt" ChipAddress="0x70" RxDataRate="1280" RxHSLPolarity="1" TxDataRate="160" TxHSLPolarity="0">
+      <lpGBT Id="0" version="1" configfile="CMSIT_LpGBT-v1.txt" ChipAddress="0x70" RxDataRate="1280" RxHSLPolarity="0" TxDataRate="160" TxHSLPolarity="0">
         <Settings/>
       </lpGBT>
       <Hybrid Id="0" enable="1">
         <RD53_Files path="${PWD}/" />
 
         <!-- Available Comment fields are: 50x50, 25x100origR0C0, 25x100origR1C0, unknown, combined with RD53A, RD53B, dual, quad -->
-        <RD53B Id="31" Lane="0" configfile="CMSIT_RD53B.txt" RxGroups="4" RxChannels="0" TxGroups="2" TxChannels="0" Comment="RD53B 50x50">
+        <RD53B Id="15" Lane="0" configfile="CMSIT_RD53B.txt" RxGroups="1" RxChannels="0" TxGroups="2" TxChannels="0" Comment="RD53B 50x50">
           <LaneConfig primary="1" outputLanes="0001" singleChannelInputs="0000" dualChannelInput="0000" />
           <!-- Overwrite .txt configuration file settings -->
           <Settings
