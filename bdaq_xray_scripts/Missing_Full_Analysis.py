@@ -19,6 +19,12 @@ import mplhep as hep
 import csv
 hep.style.use("CMS")
 
+# TODO
+# - analyze both modules
+# - add main()
+# - add analyze()
+
+
 # creates directory if it does not exist
 def makeDir(dir_name):
     if not os.path.exists(dir_name):
