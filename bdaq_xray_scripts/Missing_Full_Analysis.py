@@ -19,8 +19,17 @@ import mplhep as hep
 import csv
 hep.style.use("CMS")
 
+# creates directory if it does not exist
+def makeDir(dir_name):
+    if not os.path.exists(dir_name):
+        os.makedirs(dir_name)
+
 ####### TO BE CHANGED: ############## 
-Thr=100; Thr_strange=1000; VMAX=5000
+
+####### Parameters: ############## 
+#Thr=100; Thr_strange=1000; VMAX=5000
+Thr=100; Thr_strange=200; VMAX=2000
+
 ####### KIT MODULES:   ##############
 #Path='results/KIT/'
 #Sensor='33196-06-21'; analyzed_data_file='20221014_155339_noise_occupancy_scan_interpreted.h5'; thr_data_file='20221014_154421_threshold_scan_interpreted.h5'
@@ -32,21 +41,40 @@ Thr=100; Thr_strange=1000; VMAX=5000
 #Sensor='KIT_9'; analyzed_data_file='20230308_143817_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230308_142339_threshold_scan_interpreted.h5'
 #Sensor='KIT_13'; analyzed_data_file='20230314_111149_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230314_105849_threshold_scan_interpreted.h5'
 #Sensor='KIT_14'; analyzed_data_file='20230314_145516_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230314_144336_threshold_scan_interpreted.h5'
+
 ####### IZM MODULES:   ##############
-Path='results/IZM/'
+#Path='results/IZM/'
 #Sensor='614'; analyzed_data_file='20230314_145516_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230314_144336_threshold_scan_interpreted.h5'
 #Sensor='615'; analyzed_data_file='20230321_150829_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230321_145813_threshold_scan_interpreted.h5'
 #Sensor='615_10c'; analyzed_data_file='20230322_120957_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230322_115814_threshold_scan_interpreted.h5'
 #Sensor='615_40c'; analyzed_data_file='20230324_145848_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230324_144731_threshold_scan_interpreted.h5'
-Sensor='618_30c'; analyzed_data_file='20230324_171010_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230324_165756_threshold_scan_interpreted.h5'
+#Sensor='618_30c'; analyzed_data_file='20230324_171010_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230324_165756_threshold_scan_interpreted.h5'
+
+####### MODULES at Kansas:   ##############
+# Module_ZH0024
+Path='analysis_results/Module_ZH0024'
+#Sensor='ROC0'; analyzed_data_file='output_data/module_0_xray_run_7/chip_0/20230417_144719_noise_occupancy_scan_interpreted.h5'; thr_data_file='output_data/module_0_xray_run_7/chip_0/20230417_143501_threshold_scan_interpreted.h5'
+#Sensor='ROC1'; analyzed_data_file='output_data/module_0_xray_run_7/chip_1/20230417_153820_noise_occupancy_scan_interpreted.h5'; thr_data_file='output_data/module_0_xray_run_7/chip_1/20230417_152739_threshold_scan_interpreted.h5'
+#Sensor='ROC2'; analyzed_data_file='output_data/module_0_xray_run_7/chip_2/20230417_160928_noise_occupancy_scan_interpreted.h5'; thr_data_file='output_data/module_0_xray_run_7/chip_2/20230417_160037_threshold_scan_interpreted.h5'
+#Sensor='ROC2_original'; analyzed_data_file='output_data/module_0_xray_run_7/chip_2/20230417_160928_noise_occupancy_scan_interpreted.h5'; thr_data_file='output_data/module_0_xray_run_7/chip_2/20230417_160037_threshold_scan_interpreted.h5'
+Sensor='ROC2_2p0cm'; analyzed_data_file='output_data/module_ZH0024_xray_run_1/chip_2/20230420_141506_noise_occupancy_scan_interpreted.h5'; thr_data_file='output_data/module_ZH0024_xray_run_1/chip_2/20230420_140710_threshold_scan_interpreted.h5'
+#Sensor='ROC3'; analyzed_data_file='output_data/module_0_xray_run_7/chip_3/20230417_164701_noise_occupancy_scan_interpreted.h5'; thr_data_file='output_data/module_0_xray_run_7/chip_3/20230417_163833_threshold_scan_interpreted.h5'
 #####################################
 
-if not os.path.exists(Path+Sensor): os.makedirs(Path+Sensor)
+if Path[-1] != "/":
+    Path += "/"
+
+makeDir(Path)
+makeDir(Path+Sensor)
+
+#if not os.path.exists(Path+Sensor): os.makedirs(Path+Sensor)
+
+data_dir="data"
 
 ####### THR PART  ###################
 FIT=True; Voltage_1='120V'; el_conv=10.4; Noise_MAX=25*el_conv; Thr_MAX=400*el_conv 
 # Load Thr data
-with tb.open_file('data/'+thr_data_file, 'r') as infile:
+with tb.open_file(data_dir+'/'+thr_data_file, 'r') as infile:
     data1 = infile.get_node('/HistOcc')[:].T
     Chi2in = infile.get_node('/Chi2Map')[:].T
     mask1 = infile.get_node('/configuration_in/chip/masks/enable')[:].T
@@ -70,13 +98,16 @@ print('Errors: '+str(np.where(New_Failed_Map==2)[0].size))
 print('Good: '+str(np.where(New_Failed_Map==3)[0].size))
 print('Check: (must be 0) '+str(400*192-(np.where(New_Failed_Map==3)[0].size+np.where(New_Failed_Map==2)[0].size+np.where(New_Failed_Map==1)[0].size+np.where(New_Failed_Map==0)[0].size)))
 
-# GAUSS FIT ##########################################
-def gaus(X,A,X_mean,sigma): return A*np.exp(-(X-X_mean)**2/(2*sigma**2))
+### GAUSS FIT ##################################
+def gaus(X,A,X_mean,sigma):
+    return A*np.exp(-(X-X_mean)**2/(2*sigma**2))
+
 def GAUSS_FIT(x_hist,y_hist,color):
     mean = sum(x_hist*y_hist)/sum(y_hist)               
     sigma = sum(y_hist*(x_hist-mean)**2)/sum(y_hist)
     #Gaussian least-square fitting process
-    param_optimised,param_covariance_matrix = curve_fit(gaus,x_hist,y_hist,p0=[1,mean,sigma])#,maxfev=5000)
+    #param_optimised,param_covariance_matrix = curve_fit(gaus,x_hist,y_hist,p0=[1,mean,sigma])
+    param_optimised,param_covariance_matrix = curve_fit(gaus,x_hist,y_hist,p0=[1,mean,sigma],maxfev=1000000)
     x_hist_2=np.linspace(np.min(x_hist),np.max(x_hist),500)
     plt.plot(x_hist_2,gaus(x_hist_2,*param_optimised),color,label='FIT: $\mu$ = '+str(round(param_optimised[1],1))+' e$^-$ $\sigma$ = '+str(abs(round(param_optimised[2],1)))+' e$^-$')
 
@@ -85,7 +116,6 @@ def GAUSS_FIT(x_hist,y_hist,color):
 #### NOISE: #####################
 Noise_S=NoiseMap[:,0:127].flatten()*el_conv; Noise_L=NoiseMap[:,128:263].flatten()*el_conv; Noise_D=NoiseMap[:,264:399].flatten()*el_conv
 Legend=['SYNCH','LIN','DIFF']; step=0.1*el_conv
-#################################
 
 # Map
 fig1 = plt.figure()
@@ -144,7 +174,7 @@ fig4.savefig(Path+Sensor+'/'+Voltage_1+'_Threshold_Hist.png', format='png', dpi=
 
 ####### X-RAY PART  #################
 step=10 
-with tb.open_file('data/'+analyzed_data_file, 'r') as infile:
+with tb.open_file(data_dir+'/'+analyzed_data_file, 'r') as infile:
     data1 = infile.get_node('/HistOcc')[:].T
     mask1 = infile.get_node('/configuration_in/chip/masks/enable')[:].T
 
@@ -180,7 +210,6 @@ print('CHECK < Thr (must be >=): %i' %Cut[0].size )
 print('# of pixels < Thr: %i'% (-(128*192)+np.where(Mask==0)[0].size))
 print('# of pixels < Thr_strange: %i'% (np.where(Mask_strange==0)[0].size))
 
-
 # FIND MISSING BUMPS
 Neglet_mat=Mask+Mask_before # 0=MASKED + SYNCH 1=MISSING 2=ERRORS 3=GOOD
 Missing=np.where(Neglet_mat==1)
@@ -190,7 +219,6 @@ Neglet_mat_strange=Mask_strange+Mask_before # 0=MASKED + SYNCH 1=MISSING 2=ERROR
 Missing_strange=np.where(Neglet_mat_strange==1)
 Missing_L_strange=np.where(Neglet_mat_strange[:,128:264]==1)
 Neglet_mat[Missing_strange[0],Missing_strange[1]]=-1 #IMPORTANT TO REMOVE FOR PLOTS IF NO STRANGE
-
 
 print('# of masked by bdaq (enable mask): %i' % Disabled)
 print('# of masked by Analysis (Occ. map): %i' % (-(128*192)+np.where(Neglet_mat==0)[0].size))
@@ -232,7 +260,8 @@ ax.plot([Thr_strange,Thr_strange],[0,2e3],'--k',linewidth=2)
 ax.set_xlabel('Number of total Hits/pixel')
 ax.set_ylabel('entries')
 ax.legend(prop={'size': 14}, loc='upper right')
-fig3.savefig(Path+Sensor+'/'+analyzed_data_file[0:-3]+'_Hist_Thr_'+str(Thr)+'_'+str(Thr_strange)+'.png', format='png', dpi=300)
+#fig3.savefig(Path+Sensor+'/'+analyzed_data_file[0:-3]+'_Hist_Thr_'+str(Thr)+'_'+str(Thr_strange)+'.png', format='png', dpi=300)
+fig3.savefig(Path+Sensor+'/Hist_Thr_'+str(Thr)+'_'+str(Thr_strange)+'.png', format='png', dpi=300)
 
 # MISSING BUMPS FINAL MAPS
 fig , (ax1, ax2) = plt.subplots(1,2, figsize=(20, 6))
@@ -249,5 +278,6 @@ imgplot2 = ax2.imshow(Neglet_mat,cmap=cmap,norm=norm)
 ax2.set_title("Missing Map (Cut: < %s hits)" % str(Thr))
 bar2=plt.colorbar(imgplot2, ticks=bounds, orientation='horizontal', label='Problematic             Masked               Missing                   Good          ',  spacing='proportional')
 bar2.set_ticks([])
-fig.savefig(Path+Sensor+'/'+analyzed_data_file[0:-3]+'_Missing_Bumps_Thr_'+str(Thr)+'_'+str(Thr_strange)+'.png', format='png', dpi=300)
+#fig.savefig(Path+Sensor+'/'+analyzed_data_file[0:-3]+'_Missing_Bumps_Thr_'+str(Thr)+'_'+str(Thr_strange)+'.png', format='png', dpi=300)
+fig.savefig(Path+Sensor+'/Missing_Bumps_Thr_'+str(Thr)+'_'+str(Thr_strange)+'.png', format='png', dpi=300)
 
