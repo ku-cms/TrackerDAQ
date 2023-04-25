@@ -3,7 +3,7 @@
 # Date: 15/03/2023
 # Input: 1 interpreted.h5 file of a X-Ray scan (the noise scan) + 1 threshold file
 # Output: png plots with the main results
-# Variables to change: Sensor, Thr, VMAX (only if hot pixels are present) 
+# Variables to change: chip, Thr, VMAX (only if hot pixels are present) 
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 ##############################################################################
@@ -23,9 +23,10 @@ import csv
 # DONE
 # - add main()
 # - add analyze()
+# - iterate over chips in a module
 
 # creates directory if it does not exist
-def makeDir(dir_name):
+def make_dir(dir_name):
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
 
@@ -44,8 +45,12 @@ def gauss_fit(x_hist,y_hist,color):
     plt.plot(x_hist_2,gauss(x_hist_2,*param_optimised),color,label='FIT: $\mu$ = '+str(round(param_optimised[1],1))+' e$^-$ $\sigma$ = '+str(abs(round(param_optimised[2],1)))+' e$^-$')
 
 # analyze data for one chip
-def analyze_chip_data(Path, Sensor, analyzed_data_file, thr_data_file):
-    data_dir="data"
+def analyze_chip_data(module_path, chip, xray_data_file, thr_data_file):
+    if module_path[-1] != "/":
+        module_path += "/"
+    
+    chip_path = module_path + chip 
+    data_dir = "data"
     hep.style.use("CMS")
     
     ####### Parameters: ############## 
@@ -55,11 +60,8 @@ def analyze_chip_data(Path, Sensor, analyzed_data_file, thr_data_file):
     ####### THR PART  ###################
     FIT=True; Voltage_1='120V'; el_conv=10.4; Noise_MAX=25*el_conv; Thr_MAX=400*el_conv 
     
-    if Path[-1] != "/":
-        Path += "/"
-    
-    makeDir(Path)
-    makeDir(Path+Sensor)
+    make_dir(module_path)
+    make_dir(chip_path)
     
     # Load Thr data
     with tb.open_file(data_dir+'/'+thr_data_file, 'r') as infile:
@@ -96,7 +98,7 @@ def analyze_chip_data(Path, Sensor, analyzed_data_file, thr_data_file):
     ax = fig1.add_subplot(111)
     imgplot = ax.imshow(NoiseMap*el_conv, vmax=Noise_MAX-10*el_conv) #150vmax
     bar1=plt.colorbar(imgplot, orientation='horizontal', extend='max', label='electrons')
-    fig1.savefig(Path+Sensor+'/'+Voltage_1+'_Noise_Map.png', format='png', dpi=300)
+    fig1.savefig(chip_path+'/'+Voltage_1+'_Noise_Map.png', format='png', dpi=300)
     
     #Histogram
     fig2 = plt.figure(figsize=(1050/96, 750/96), dpi=96)
@@ -112,7 +114,7 @@ def analyze_chip_data(Path, Sensor, analyzed_data_file, thr_data_file):
     ax.set_xlabel('electrons')
     ax.set_ylabel('entries')
     ax.legend(prop={'size': 14}, loc='upper right')
-    fig2.savefig(Path+Sensor+'/'+Voltage_1+'_Noise_Hist.png', format='png', dpi=300)
+    fig2.savefig(chip_path+'/'+Voltage_1+'_Noise_Hist.png', format='png', dpi=300)
     
     #### THRESHOLDS: #####################
     Thr_S=ThrMap[:,0:127].flatten()*el_conv+180; Thr_L=ThrMap[:,128:263].flatten()*el_conv+180; Thr_D=ThrMap[:,264:399].flatten()*el_conv+180
@@ -124,7 +126,7 @@ def analyze_chip_data(Path, Sensor, analyzed_data_file, thr_data_file):
     ax = fig3.add_subplot(111)
     imgplot = ax.imshow(ThrMap*el_conv+180, vmax=Thr_MAX-10*el_conv, vmin=1200) #3500 vmax
     bar2=plt.colorbar(imgplot, orientation='horizontal', extend='max', label='electrons')
-    fig3.savefig(Path+Sensor+'/'+Voltage_1+'_Threshold_Map.png', format='png', dpi=300)
+    fig3.savefig(chip_path+'/'+Voltage_1+'_Threshold_Map.png', format='png', dpi=300)
     
     #Histogram
     fig4 = plt.figure(figsize=(1050/96, 750/96), dpi=96)
@@ -141,11 +143,11 @@ def analyze_chip_data(Path, Sensor, analyzed_data_file, thr_data_file):
     ax.set_xlabel('electrons')
     ax.set_ylabel('entries')
     ax.legend(prop={'size': 14}, loc='upper left')
-    fig4.savefig(Path+Sensor+'/'+Voltage_1+'_Threshold_Hist.png', format='png', dpi=300)
+    fig4.savefig(chip_path+'/'+Voltage_1+'_Threshold_Hist.png', format='png', dpi=300)
     
     ####### X-RAY PART  #################
     step=10 
-    with tb.open_file(data_dir+'/'+analyzed_data_file, 'r') as infile:
+    with tb.open_file(data_dir+'/'+xray_data_file, 'r') as infile:
         data1 = infile.get_node('/HistOcc')[:].T
         mask1 = infile.get_node('/configuration_in/chip/masks/enable')[:].T
     
@@ -230,13 +232,13 @@ def analyze_chip_data(Path, Sensor, analyzed_data_file, thr_data_file):
     ax.set_xlabel('Number of total Hits/pixel')
     ax.set_ylabel('entries')
     ax.legend(prop={'size': 14}, loc='upper right')
-    #fig3.savefig(Path+Sensor+'/'+analyzed_data_file[0:-3]+'_Hist_Thr_'+str(Thr)+'_'+str(Thr_strange)+'.png', format='png', dpi=300)
-    fig3.savefig(Path+Sensor+'/Hist_Thr_'+str(Thr)+'_'+str(Thr_strange)+'.png', format='png', dpi=300)
+    #fig3.savefig(chip_path+'/'+xray_data_file[0:-3]+'_Hist_Thr_'+str(Thr)+'_'+str(Thr_strange)+'.png', format='png', dpi=300)
+    fig3.savefig(chip_path+'/Hist_Thr_'+str(Thr)+'_'+str(Thr_strange)+'.png', format='png', dpi=300)
     
     # MISSING BUMPS FINAL MAPS
     fig , (ax1, ax2) = plt.subplots(1,2, figsize=(20, 6))
     plt.rcParams.update({'font.size': 16})
-    fig.suptitle("Sensor "+Sensor+" -- Missing bumps: "+str(Missing[0].size)+" ("+str(Perc)+"%) ("+str(np.where(Mask_Failed_check==2)[0].size)+" failed fits) -- Masked pixels: "+str((400-128)*192-Enabled[0].size)+" -- Problematic bumps: "+str(Missing_strange[0].size)+" ("+str(Perc_strange)+"%) ("+str(np.where(Mask_Failed_check==4)[0].size)+" failed fits)")
+    fig.suptitle("chip "+chip+" -- Missing bumps: "+str(Missing[0].size)+" ("+str(Perc)+"%) ("+str(np.where(Mask_Failed_check==2)[0].size)+" failed fits) -- Masked pixels: "+str((400-128)*192-Enabled[0].size)+" -- Problematic bumps: "+str(Missing_strange[0].size)+" ("+str(Perc_strange)+"%) ("+str(np.where(Mask_Failed_check==4)[0].size)+" failed fits)")
     imgplot = ax1.imshow(Data, vmax=VMAX)
     ax1.set_title("Occupancy Map (Z Lim: %s hits)" % str(VMAX))
     bar1=plt.colorbar(imgplot, orientation='horizontal',ax=ax1, extend='max', label='Hits')
@@ -248,41 +250,71 @@ def analyze_chip_data(Path, Sensor, analyzed_data_file, thr_data_file):
     ax2.set_title("Missing Map (Cut: < %s hits)" % str(Thr))
     bar2=plt.colorbar(imgplot2, ticks=bounds, orientation='horizontal', label='Problematic             Masked               Missing                   Good          ',  spacing='proportional')
     bar2.set_ticks([])
-    #fig.savefig(Path+Sensor+'/'+analyzed_data_file[0:-3]+'_Missing_Bumps_Thr_'+str(Thr)+'_'+str(Thr_strange)+'.png', format='png', dpi=300)
-    fig.savefig(Path+Sensor+'/Missing_Bumps_Thr_'+str(Thr)+'_'+str(Thr_strange)+'.png', format='png', dpi=300)
+    #fig.savefig(chip_path+'/'+xray_data_file[0:-3]+'_Missing_Bumps_Thr_'+str(Thr)+'_'+str(Thr_strange)+'.png', format='png', dpi=300)
+    fig.savefig(chip_path+'/Missing_Bumps_Thr_'+str(Thr)+'_'+str(Thr_strange)+'.png', format='png', dpi=300)
+
+# analyze a set of chips (e.g. for a module)
+def analyze_chips(module_path, dataMap):
+    print("Analyzing chips; module_path = {0}".format(module_path))
+    for chip in dataMap:
+        print(" - Analyzing chip: {0}".format(chip))
+        xray_data_file  = dataMap[chip]['xray_data_file']
+        thr_data_file   = dataMap[chip]['thr_data_file']
+        analyze_chip_data(module_path, chip, xray_data_file, thr_data_file)
+
+# analyze modules; define a set of chips to analyze for each module
+def analyze_modules():
+    # Module_ZH0024
+    module_path = 'analysis_results/Module_ZH0024'
+    dataMap = {}
+    dataMap['ROC0'] = {}
+    dataMap['ROC0']['xray_data_file'] = 'output_data/module_0_xray_run_7/chip_0/20230417_144719_noise_occupancy_scan_interpreted.h5'
+    dataMap['ROC0']['thr_data_file']  = 'output_data/module_0_xray_run_7/chip_0/20230417_143501_threshold_scan_interpreted.h5'
+    dataMap['ROC1'] = {}
+    dataMap['ROC1']['xray_data_file'] = 'output_data/module_0_xray_run_7/chip_1/20230417_153820_noise_occupancy_scan_interpreted.h5'
+    dataMap['ROC1']['thr_data_file']  = 'output_data/module_0_xray_run_7/chip_1/20230417_152739_threshold_scan_interpreted.h5'
+    dataMap['ROC2_2p0cm'] = {}
+    dataMap['ROC2_2p0cm']['xray_data_file'] = 'output_data/module_ZH0024_xray_run_1/chip_2/20230420_141506_noise_occupancy_scan_interpreted.h5'
+    dataMap['ROC2_2p0cm']['thr_data_file']  = 'output_data/module_ZH0024_xray_run_1/chip_2/20230420_140710_threshold_scan_interpreted.h5'
+    dataMap['ROC3'] = {}
+    dataMap['ROC3']['xray_data_file'] = 'output_data/module_0_xray_run_7/chip_3/20230417_164701_noise_occupancy_scan_interpreted.h5'
+    dataMap['ROC3']['thr_data_file']  = 'output_data/module_0_xray_run_7/chip_3/20230417_163833_threshold_scan_interpreted.h5'
+    analyze_chips(module_path, dataMap)
 
 def main():
     ####### KIT MODULES:   ##############
-    #Path='results/KIT/'
-    #Sensor='33196-06-21'; analyzed_data_file='20221014_155339_noise_occupancy_scan_interpreted.h5'; thr_data_file='20221014_154421_threshold_scan_interpreted.h5'
-    #Sensor='33196-06-21_40c'; analyzed_data_file='20230324_153834_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230324_152646_threshold_scan_interpreted.h5'
-    #Sensor='33196-06-13'; analyzed_data_file='20221014_130846_noise_occupancy_scan_interpreted.h5'; thr_data_file='20221014_091826_threshold_scan_interpreted.h5'
-    #Sensor='33196-06-13_30c'; analyzed_data_file='20230324_162150_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230324_161103_threshold_scan_interpreted.h5'
-    #Sensor='KIT_5'; analyzed_data_file='20230313_102807_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230313_101757_threshold_scan_interpreted.h5'
-    #Sensor='KIT_8'; analyzed_data_file='20230313_155958_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230313_154703_threshold_scan_interpreted.h5'
-    #Sensor='KIT_9'; analyzed_data_file='20230308_143817_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230308_142339_threshold_scan_interpreted.h5'
-    #Sensor='KIT_13'; analyzed_data_file='20230314_111149_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230314_105849_threshold_scan_interpreted.h5'
-    #Sensor='KIT_14'; analyzed_data_file='20230314_145516_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230314_144336_threshold_scan_interpreted.h5'
+    #module_path='results/KIT/'
+    #chip='33196-06-21'; xray_data_file='20221014_155339_noise_occupancy_scan_interpreted.h5'; thr_data_file='20221014_154421_threshold_scan_interpreted.h5'
+    #chip='33196-06-21_40c'; xray_data_file='20230324_153834_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230324_152646_threshold_scan_interpreted.h5'
+    #chip='33196-06-13'; xray_data_file='20221014_130846_noise_occupancy_scan_interpreted.h5'; thr_data_file='20221014_091826_threshold_scan_interpreted.h5'
+    #chip='33196-06-13_30c'; xray_data_file='20230324_162150_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230324_161103_threshold_scan_interpreted.h5'
+    #chip='KIT_5'; xray_data_file='20230313_102807_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230313_101757_threshold_scan_interpreted.h5'
+    #chip='KIT_8'; xray_data_file='20230313_155958_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230313_154703_threshold_scan_interpreted.h5'
+    #chip='KIT_9'; xray_data_file='20230308_143817_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230308_142339_threshold_scan_interpreted.h5'
+    #chip='KIT_13'; xray_data_file='20230314_111149_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230314_105849_threshold_scan_interpreted.h5'
+    #chip='KIT_14'; xray_data_file='20230314_145516_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230314_144336_threshold_scan_interpreted.h5'
     
     ####### IZM MODULES:   ##############
-    #Path='results/IZM/'
-    #Sensor='614'; analyzed_data_file='20230314_145516_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230314_144336_threshold_scan_interpreted.h5'
-    #Sensor='615'; analyzed_data_file='20230321_150829_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230321_145813_threshold_scan_interpreted.h5'
-    #Sensor='615_10c'; analyzed_data_file='20230322_120957_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230322_115814_threshold_scan_interpreted.h5'
-    #Sensor='615_40c'; analyzed_data_file='20230324_145848_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230324_144731_threshold_scan_interpreted.h5'
-    #Sensor='618_30c'; analyzed_data_file='20230324_171010_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230324_165756_threshold_scan_interpreted.h5'
+    #module_path='results/IZM/'
+    #chip='614'; xray_data_file='20230314_145516_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230314_144336_threshold_scan_interpreted.h5'
+    #chip='615'; xray_data_file='20230321_150829_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230321_145813_threshold_scan_interpreted.h5'
+    #chip='615_10c'; xray_data_file='20230322_120957_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230322_115814_threshold_scan_interpreted.h5'
+    #chip='615_40c'; xray_data_file='20230324_145848_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230324_144731_threshold_scan_interpreted.h5'
+    #chip='618_30c'; xray_data_file='20230324_171010_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230324_165756_threshold_scan_interpreted.h5'
     
     ####### MODULES at Kansas:   ##############
     # Module_ZH0024
-    Path='analysis_results/Module_ZH0024'
-    #Sensor='ROC0'; analyzed_data_file='output_data/module_0_xray_run_7/chip_0/20230417_144719_noise_occupancy_scan_interpreted.h5'; thr_data_file='output_data/module_0_xray_run_7/chip_0/20230417_143501_threshold_scan_interpreted.h5'
-    #Sensor='ROC1'; analyzed_data_file='output_data/module_0_xray_run_7/chip_1/20230417_153820_noise_occupancy_scan_interpreted.h5'; thr_data_file='output_data/module_0_xray_run_7/chip_1/20230417_152739_threshold_scan_interpreted.h5'
-    #Sensor='ROC2'; analyzed_data_file='output_data/module_0_xray_run_7/chip_2/20230417_160928_noise_occupancy_scan_interpreted.h5'; thr_data_file='output_data/module_0_xray_run_7/chip_2/20230417_160037_threshold_scan_interpreted.h5'
-    #Sensor='ROC2_original'; analyzed_data_file='output_data/module_0_xray_run_7/chip_2/20230417_160928_noise_occupancy_scan_interpreted.h5'; thr_data_file='output_data/module_0_xray_run_7/chip_2/20230417_160037_threshold_scan_interpreted.h5'
-    Sensor='ROC2_2p0cm'; analyzed_data_file='output_data/module_ZH0024_xray_run_1/chip_2/20230420_141506_noise_occupancy_scan_interpreted.h5'; thr_data_file='output_data/module_ZH0024_xray_run_1/chip_2/20230420_140710_threshold_scan_interpreted.h5'
-    #Sensor='ROC3'; analyzed_data_file='output_data/module_0_xray_run_7/chip_3/20230417_164701_noise_occupancy_scan_interpreted.h5'; thr_data_file='output_data/module_0_xray_run_7/chip_3/20230417_163833_threshold_scan_interpreted.h5'
+    #module_path='analysis_results/Module_ZH0024'
+    #chip='ROC0'; xray_data_file='output_data/module_0_xray_run_7/chip_0/20230417_144719_noise_occupancy_scan_interpreted.h5'; thr_data_file='output_data/module_0_xray_run_7/chip_0/20230417_143501_threshold_scan_interpreted.h5'
+    #chip='ROC1'; xray_data_file='output_data/module_0_xray_run_7/chip_1/20230417_153820_noise_occupancy_scan_interpreted.h5'; thr_data_file='output_data/module_0_xray_run_7/chip_1/20230417_152739_threshold_scan_interpreted.h5'
+    #chip='ROC2'; xray_data_file='output_data/module_0_xray_run_7/chip_2/20230417_160928_noise_occupancy_scan_interpreted.h5'; thr_data_file='output_data/module_0_xray_run_7/chip_2/20230417_160037_threshold_scan_interpreted.h5'
+    #chip='ROC2_original'; xray_data_file='output_data/module_0_xray_run_7/chip_2/20230417_160928_noise_occupancy_scan_interpreted.h5'; thr_data_file='output_data/module_0_xray_run_7/chip_2/20230417_160037_threshold_scan_interpreted.h5'
+    #chip='ROC2_2p0cm'; xray_data_file='output_data/module_ZH0024_xray_run_1/chip_2/20230420_141506_noise_occupancy_scan_interpreted.h5'; thr_data_file='output_data/module_ZH0024_xray_run_1/chip_2/20230420_140710_threshold_scan_interpreted.h5'
+    #chip='ROC3'; xray_data_file='output_data/module_0_xray_run_7/chip_3/20230417_164701_noise_occupancy_scan_interpreted.h5'; thr_data_file='output_data/module_0_xray_run_7/chip_3/20230417_163833_threshold_scan_interpreted.h5'
 
-    analyze_chip_data(Path, Sensor, analyzed_data_file, thr_data_file)
+    #analyze_chip_data(module_path, chip, xray_data_file, thr_data_file)
+
+    analyze_modules()
 
 if __name__ == "__main__":
     main()
