@@ -19,11 +19,11 @@ import mplhep as hep
 import csv
 
 # TODO
-# - analyze both modules
 # DONE
 # - add main()
 # - add analyze()
 # - iterate over chips in a module
+# - analyze both modules
 
 # creates directory if it does not exist
 def make_dir(dir_name):
