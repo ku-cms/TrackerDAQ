@@ -253,9 +253,14 @@ def analyze_chip_data(module_path, chip, xray_data_file, thr_data_file):
     #fig.savefig(chip_path+'/'+xray_data_file[0:-3]+'_Missing_Bumps_Thr_'+str(Thr)+'_'+str(Thr_strange)+'.png', format='png', dpi=300)
     fig.savefig(chip_path+'/Missing_Bumps_Thr_'+str(Thr)+'_'+str(Thr_strange)+'.png', format='png', dpi=300)
 
+    # close all figures to avoid memory issues:
+    plt.close('all')
+
 # analyze a set of chips (e.g. for a module)
 def analyze_chips(module_path, dataMap):
+    print("----------------------------------")
     print("Analyzing chips; module_path = {0}".format(module_path))
+    print("----------------------------------")
     for chip in dataMap:
         print(" - Analyzing chip: {0}".format(chip))
         xray_data_file  = dataMap[chip]['xray_data_file']
@@ -266,6 +271,7 @@ def analyze_chips(module_path, dataMap):
 def analyze_modules():
     # Module_ZH0024
     module_path = 'analysis_results/Module_ZH0024'
+
     dataMap = {}
     dataMap['ROC0'] = {}
     dataMap['ROC0']['xray_data_file'] = 'output_data/module_0_xray_run_7/chip_0/20230417_144719_noise_occupancy_scan_interpreted.h5'
@@ -273,12 +279,32 @@ def analyze_modules():
     dataMap['ROC1'] = {}
     dataMap['ROC1']['xray_data_file'] = 'output_data/module_0_xray_run_7/chip_1/20230417_153820_noise_occupancy_scan_interpreted.h5'
     dataMap['ROC1']['thr_data_file']  = 'output_data/module_0_xray_run_7/chip_1/20230417_152739_threshold_scan_interpreted.h5'
+    dataMap['ROC2_original'] = {}
+    dataMap['ROC2_original']['xray_data_file'] = 'output_data/module_0_xray_run_7/chip_2/20230417_160928_noise_occupancy_scan_interpreted.h5'
+    dataMap['ROC2_original']['thr_data_file']  = 'output_data/module_0_xray_run_7/chip_2/20230417_160037_threshold_scan_interpreted.h5'
     dataMap['ROC2_2p0cm'] = {}
     dataMap['ROC2_2p0cm']['xray_data_file'] = 'output_data/module_ZH0024_xray_run_1/chip_2/20230420_141506_noise_occupancy_scan_interpreted.h5'
     dataMap['ROC2_2p0cm']['thr_data_file']  = 'output_data/module_ZH0024_xray_run_1/chip_2/20230420_140710_threshold_scan_interpreted.h5'
     dataMap['ROC3'] = {}
     dataMap['ROC3']['xray_data_file'] = 'output_data/module_0_xray_run_7/chip_3/20230417_164701_noise_occupancy_scan_interpreted.h5'
     dataMap['ROC3']['thr_data_file']  = 'output_data/module_0_xray_run_7/chip_3/20230417_163833_threshold_scan_interpreted.h5'
+    
+    analyze_chips(module_path, dataMap)
+    
+    # Module_ZH0022
+    module_path = 'analysis_results/Module_ZH0022'
+
+    dataMap = {}
+    dataMap['ROC1'] = {}
+    dataMap['ROC1']['xray_data_file'] = 'output_data/module_ZH0022_xray_run_1/chip_1/20230418_115040_noise_occupancy_scan_interpreted.h5'
+    dataMap['ROC1']['thr_data_file']  = 'output_data/module_ZH0022_xray_run_1/chip_1/20230418_114015_threshold_scan_interpreted.h5'
+    dataMap['ROC2'] = {}
+    dataMap['ROC2']['xray_data_file'] = 'output_data/module_ZH0022_xray_run_1/chip_2/20230418_130837_noise_occupancy_scan_interpreted.h5'
+    dataMap['ROC2']['thr_data_file']  = 'output_data/module_ZH0022_xray_run_1/chip_2/20230418_125845_threshold_scan_interpreted.h5' 
+    dataMap['ROC3'] = {}
+    dataMap['ROC3']['xray_data_file'] = 'output_data/module_ZH0022_xray_run_1/chip_3/20230420_114212_noise_occupancy_scan_interpreted.h5'
+    dataMap['ROC3']['thr_data_file']  = 'output_data/module_ZH0022_xray_run_1/chip_3/20230420_110751_threshold_scan_interpreted.h5' 
+    
     analyze_chips(module_path, dataMap)
 
 def main():
