@@ -55,10 +55,14 @@ def analyze_chip_data(module_path, chip, xray_data_file, thr_data_file):
     
     ####### Parameters: ############## 
     #Thr=100; Thr_strange=1000; VMAX=5000
-    Thr=100; Thr_strange=200; VMAX=2000
+    
+    #Thr=100; Thr_strange=200; VMAX=2000
+    #Thr=100; Thr_strange=500; VMAX=2000
+    Thr=100; Thr_strange=1000; VMAX=2000
     
     ####### THR PART  ###################
-    FIT=True; Voltage_1='120V'; el_conv=10.4; Noise_MAX=25*el_conv; Thr_MAX=400*el_conv 
+    #FIT=True; Voltage_1='120V'; el_conv=10.4; Noise_MAX=25*el_conv; Thr_MAX=400*el_conv 
+    FIT=True; Voltage_1='25V'; el_conv=10.4; Noise_MAX=25*el_conv; Thr_MAX=400*el_conv 
     
     make_dir(module_path)
     make_dir(chip_path)
@@ -269,8 +273,12 @@ def analyze_chips(module_path, dataMap):
 
 # analyze modules; define a set of chips to analyze for each module
 def analyze_modules():
+    # results directory
+    results_path = 'analysis_results'
+    make_dir(results_path)
+
     # Module_ZH0024
-    module_path = 'analysis_results/Module_ZH0024'
+    module_path = '{0}/Module_ZH0024'.format(results_path)
 
     dataMap = {}
     dataMap['ROC0'] = {}
@@ -292,7 +300,7 @@ def analyze_modules():
     analyze_chips(module_path, dataMap)
     
     # Module_ZH0022
-    module_path = 'analysis_results/Module_ZH0022'
+    module_path = '{0}/Module_ZH0022'.format(results_path)
 
     dataMap = {}
     dataMap['ROC1'] = {}
