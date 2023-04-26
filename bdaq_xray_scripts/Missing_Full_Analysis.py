@@ -7,6 +7,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 ##############################################################################
+
 import os
 import numpy as np
 import tables as tb
@@ -18,12 +19,9 @@ from scipy import asarray as ar,exp
 import mplhep as hep
 import csv
 
-# TODO
-# DONE
-# - add main()
-# - add analyze()
-# - iterate over chips in a module
-# - analyze both modules
+# print border line
+def printBorderLine():
+    print('--------------------------------------------------------------')
 
 # creates directory if it does not exist
 def make_dir(dir_name):
@@ -56,9 +54,11 @@ def analyze_chip_data(module_path, chip, xray_data_file, thr_data_file):
     ####### Parameters: ############## 
     #Thr=100; Thr_strange=1000; VMAX=5000
     
+    Thr=50; Thr_strange=200; VMAX=2000
+    #Thr=70; Thr_strange=200; VMAX=2000
     #Thr=100; Thr_strange=200; VMAX=2000
     #Thr=100; Thr_strange=500; VMAX=2000
-    Thr=100; Thr_strange=1000; VMAX=2000
+    #Thr=100; Thr_strange=1000; VMAX=2000
     
     ####### THR PART  ###################
     #FIT=True; Voltage_1='120V'; el_conv=10.4; Noise_MAX=25*el_conv; Thr_MAX=400*el_conv 
@@ -85,7 +85,9 @@ def analyze_chip_data(module_path, chip, xray_data_file, thr_data_file):
     Failed_Chi2_Map[Failed_fits[0],Failed_fits[1]]=0
     
     New_Failed_Map=Failed_Chi2_Map+Mask_before #0 = masked alreday, 1 = Failed fit, 2 ERROR, 3 GOOD
-    print('##############################################################\n THR SCAN\n##############################################################')
+    printBorderLine()
+    print("THR SCAN")
+    printBorderLine()
     print('Masked before: '+str(np.where(New_Failed_Map==0)[0].size))
     print('New failed fits: '+str(np.where(New_Failed_Map==1)[0].size))
     print('Errors: '+str(np.where(New_Failed_Map==2)[0].size))
@@ -181,7 +183,9 @@ def analyze_chip_data(module_path, chip, xray_data_file, thr_data_file):
     Data_LIN=Data_L[Enabled_Lin[0],Enabled_Lin[1]].flatten()
     Data_DIFF=Data_D[Enabled_Diff[0],Enabled_Diff[1]].flatten()
     
-    print('##############################################################\n X-RAY SCAN\n##############################################################')
+    printBorderLine()
+    print("X-RAY SCAN")
+    printBorderLine()
     print('CHECK Disabled bdaq: %i' % (400*192-Enabled[0].size))
     print('CHECK < Thr (must be >=): %i' %Cut[0].size )
     print('# of pixels < Thr: %i'% (-(128*192)+np.where(Mask==0)[0].size))
@@ -211,12 +215,14 @@ def analyze_chip_data(module_path, chip, xray_data_file, thr_data_file):
     Mask_Failed_check[Mask_Failed_check_where[0],Mask_Failed_check_where[1]]=1
     Mask_Failed_check[Missing[0],Missing[1]]+=1
     Mask_Failed_check[Missing_strange[0],Missing_strange[1]]+=3
-    print('\n\n##############################################################\n FINAL RESULTS\n##############################################################')
+    printBorderLine()
+    print("FINAL RESULTS")
+    printBorderLine()
     print('# of masked by bdaq (enable mask): %i' % Disabled)
     print('# of failed fits: '+str(Mask_Failed_check_where[0].size))
     print('# of missing: '+str(Missing[0].size)+' ('+str(np.where(Mask_Failed_check==2)[0].size)+' failed fits)')
     print('# of strange: '+str(Missing_strange[0].size)+' ('+str(np.where(Mask_Failed_check==4)[0].size)+' failed fits)')
-    print('##############################################################\n')
+    printBorderLine()
     
     Missing_mat=np.zeros((192,400))
     Missing_mat[Missing[0],Missing[1]]=1
@@ -236,7 +242,6 @@ def analyze_chip_data(module_path, chip, xray_data_file, thr_data_file):
     ax.set_xlabel('Number of total Hits/pixel')
     ax.set_ylabel('entries')
     ax.legend(prop={'size': 14}, loc='upper right')
-    #fig3.savefig(chip_path+'/'+xray_data_file[0:-3]+'_Hist_Thr_'+str(Thr)+'_'+str(Thr_strange)+'.png', format='png', dpi=300)
     fig3.savefig(chip_path+'/Hist_Thr_'+str(Thr)+'_'+str(Thr_strange)+'.png', format='png', dpi=300)
     
     # MISSING BUMPS FINAL MAPS
@@ -254,25 +259,24 @@ def analyze_chip_data(module_path, chip, xray_data_file, thr_data_file):
     ax2.set_title("Missing Map (Cut: < %s hits)" % str(Thr))
     bar2=plt.colorbar(imgplot2, ticks=bounds, orientation='horizontal', label='Problematic             Masked               Missing                   Good          ',  spacing='proportional')
     bar2.set_ticks([])
-    #fig.savefig(chip_path+'/'+xray_data_file[0:-3]+'_Missing_Bumps_Thr_'+str(Thr)+'_'+str(Thr_strange)+'.png', format='png', dpi=300)
     fig.savefig(chip_path+'/Missing_Bumps_Thr_'+str(Thr)+'_'+str(Thr_strange)+'.png', format='png', dpi=300)
 
     # close all figures to avoid memory issues:
     plt.close('all')
 
-# analyze a set of chips (e.g. for a module)
-def analyze_chips(module_path, dataMap):
-    print("----------------------------------")
-    print("Analyzing chips; module_path = {0}".format(module_path))
-    print("----------------------------------")
+# analyze all chips in a module
+def analyze_module(module_path, dataMap):
+    printBorderLine()
+    print("Analyzing module; module_path = {0}".format(module_path))
+    printBorderLine()
     for chip in dataMap:
         print(" - Analyzing chip: {0}".format(chip))
         xray_data_file  = dataMap[chip]['xray_data_file']
         thr_data_file   = dataMap[chip]['thr_data_file']
         analyze_chip_data(module_path, chip, xray_data_file, thr_data_file)
 
-# analyze modules; define a set of chips to analyze for each module
-def analyze_modules():
+# run analysis over all modules; define chips to analyze for each module
+def run_analysis():
     # results directory
     results_path = 'analysis_results'
     make_dir(results_path)
@@ -297,7 +301,7 @@ def analyze_modules():
     dataMap['ROC3']['xray_data_file'] = 'output_data/module_0_xray_run_7/chip_3/20230417_164701_noise_occupancy_scan_interpreted.h5'
     dataMap['ROC3']['thr_data_file']  = 'output_data/module_0_xray_run_7/chip_3/20230417_163833_threshold_scan_interpreted.h5'
     
-    analyze_chips(module_path, dataMap)
+    analyze_module(module_path, dataMap)
     
     # Module_ZH0022
     module_path = '{0}/Module_ZH0022'.format(results_path)
@@ -313,42 +317,10 @@ def analyze_modules():
     dataMap['ROC3']['xray_data_file'] = 'output_data/module_ZH0022_xray_run_1/chip_3/20230420_114212_noise_occupancy_scan_interpreted.h5'
     dataMap['ROC3']['thr_data_file']  = 'output_data/module_ZH0022_xray_run_1/chip_3/20230420_110751_threshold_scan_interpreted.h5' 
     
-    analyze_chips(module_path, dataMap)
+    analyze_module(module_path, dataMap)
 
 def main():
-    ####### KIT MODULES:   ##############
-    #module_path='results/KIT/'
-    #chip='33196-06-21'; xray_data_file='20221014_155339_noise_occupancy_scan_interpreted.h5'; thr_data_file='20221014_154421_threshold_scan_interpreted.h5'
-    #chip='33196-06-21_40c'; xray_data_file='20230324_153834_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230324_152646_threshold_scan_interpreted.h5'
-    #chip='33196-06-13'; xray_data_file='20221014_130846_noise_occupancy_scan_interpreted.h5'; thr_data_file='20221014_091826_threshold_scan_interpreted.h5'
-    #chip='33196-06-13_30c'; xray_data_file='20230324_162150_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230324_161103_threshold_scan_interpreted.h5'
-    #chip='KIT_5'; xray_data_file='20230313_102807_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230313_101757_threshold_scan_interpreted.h5'
-    #chip='KIT_8'; xray_data_file='20230313_155958_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230313_154703_threshold_scan_interpreted.h5'
-    #chip='KIT_9'; xray_data_file='20230308_143817_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230308_142339_threshold_scan_interpreted.h5'
-    #chip='KIT_13'; xray_data_file='20230314_111149_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230314_105849_threshold_scan_interpreted.h5'
-    #chip='KIT_14'; xray_data_file='20230314_145516_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230314_144336_threshold_scan_interpreted.h5'
-    
-    ####### IZM MODULES:   ##############
-    #module_path='results/IZM/'
-    #chip='614'; xray_data_file='20230314_145516_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230314_144336_threshold_scan_interpreted.h5'
-    #chip='615'; xray_data_file='20230321_150829_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230321_145813_threshold_scan_interpreted.h5'
-    #chip='615_10c'; xray_data_file='20230322_120957_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230322_115814_threshold_scan_interpreted.h5'
-    #chip='615_40c'; xray_data_file='20230324_145848_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230324_144731_threshold_scan_interpreted.h5'
-    #chip='618_30c'; xray_data_file='20230324_171010_noise_occupancy_scan_interpreted.h5'; thr_data_file='20230324_165756_threshold_scan_interpreted.h5'
-    
-    ####### MODULES at Kansas:   ##############
-    # Module_ZH0024
-    #module_path='analysis_results/Module_ZH0024'
-    #chip='ROC0'; xray_data_file='output_data/module_0_xray_run_7/chip_0/20230417_144719_noise_occupancy_scan_interpreted.h5'; thr_data_file='output_data/module_0_xray_run_7/chip_0/20230417_143501_threshold_scan_interpreted.h5'
-    #chip='ROC1'; xray_data_file='output_data/module_0_xray_run_7/chip_1/20230417_153820_noise_occupancy_scan_interpreted.h5'; thr_data_file='output_data/module_0_xray_run_7/chip_1/20230417_152739_threshold_scan_interpreted.h5'
-    #chip='ROC2'; xray_data_file='output_data/module_0_xray_run_7/chip_2/20230417_160928_noise_occupancy_scan_interpreted.h5'; thr_data_file='output_data/module_0_xray_run_7/chip_2/20230417_160037_threshold_scan_interpreted.h5'
-    #chip='ROC2_original'; xray_data_file='output_data/module_0_xray_run_7/chip_2/20230417_160928_noise_occupancy_scan_interpreted.h5'; thr_data_file='output_data/module_0_xray_run_7/chip_2/20230417_160037_threshold_scan_interpreted.h5'
-    #chip='ROC2_2p0cm'; xray_data_file='output_data/module_ZH0024_xray_run_1/chip_2/20230420_141506_noise_occupancy_scan_interpreted.h5'; thr_data_file='output_data/module_ZH0024_xray_run_1/chip_2/20230420_140710_threshold_scan_interpreted.h5'
-    #chip='ROC3'; xray_data_file='output_data/module_0_xray_run_7/chip_3/20230417_164701_noise_occupancy_scan_interpreted.h5'; thr_data_file='output_data/module_0_xray_run_7/chip_3/20230417_163833_threshold_scan_interpreted.h5'
-
-    #analyze_chip_data(module_path, chip, xray_data_file, thr_data_file)
-
-    analyze_modules()
+    run_analysis()
 
 if __name__ == "__main__":
     main()
