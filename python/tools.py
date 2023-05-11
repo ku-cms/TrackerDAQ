@@ -84,10 +84,20 @@ def getBERTData(input_file, useRD53B):
     for line in f:
         # TAP0 DAC Setting (x values)
         if useRD53B:
+            # CROC (old version):
             # Warning: can't use only "TAP0" due to new header in log file
-            if "Setting TAP0" in line:
+            # if "Setting TAP0" in line:
+            #     array = line.split()
+            #     x = int(array[-1])
+            #     # skip the x value if there were errors
+            #     if x not in errors:
+            #         x_values.append(x)
+            
+            # Port Card (new version):
+            if "DAC_CML_BIAS_0" in line:
                 array = line.split()
-                x = int(array[-1])
+                # must remove " before using int()
+                x = int(array[-1].replace('"', ''))
                 # skip the x value if there were errors
                 if x not in errors:
                     x_values.append(x)
