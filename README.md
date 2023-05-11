@@ -371,6 +371,11 @@ Run backup script:
 time /home/kucms/TrackerDAQ/TrackerDAQ/scripts/backup.sh
 ```
 
+Run backup script with nohup in the background; update the date and version:
+```
+nohup bash -c 'time /home/kucms/TrackerDAQ/TrackerDAQ/scripts/backup.sh' > /home/kucms/backup_logs/backup_1999_12_31_v1.log 2>&1 &
+```
+
 When you are done using the R drive:
 ```
 umnt-bean
