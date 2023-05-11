@@ -4,7 +4,7 @@
 cable_number=$1
 
 # copy data
-rsync -az /home/kucms/TrackerDAQ/croc/Ph2_ACF/DAQSettings_v1/BERT_TAP0_Scans data
+rsync -az BERT_TAP0_Scans data
 
 # analyze data
 

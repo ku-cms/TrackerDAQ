@@ -125,7 +125,7 @@ def runSet(base_plot_dir, base_data_dir, useRD53B, cable_number=-1, output_csv_d
     if not foundCable:
         print("No data found for e-link {0}".format(cable_number))
 
-# make a plot for each scan
+# RD53A: make a plot for each scan
 def analyzeScansRD53A(cable_number):
     useRD53B = False
     output_csv_dir   = "output"
@@ -153,9 +153,15 @@ def analyzeScansRD53A(cable_number):
         # run for a specific cable
         runSet(base_plot_dir, base_data_dir, useRD53B, cable_number)
 
+# RD53B: make a plot for each scan
 def analyzeScansRD53B(cable_number):
     useRD53B = True
     output_csv_dir   = "output"
+
+    # using port card:
+    base_plot_dir    = "plots/BERT_TAP0_Scans/CERN_FMC_PortCard"
+    base_data_dir    = "data/BERT_TAP0_Scans/CERN_FMC_PortCard"
+    output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
     
     #base_plot_dir    = "plots/BERT_TAP0_Scans/SingleDP"
     #base_data_dir    = "data/BERT_TAP0_Scans/SingleDP"
@@ -164,9 +170,9 @@ def analyzeScansRD53B(cable_number):
     #base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter"
     #output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
     
-    base_plot_dir    = "plots/BERT_TAP0_Scans/ShortDoubleDP_DPAdapter"
-    base_data_dir    = "data/BERT_TAP0_Scans/ShortDoubleDP_DPAdapter"
-    output_csv_name  = "output/BERT_Min_TAP0_Values_ShortDoubleDP_DPAdapter.csv"
+    #base_plot_dir    = "plots/BERT_TAP0_Scans/ShortDoubleDP_DPAdapter"
+    #base_data_dir    = "data/BERT_TAP0_Scans/ShortDoubleDP_DPAdapter"
+    #output_csv_name  = "output/BERT_Min_TAP0_Values_ShortDoubleDP_DPAdapter.csv"
     
     #base_plot_dir    = "plots/BERT_TAP0_Scans/ShortDP"
     #base_data_dir    = "data/BERT_TAP0_Scans/ShortDP"
