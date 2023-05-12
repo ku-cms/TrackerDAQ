@@ -6,7 +6,7 @@ import glob
 import csv
 import argparse
 from BERT_Plot import plot
-from tools import getBERTData, makeDir
+from tools import getBERTData, makeDir, valuesAreSame
 
 # get cable number from directory name
 def getNumber(name):
@@ -37,26 +37,40 @@ def findMin(x_values, y_values):
 
 # analyze data from a scan
 def analyze(input_file, plot_dir, output_file, useRD53B):
-    debug = True
+    debug   = True
+    setLogY = True
+    
     data = getBERTData(input_file, useRD53B)
     x_values = data[0]
     y_values = data[1]
+    
+
     if debug:
         print("x_values: {0}".format(x_values))
         print("y_values: {0}".format(y_values))
+    
     # check for the same number of x and y values
     if len(x_values) != len(y_values):
         print("ERROR: number of x and y values do not match")
         print("input file: {0}, num x vals: {1}, num y vals: {2}".format(input_file, len(x_values), len(y_values)))
         return
+    
     if debug:
         print("input file: {0}, num x vals: {1}, num y vals: {2}".format(input_file, len(x_values), len(y_values)))
     
-    plot(plot_dir, output_file, x_values, y_values)
-    #plot(plot_dir, output_file, x_values, y_values,setLogY=False)
-    
+    y_values_are_constant = valuesAreSame(y_values)
     min_value = findMin(x_values, y_values)
-    #print("Min TAP0: {0}".format(min_value))
+    
+    # if y values are constant, do not use log scale for y axis
+    if y_values_are_constant:
+        setLogY = False
+    
+    if debug:
+        print("y_values_are_constant: {0}".format(y_values_are_constant))
+        print("Min TAP0: {0}".format(min_value))
+    
+    plot(plot_dir, output_file, x_values, y_values, setLogY=setLogY)
+    
     return min_value
 
 # run over a single directory

@@ -19,6 +19,18 @@ def getCSVData(input_file):
             data.append(row)
     return data
 
+# check if all values in list are the same
+def valuesAreSame(values):
+    # If there are no values, return false:
+    if len(values) == 0:
+        return False
+    else:
+        first_value = values[0]
+        for value in values:
+            if value != first_value:
+                return False
+        return True
+
 # return list of TAP0 settings that had errors for RD53A data
 def findErrorsRD53A(input_file):
     f = open(input_file, 'r')
