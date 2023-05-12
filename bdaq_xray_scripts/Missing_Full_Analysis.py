@@ -332,6 +332,27 @@ def run_analysis():
     dataMap['ROC3']['thr_data_file']  = 'output_data/module_ZH0022_xray_run_2/chip_3/20230427_165527_threshold_scan_interpreted.h5'
     
     analyze_module(module_path, dataMap)
+    
+
+    #Module_ZH0023
+    module_path = '{0}/Module_ZH0023'.format(results_path)
+
+    dataMap = {}
+    dataMap['ROC0'] = {}
+    dataMap['ROC0']['xray_data_file'] = 'output_data/module_ZH0023_xray_run_0/chip_0/20230511_171828_noise_occupancy_scan_interpreted.h5'
+    dataMap['ROC0']['thr_data_file']  = 'output_data/module_ZH0023_xray_run_0/chip_0/20230511_170535_threshold_scan_interpreted.h5'
+    dataMap['ROC1'] = {}
+    dataMap['ROC1']['xray_data_file'] = 'output_data/module_ZH0023_xray_run_0/chip_1/20230511_174624_noise_occupancy_scan_interpreted.h5'
+    dataMap['ROC1']['thr_data_file']  = 'output_data/module_ZH0023_xray_run_0/chip_1/20230511_173158_threshold_scan_interpreted.h5'
+    dataMap['ROC2'] = {}
+    dataMap['ROC2']['xray_data_file'] = 'output_data/module_ZH0023_xray_run_0/chip_2/20230511_180727_noise_occupancy_scan_interpreted.h5'
+    dataMap['ROC2']['thr_data_file']  = 'output_data/module_ZH0023_xray_run_0/chip_2/20230511_180113_threshold_scan_interpreted.h5'
+    dataMap['ROC3'] = {}
+    dataMap['ROC3']['xray_data_file'] = 'output_data/module_ZH0023_xray_run_0/chip_3/20230511_182952_noise_occupancy_scan_interpreted.h5'
+    dataMap['ROC3']['thr_data_file']  = 'output_data/module_ZH0023_xray_run_0/chip_3/20230511_182339_threshold_scan_interpreted.h5'
+    
+    analyze_module(module_path, dataMap)
+
 
 def main():
     run_analysis()
