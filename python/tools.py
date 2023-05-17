@@ -19,6 +19,18 @@ def getCSVData(input_file):
             data.append(row)
     return data
 
+# check if all values in list are the same
+def valuesAreSame(values):
+    # If there are no values, return false:
+    if len(values) == 0:
+        return False
+    else:
+        first_value = values[0]
+        for value in values:
+            if value != first_value:
+                return False
+        return True
+
 # return list of TAP0 settings that had errors for RD53A data
 def findErrorsRD53A(input_file):
     f = open(input_file, 'r')
@@ -84,15 +96,26 @@ def getBERTData(input_file, useRD53B):
     for line in f:
         # TAP0 DAC Setting (x values)
         if useRD53B:
+            # CROC (old version):
             # Warning: can't use only "TAP0" due to new header in log file
-            if "Setting TAP0" in line:
+            # if "Setting TAP0" in line:
+            #     array = line.split()
+            #     x = int(array[-1])
+            #     # skip the x value if there were errors
+            #     if x not in errors:
+            #         x_values.append(x)
+            
+            # Port Card (new version):
+            if "DAC_CML_BIAS_0" in line:
                 array = line.split()
-                x = int(array[-1])
+                # must remove " before using int()
+                x = int(array[-1].replace('"', ''))
                 # skip the x value if there were errors
                 if x not in errors:
                     x_values.append(x)
         else:
-            if "CML_TAP0_BIAS" in line:
+            #if "CML_TAP0_BIAS" in line:
+            if "DAC_CML_BIAS_0" in line:
                 array = line.split()
                 # must remove " before using int()
                 x = int(array[-1].replace('"', ''))
