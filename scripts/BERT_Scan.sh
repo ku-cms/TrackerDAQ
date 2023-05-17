@@ -47,23 +47,27 @@ mkdir -p "$dataDir"
 # Using sed with variables and quotes:
 # https://askubuntu.com/questions/76808/how-do-i-use-variables-in-a-sed-command
 
-# old command:
+# v0 command:
 # sed -e "s|CML_TAP0_BIAS           =   \"500\"|CML_TAP0_BIAS           =   \""${TAP0_Setting}"\"|g" CMSIT_BERT_Scan.xml > CMSIT_BERT_Scan_Custom.xml
 
-# new commands:
-cp CMSIT_BERT_Scan.xml CMSIT_BERT_Scan_Custom.xml
-sed -i -e "s|CML_TAP0_BIAS          =  \"500\"|CML_TAP0_BIAS          =  \""${TAP0_Setting}"\"|g" CMSIT_BERT_Scan_Custom.xml
-sed -i -e "s|SER_SEL_OUT_1          = \"0b00\"|SER_SEL_OUT_1          = \""${Signal_Setting}"\"|g" CMSIT_BERT_Scan_Custom.xml
-sed -i -e "s|SER_SEL_OUT_2          = \"0b00\"|SER_SEL_OUT_2          = \""${Signal_Setting}"\"|g" CMSIT_BERT_Scan_Custom.xml
-sed -i -e "s|SER_SEL_OUT_3          = \"0b00\"|SER_SEL_OUT_3          = \""${Signal_Setting}"\"|g" CMSIT_BERT_Scan_Custom.xml
+# v1 commands:
+#cp CMSIT_BERT_Scan.xml CMSIT_BERT_Scan_Custom.xml
+#sed -i -e "s|CML_TAP0_BIAS          =  \"500\"|CML_TAP0_BIAS          =  \""${TAP0_Setting}"\"|g" CMSIT_BERT_Scan_Custom.xml
+#sed -i -e "s|SER_SEL_OUT_1          = \"0b00\"|SER_SEL_OUT_1          = \""${Signal_Setting}"\"|g" CMSIT_BERT_Scan_Custom.xml
+#sed -i -e "s|SER_SEL_OUT_2          = \"0b00\"|SER_SEL_OUT_2          = \""${Signal_Setting}"\"|g" CMSIT_BERT_Scan_Custom.xml
+#sed -i -e "s|SER_SEL_OUT_3          = \"0b00\"|SER_SEL_OUT_3          = \""${Signal_Setting}"\"|g" CMSIT_BERT_Scan_Custom.xml
+
+# v2 commands:
+cp CMSIT_RD53A_BERT.xml CMSIT_RD53A_BERT_Custom.xml
+sed -i -e "s|DAC_CML_BIAS_0         =   \"500\"|DAC_CML_BIAS_0         =   \""${TAP0_Setting}"\"|g" CMSIT_RD53A_BERT_Custom.xml
 
 # Run BERT and send output to file
 echo "Running BERT with TAP0=$TAP0_Setting" | tee -a $outFile
-CMSITminiDAQ -f CMSIT_BERT_Scan_Custom.xml -c bertest > "$dataDir/scan.log"
+CMSITminiDAQ -f CMSIT_RD53A_BERT_Custom.xml -c bertest > "$dataDir/scan.log"
 
 # Write values to output log file
-grep CML_TAP0_BIAS CMSIT_BERT_Scan_Custom.xml >> $outFile
-grep SER_SEL_OUT CMSIT_BERT_Scan_Custom.xml >> $outFile
+grep DAC_CML_BIAS_0 CMSIT_RD53A_BERT_Custom.xml >> $outFile
+grep SER_SEL_OUT CMSIT_RD53A_BERT_Custom.xml >> $outFile
 grep Final "$dataDir/scan.log" >> $outFile
 
 # Remove color codes from log file

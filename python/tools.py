@@ -114,7 +114,8 @@ def getBERTData(input_file, useRD53B):
                 if x not in errors:
                     x_values.append(x)
         else:
-            if "CML_TAP0_BIAS" in line:
+            #if "CML_TAP0_BIAS" in line:
+            if "DAC_CML_BIAS_0" in line:
                 array = line.split()
                 # must remove " before using int()
                 x = int(array[-1].replace('"', ''))
