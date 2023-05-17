@@ -8,8 +8,8 @@ import os
 def getDefaultInputs(cable_number, channel):
     # Default input parameters
     inputs      = {}
-    tap0_min    = 100
-    tap0_max    = 200
+    tap0_min    = 150
+    tap0_max    = 250
     tap0_step   = 10
     signal      = 0
     #output_dir  = "BERT_TAP0_Scans/SingleDP/CERN_FMC_FC7_FW_v4.2"

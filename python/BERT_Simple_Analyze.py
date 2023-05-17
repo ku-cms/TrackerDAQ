@@ -37,7 +37,7 @@ def findMin(x_values, y_values):
 
 # analyze data from a scan
 def analyze(input_file, plot_dir, output_file, useRD53B):
-    debug   = True
+    debug   = False
     setLogY = True
     
     data = getBERTData(input_file, useRD53B)
