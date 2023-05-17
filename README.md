@@ -71,7 +71,7 @@ set both channels on the power supply to 1.8 V and 0.9 A as the current limit.
 Here is the setup required every time to use the Ph2_ACF software and the FC7.
 Note the different hardware and computers for each setup.
 
-Setup for an RD53A SCC with electrical readout using a CERN FMC.
+Old setup (2022) for an RD53A SCC with electrical readout using a CERN FMC.
 Commands should be run in a terminal on the linux computer kucms-01.
 ```
 cd /home/kucms/TrackerDAQ/update/Ph2_ACF
@@ -82,6 +82,19 @@ CMSITminiDAQ -f CMSIT.xml -r
 ping fc7 -c 3
 CMSITminiDAQ -f CMSIT.xml -p
 ```
+
+New setup (2023) for an RD53A SCC with electrical readout using a CERN FMC.
+Commands should be run in a terminal on the linux computer kucms.
+```
+cd /home/kucms/TrackerDAQ/update/Ph2_ACF
+source setup.sh
+cd DAQSettings_v1
+fpgaconfig -c CMSIT_RD53A.xml -i IT-L12-CERN-L8-DIO5_1G28_v4p6
+CMSITminiDAQ -f CMSIT_RD53A.xml -r
+ping fc7 -c 3
+CMSITminiDAQ -f CMSIT_RD53A.xml -p
+```
+
 
 Setup for an RD53A SCC with electrical readout using a KSU FMC.
 Commands should be run in a terminal on the linux computer kucms-01.
