@@ -6,7 +6,10 @@ from tools import makeDir
 
 def plot(plot_dir, output_file, x_values, y_values, x_label="TAP0 DAC", y_label="Bit errors per 10 seconds", setLogY=True, y_errors=[]):
     useXKCDStyle = False
+    setAxisLimits = True
     makeDir(plot_dir)
+    xlim = [0, 1100]
+    ylim = [0, 1e10]
     
     if useXKCDStyle:
         plt.xkcd()
@@ -20,6 +23,10 @@ def plot(plot_dir, output_file, x_values, y_values, x_label="TAP0 DAC", y_label=
 
     if setLogY:
         ax.set_yscale('symlog')
+    
+    if setAxisLimits:
+        ax.set_xlim(xlim)
+        ax.set_ylim(ylim)
     
     ax.set_title("BERT TAP0 Scan",  fontsize=20)
     ax.set_xlabel(x_label,          fontsize=16)
