@@ -262,12 +262,12 @@ ping fc7 -c 3
 RD53BminiDAQ -f CROC.xml -t RD53BTools.toml DigitalScan
 ```
 
-Setup for an RD53B SCC (CROCv1) with optical readout using an optical FMC.
+Setup for an RD53B SCC (CROCv1) with optical readout using an optical FMC and a port card.
 Commands should be run in a terminal on the linux computer kucms.
 ```
 cd /home/kucms/TrackerDAQ/croc/Ph2_ACF
 source setup.sh
-cd DAQSettings_v1
+cd DAQSettings_v3
 fpgaconfig -c CMSIT_RD53B_Optical.xml -i IT-L8-OPTO_CROC_v4p5
 CMSITminiDAQ -f CMSIT_RD53B_Optical.xml -r
 ping fc7 -c 3
