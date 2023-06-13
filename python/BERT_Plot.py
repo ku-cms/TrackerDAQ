@@ -8,7 +8,8 @@ def plot(plot_dir, output_file, x_values, y_values, x_label="TAP0 DAC", y_label=
     useXKCDStyle = False
     setAxisLimits = True
     makeDir(plot_dir)
-    xlim = [0, 1100]
+    xlim = [0, 300]
+    #xlim = [0, 1100]
     ylim = [0, 1e10]
     
     if useXKCDStyle:

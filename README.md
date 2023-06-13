@@ -299,7 +299,12 @@ RD53BminiDAQ_TAP0_650_850 -f CROC_BERT.xml -t RD53BTools.toml BERscanTest
 RD53BminiDAQ_TAP0_800_1000 -f CROC_BERT.xml -t RD53BTools.toml BERscanTest
 ```
 
-BERT TAP0 Scan script examples (new):
+BERT TAP0 Scan script (for RD53B with port card):
+```
+python3 TrackerDAQ/python/BERT_Run_Scan.py
+```
+
+BERT TAP0 Scan script (for RD53B without port card):
 ```
 python3 TrackerDAQ/python/RD53B_BERT_Run_Scan.py
 ```
