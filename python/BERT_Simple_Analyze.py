@@ -37,7 +37,7 @@ def findMin(x_values, y_values):
 
 # analyze data from a scan
 def analyze(input_file, plot_dir, output_file, useRD53B):
-    debug   = True
+    debug   = False
     setLogY = True
     
     data = getBERTData(input_file, useRD53B)
@@ -173,8 +173,8 @@ def analyzeScansRD53B(cable_number):
     output_csv_dir   = "output"
 
     # using port card:
-    base_plot_dir    = "plots/BERT_TAP0_Scans/CERN_FMC_PortCard"
-    base_data_dir    = "data/BERT_TAP0_Scans/CERN_FMC_PortCard"
+    base_plot_dir    = "plots/BERT_TAP0_Scans/Optical_FMC_PortCard_DP_SMA_Adapter"
+    base_data_dir    = "data/BERT_TAP0_Scans/Optical_FMC_PortCard_DP_SMA_Adapter"
     output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
     
     #base_plot_dir    = "plots/BERT_TAP0_Scans/SingleDP"
