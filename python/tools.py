@@ -5,6 +5,11 @@ import os
 import re
 import numpy as np
 
+# TODO:
+# - Save BERT TAP0 scan data to csv files
+# DONE:
+# - Improve getBERTData() for RD53A and port card + RD53B use cases
+
 # creates directory if it does not exist
 def makeDir(dir_name):
     if not os.path.exists(dir_name):
@@ -81,48 +86,37 @@ def findErrorsRD53B(input_file):
 def getBERTData(input_file, useRD53B):
     # check for errors
     printError = True
+    # Updated TAP0 variable name: works for RD53A and port card + RD53B
+    TAP0_variable = "DAC_CML_BIAS_0"
     errors = []
+    
+    # TODO: if error occurs when using a port card, test find error functions
     if useRD53B:
         errors = findErrorsRD53B(input_file)
     else:
         errors = findErrorsRD53A(input_file)
+    
     if errors and printError:
         print("ERROR for {0}".format(input_file))
         print(" - There were errors for these TAP0 settings: {0}".format(errors))
         print(" - These data points will be skipped.")
+    
     f = open(input_file, 'r')
     x_values = []
     y_values = []
+    
+    # Get x and y values
+    # Updated version: works for RD53A and port card + RD53B
     for line in f:
-        # TAP0 DAC Setting (x values)
-        if useRD53B:
-            # CROC (old version):
-            # Warning: can't use only "TAP0" due to new header in log file
-            # if "Setting TAP0" in line:
-            #     array = line.split()
-            #     x = int(array[-1])
-            #     # skip the x value if there were errors
-            #     if x not in errors:
-            #         x_values.append(x)
-            
-            # Port Card (new version):
-            if "DAC_CML_BIAS_0" in line:
-                array = line.split()
-                # must remove " before using int()
-                x = int(array[-1].replace('"', ''))
-                # skip the x value if there were errors
-                if x not in errors:
-                    x_values.append(x)
-        else:
-            #if "CML_TAP0_BIAS" in line:
-            if "DAC_CML_BIAS_0" in line:
-                array = line.split()
-                # must remove " before using int()
-                x = int(array[-1].replace('"', ''))
-                # skip the x value if there were errors
-                if x not in errors:
-                    x_values.append(x)
-        # Total error counter (y values)
+        # Save TAP0 DAC as x values
+        if TAP0_variable in line:
+            array = line.split()
+            # must remove " before using int()
+            x = int(array[-1].replace('"', ''))
+            # skip the x value if there were errors
+            if x not in errors:
+                x_values.append(x)
+        # Save total error counter as y values
         if "Final counter" in line:
             # get all numbers in string
             numbers = [int(s) for s in line.split() if s.isdigit()]
