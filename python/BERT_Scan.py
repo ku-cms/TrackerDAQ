@@ -9,12 +9,13 @@ def getDefaultInputs(cable_number, channel):
     # Default input parameters
     inputs      = {}
     tap0_min    = 100
-    tap0_max    = 200
+    tap0_max    = 300
     tap0_step   = 10
     #tap0_min    = 100
     #tap0_max    = 1000
     #tap0_step   = 100
     signal      = 0
+    TAP1        = 200
     
     #output_dir  = "BERT_TAP0_Scans/SingleDP/CERN_FMC_FC7_FW_v4.2"
     #output_dir  = "BERT_TAP0_Scans/SingleDP/KSU_FMC_FC7_FW_v4.2"
@@ -24,7 +25,7 @@ def getDefaultInputs(cable_number, channel):
     #output_dir  = "BERT_TAP0_Scans/KSU_FMC_DoubleDP_DPAdapter/elink{0}_{1}_SS{2}".format(cable_number, channel, signal)
     #output_dir  = "BERT_TAP0_Scans/CERN_FMC_DoubleDP_DPAdapter/elink{0}_{1}_SS{2}_TAP1_10".format(cable_number, channel, signal)
     #output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_DP_SMA_Adapter/elink{0}_{1}_SS{2}".format(cable_number, channel, signal)
-    output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_DP_SMA_Adapter/elink{0}_{1}_SS{2}_TAP1_100".format(cable_number, channel, signal)
+    output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_DP_SMA_Adapter/elink{0}_{1}_SS{2}_TAP1_{3}".format(cable_number, channel, signal, TAP1)
 
     inputs["tap0_min"]      = tap0_min
     inputs["tap0_max"]      = tap0_max
