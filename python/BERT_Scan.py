@@ -8,14 +8,23 @@ import os
 def getDefaultInputs(cable_number, channel):
     # Default input parameters
     inputs      = {}
-    tap0_min    = 100
-    tap0_max    = 300
-    tap0_step   = 10
     #tap0_min    = 100
     #tap0_max    = 1000
     #tap0_step   = 100
+    #tap0_min    = 10
+    #tap0_max    = 100
+    #tap0_step   = 10
+    tap0_min    = 5
+    tap0_max    = 50
+    tap0_step   = 5
     signal      = 0
-    TAP1        = 200
+    TAP1        = 0 # See note below about setting TAP1!!!
+    
+    # Important!!! You must also update TAP1 settings in CMSIT_RD53B_Optical_BERT.xml:
+    # - Don't change DAC_CML_BIAS_0 or DAC_CML_BIAS_2.
+    # - DAC_CML_BIAS_1 should be changed to the desired TAP1 setting, for example "0" or "100".
+    # - To use TAP1 = 0, CML_CONFIG_SER_EN_TAP and CML_CONFIG_SER_INV_TAP should be set to "0b00".
+    # - To use TAP1 > 0, CML_CONFIG_SER_EN_TAP and CML_CONFIG_SER_INV_TAP should be set to "0b01".
     
     #output_dir  = "BERT_TAP0_Scans/SingleDP/CERN_FMC_FC7_FW_v4.2"
     #output_dir  = "BERT_TAP0_Scans/SingleDP/KSU_FMC_FC7_FW_v4.2"

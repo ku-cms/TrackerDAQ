@@ -274,6 +274,32 @@ ping fc7 -c 3
 CMSITminiDAQ -f CMSIT_RD53B_Optical.xml -p
 ```
 
+Useful CMSITminiDAQ programs:
+```
+CMSITminiDAQ -f CMSIT_RD53B_Optical.xml -p
+CMSITminiDAQ -f CMSIT_RD53B_Optical.xml -c bertest
+CMSITminiDAQ -f CMSIT_RD53B_Optical.xml -c pixelalive
+CMSITminiDAQ -f CMSIT_RD53B_Optical.xml -c noise
+CMSITminiDAQ -f CMSIT_RD53B_Optical.xml -c scurve
+```
+
+Run the BERT TAP0 Scan script for RD53B with port card:
+```
+python3 TrackerDAQ/python/BERT_Run_Scan.py
+```
+
+Use this script to analyze RD53B data for one e-link or all e-links.
+```
+# specific e-link
+./TrackerDAQ/scripts/analyze_RD53B.sh 138
+# all e-links
+./TrackerDAQ/scripts/analyze_RD53B.sh
+```
+
+Old Version: RD53B syntax to run a "DigitalScan":
+```
+RD53BminiDAQ -f CROC.xml -t RD53BTools.toml DigitalScan
+```
 
 **Important note:**
 DigitalScan runs quickly and creates various plots. BERscanTest takes longer.
@@ -283,12 +309,7 @@ Stopping BERscanTest leaves the chip in a strange state (likely sending PRBS sig
 and a power cycle is required to restore communication.
 DigitalScan works well for quickly establishing communication.
 
-Digital Scan
-```
-RD53BminiDAQ -f CROC.xml -t RD53BTools.toml DigitalScan
-```
-
-Basic BERT TAP0 Scans
+Old Version: BERT TAP0 Scans:
 ```
 RD53BminiDAQ -f CROC_BERT.xml -t RD53BTools.toml BERscanTest
 RD53BminiDAQ_TAP0_50_250 -f CROC_BERT.xml -t RD53BTools.toml BERscanTest
@@ -299,17 +320,17 @@ RD53BminiDAQ_TAP0_650_850 -f CROC_BERT.xml -t RD53BTools.toml BERscanTest
 RD53BminiDAQ_TAP0_800_1000 -f CROC_BERT.xml -t RD53BTools.toml BERscanTest
 ```
 
-BERT TAP0 Scan script (for RD53B with port card):
-```
-python3 TrackerDAQ/python/BERT_Run_Scan.py
-```
+Old Version:
+See RD53BTools.toml for available programs (e.g. BERscanTest).
+The file defining RD53B BERT scan programs is tools/RD53B/RD53BBERTscan.h.
 
-BERT TAP0 Scan script (for RD53B without port card):
+
+Old Version: BERT TAP0 Scan script (for RD53B without port card):
 ```
 python3 TrackerDAQ/python/RD53B_BERT_Run_Scan.py
 ```
 
-Answer the prompts.
+Old Version: Answer the prompts.
 For channel, enter the channel: D0 (RD53B connected to 45 pin side) or D3 (RD53B connected to 33 pin side).
 For voltage, enter the voltage (mV) from the multimeter connected to GND and NTC on the RD53B SCC.
 ```
@@ -318,26 +339,6 @@ Enter channel [D0, D3]: D0
 Enter voltage (mV) for temperature (must be a positive integer): 74
 Press enter to continue... 
 ```
-
-BERT TAP0 Scan script examples (old):
-```
-# Single DP cable
-./TrackerDAQ/scripts/RD53B_BERT_Scan.sh BERT_TAP0_Scans/SingleDP/no_elink_0 BERT_TAP0_Scans/SingleDP/no_elink_0/scan_001.log
-# e-link with two DP cables and adapter board
-./TrackerDAQ/scripts/RD53B_BERT_Scan.sh BERT_TAP0_Scans/DoubleDP_DPAdapter/elink_138 BERT_TAP0_Scans/DoubleDP_DPAdapter/elink_138/scan_001.log
-```
-
-Analyze data:
-```
-# specific e-link
-./TrackerDAQ/scripts/analyze_RD53B.sh 138
-# all e-links
-./TrackerDAQ/scripts/analyze_RD53B.sh
-```
-
-Programs: see RD53BTools.toml for available programs (e.g. BERscanTest)
-
-File defining RD53B BERT scan program: tools/RD53B/RD53BBERTscan.h.
 
 Compiling Ph2_ACF
 
