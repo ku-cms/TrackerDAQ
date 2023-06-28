@@ -6,23 +6,32 @@ import re
 import numpy as np
 
 # TODO:
-# - Save BERT TAP0 scan data to csv files
+# - If error occur in logs for port card data, test and update "find error" functions.
+
 # DONE:
 # - Improve getBERTData() for RD53A and port card + RD53B use cases
+# - Save BERT TAP0 scan data to csv files
 
 # creates directory if it does not exist
 def makeDir(dir_name):
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
 
-# takes a csv file as input and outputs data in a matrix
-def getCSVData(input_file):
+# read csv file: takes a csv file as input and outputs data in a matrix
+def readCSV(input_file):
     data = []
-    with open(input_file, "r") as f:
-        reader = csv.reader(f)
+    with open(input_file, mode="r", newline='') as f:
+        reader = csv.reader(f, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         for row in reader:
             data.append(row)
     return data
+
+# write csv file: takes data matrix as input and outputs a csv file 
+def writeCSV(output_file, data):
+    with open(output_file, mode="w", newline='') as f:
+        writer = csv.writer(f, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        for row in data:
+            writer.writerow(row)
 
 # check if all values in list are the same
 def valuesAreSame(values):
@@ -80,7 +89,7 @@ def findErrorsRD53B(input_file):
     f.close()
     return errors
 
-# get data:
+# get data from log file:
 # x = TAP0 setting
 # y = bit error rate
 def getBERTData(input_file, useRD53B):
