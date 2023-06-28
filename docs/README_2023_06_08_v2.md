@@ -8,10 +8,37 @@ RD53A or RD53B single chip cards (SCC), and an RD53A quad module.
 
 The main Ph2_ACF software repository (with instructions) is [here](https://gitlab.cern.ch/cms_tk_ph2/Ph2_ACF).
 
+## Installation:
+
+First, follow the instructions in the "Setup on CentOs7" section here, including all required packages:
+https://gitlab.cern.ch/cms_tk_ph2/Ph2_ACF
+
+Commands to install Ph2_ACF:
+```
+cd <working_area>
+git clone --recurse-submodules https://gitlab.cern.ch/cms_tk_ph2/Ph2_ACF.git
+cd Ph2_ACF
+source setup.sh
+mkdir build
+cd build
+cmake3 ..
+make -j8 
+cd ..
+```
+
+Commands to checkout a new version (using a tag) and update the submodules (MessageUtils and NetworkUtils);
+there can be compile errors if you do not update the submodules:
+```
+git checkout <tag_name>
+git submodule sync
+git submodule update --init --recursive --remote
+```
+
 Here are commands to compile Ph2_ACF (only needed when updating software).
 
 Full recompile (from scratch):
 ```
+source setup.sh
 rm -rf build
 mkdir build
 cd build
@@ -22,9 +49,31 @@ cd ..
 
 Compile (only make):
 ```
+source setup.sh
 cd build
 make -j8
 cd ..
+```
+
+Setup a Ph2_ACF working area and copy the required files.
+choose a directory name (using DAQSettings_v1 for this example):
+```
+mkdir -p DAQSettings_v1
+cp settings/RD53Files/CMSIT*.txt DAQSettings_v1
+cp settings/CMSIT*.xml DAQSettings_v1
+cp settings/lpGBTFiles/CMSIT_LpGBT-v1.txt DAQSettings_v1
+cd DAQSettings_v1
+```
+
+Edit the "connection" line in these files with your FC7 IP address (e.g. 192.168.1.100):
+```
+CMSIT_RD53A.xml
+CMSIT_RD53B.xml
+```
+
+Example connection line for 192.168.1.100:
+```
+<connection id="nanocrate" uri="ipbusudp-2.0://192.168.1.100:50001" address_table="file://${PH2ACF_BASE_DIR}/settings/address_tables/CMSIT_address_table.xml" />
 ```
 
 # Backup data
