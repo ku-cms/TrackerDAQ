@@ -11,6 +11,7 @@ import numpy as np
 # DONE:
 # - Improve getBERTData() for RD53A and port card + RD53B use cases
 # - Save BERT TAP0 scan data to csv files
+# - Fix bug: plot and record number of bits with errors instead of frames with errors
 
 # creates directory if it does not exist
 def makeDir(dir_name):
@@ -128,8 +129,12 @@ def getBERTData(input_file, useRD53B):
         # Save total error counter as y values
         if "Final counter" in line:
             # get all numbers in string
+            # WARNING: The final counter has the number of frames with errors and bits with errors
+            # - We should use the number of bits with errors!!!
+            # - Note: bits with errors ~ 32 * (frames with errors)
             numbers = [int(s) for s in line.split() if s.isdigit()]
-            y = numbers[0]
+            y = numbers[-1]
+            #print("Number of numbers: {0}; numbers = {1}; y = {2}".format(len(numbers), numbers, y))
             y_values.append(y)
     
     f.close()
