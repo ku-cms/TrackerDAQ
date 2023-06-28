@@ -6,7 +6,7 @@ import glob
 import csv
 import argparse
 from BERT_Plot import plot
-from tools import getBERTData, makeDir, valuesAreSame
+from tools import makeDir, writeCSV, getBERTData, valuesAreSame
 
 # get cable number from directory name
 def getNumber(name):
@@ -35,28 +35,37 @@ def findMin(x_values, y_values):
     # did not find min TAP0
     return -1
 
+# save data to csv file
+def saveToCSV(csv_output_file, x_values, y_values):
+    n_x_values = len(x_values)
+    csv_data = [["TAP0", "Errors"]]
+    csv_data += [[x_values[i], y_values[i]] for i in range(n_x_values)]
+    writeCSV(csv_output_file, csv_data)
+
 # analyze data from a scan
-def analyze(input_file, plot_dir, output_file, useRD53B):
+def analyze(input_file, data_dir, plot_dir, output_file, useRD53B):
     debug   = False
     setLogY = True
     
+    # get data from log file
     data = getBERTData(input_file, useRD53B)
     x_values = data[0]
     y_values = data[1]
+    n_x_values = len(x_values)
+    n_y_values = len(y_values)
     
-
     if debug:
         print("x_values: {0}".format(x_values))
         print("y_values: {0}".format(y_values))
     
     # check for the same number of x and y values
-    if len(x_values) != len(y_values):
+    if n_x_values != n_y_values:
         print("ERROR: number of x and y values do not match")
-        print("input file: {0}, num x vals: {1}, num y vals: {2}".format(input_file, len(x_values), len(y_values)))
+        print("input file: {0}, num x vals: {1}, num y vals: {2}".format(input_file, n_x_values, n_y_values))
         return
     
     if debug:
-        print("input file: {0}, num x vals: {1}, num y vals: {2}".format(input_file, len(x_values), len(y_values)))
+        print("input file: {0}, num x vals: {1}, num y vals: {2}".format(input_file, n_x_values, n_y_values))
     
     y_values_are_constant = valuesAreSame(y_values)
     min_value = findMin(x_values, y_values)
@@ -69,6 +78,11 @@ def analyze(input_file, plot_dir, output_file, useRD53B):
         print("y_values_are_constant: {0}".format(y_values_are_constant))
         print("Min TAP0: {0}".format(min_value))
     
+    # save data to csv file
+    csv_output_file = "{0}/{1}.csv".format(data_dir, output_file)
+    saveToCSV(csv_output_file, x_values, y_values)
+    
+    # plot data
     plot(plot_dir, output_file, x_values, y_values, setLogY=setLogY)
     
     return min_value
@@ -82,7 +96,7 @@ def runDir(plot_dir, data_dir, table, data_name, useRD53B):
         name        = os.path.basename(input_file)
         x           = name.split(".")[0]
         output_file = "BERT_" + x
-        min_value = analyze(input_file, plot_dir, output_file, useRD53B)
+        min_value = analyze(input_file, data_dir, plot_dir, output_file, useRD53B)
         table.append([data_name, x, min_value])
     # sort so that the latest file is last
     table.sort()

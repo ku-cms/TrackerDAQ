@@ -5,12 +5,15 @@ import numpy as np
 from tools import makeDir
 
 def plot(plot_dir, output_file, x_values, y_values, x_label="TAP0 DAC", y_label="Bit errors per 10 seconds", setLogY=True, y_errors=[]):
-    useXKCDStyle = False
-    setAxisLimits = True
-    makeDir(plot_dir)
-    xlim = [0, 400]
-    #xlim = [0, 1100]
+    useXKCDStyle = False    # Use XKCD style
+    setAxisLimits = False   # Use assigned axis limits
+
+    # Assigned axis limits
+    #xlim = [0, 400]
+    xlim = [0, 1100]
     ylim = [0, 1e10]
+    
+    makeDir(plot_dir)
     
     if useXKCDStyle:
         plt.xkcd()
