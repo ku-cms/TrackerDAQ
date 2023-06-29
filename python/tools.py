@@ -5,19 +5,46 @@ import os
 import re
 import numpy as np
 
+# TODO:
+# - If error occur in logs for port card data, test and update "find error" functions.
+
+# DONE:
+# - Improve getBERTData() for RD53A and port card + RD53B use cases
+# - Save BERT TAP0 scan data to csv files
+# - Fix bug: plot and record number of bits with errors instead of frames with errors
+
 # creates directory if it does not exist
 def makeDir(dir_name):
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
 
-# takes a csv file as input and outputs data in a matrix
-def getCSVData(input_file):
+# read csv file: takes a csv file as input and outputs data in a matrix
+def readCSV(input_file):
     data = []
-    with open(input_file, "r") as f:
-        reader = csv.reader(f)
+    with open(input_file, mode="r", newline='') as f:
+        reader = csv.reader(f, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         for row in reader:
             data.append(row)
     return data
+
+# write csv file: takes data matrix as input and outputs a csv file 
+def writeCSV(output_file, data):
+    with open(output_file, mode="w", newline='') as f:
+        writer = csv.writer(f, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        for row in data:
+            writer.writerow(row)
+
+# check if all values in list are the same
+def valuesAreSame(values):
+    # If there are no values, return false:
+    if len(values) == 0:
+        return False
+    else:
+        first_value = values[0]
+        for value in values:
+            if value != first_value:
+                return False
+        return True
 
 # return list of TAP0 settings that had errors for RD53A data
 def findErrorsRD53A(input_file):
@@ -63,47 +90,51 @@ def findErrorsRD53B(input_file):
     f.close()
     return errors
 
-# get data:
+# get data from log file:
 # x = TAP0 setting
 # y = bit error rate
 def getBERTData(input_file, useRD53B):
     # check for errors
     printError = True
+    # Updated TAP0 variable name: works for RD53A and port card + RD53B
+    TAP0_variable = "DAC_CML_BIAS_0"
     errors = []
+    
+    # TODO: if error occurs when using a port card, test find error functions
     if useRD53B:
         errors = findErrorsRD53B(input_file)
     else:
         errors = findErrorsRD53A(input_file)
+    
     if errors and printError:
         print("ERROR for {0}".format(input_file))
         print(" - There were errors for these TAP0 settings: {0}".format(errors))
         print(" - These data points will be skipped.")
+    
     f = open(input_file, 'r')
     x_values = []
     y_values = []
+    
+    # Get x and y values
+    # Updated version: works for RD53A and port card + RD53B
     for line in f:
-        # TAP0 DAC Setting (x values)
-        if useRD53B:
-            # Warning: can't use only "TAP0" due to new header in log file
-            if "Setting TAP0" in line:
-                array = line.split()
-                x = int(array[-1])
-                # skip the x value if there were errors
-                if x not in errors:
-                    x_values.append(x)
-        else:
-            if "CML_TAP0_BIAS" in line:
-                array = line.split()
-                # must remove " before using int()
-                x = int(array[-1].replace('"', ''))
-                # skip the x value if there were errors
-                if x not in errors:
-                    x_values.append(x)
-        # Total error counter (y values)
+        # Save TAP0 DAC as x values
+        if TAP0_variable in line:
+            array = line.split()
+            # must remove " before using int()
+            x = int(array[-1].replace('"', ''))
+            # skip the x value if there were errors
+            if x not in errors:
+                x_values.append(x)
+        # Save total error counter as y values
         if "Final counter" in line:
             # get all numbers in string
+            # WARNING: The final counter has the number of frames with errors and bits with errors
+            # - We should use the number of bits with errors!!!
+            # - Note: bits with errors ~ 32 * (frames with errors)
             numbers = [int(s) for s in line.split() if s.isdigit()]
-            y = numbers[0]
+            y = numbers[-1]
+            #print("Number of numbers: {0}; numbers = {1}; y = {2}".format(len(numbers), numbers, y))
             y_values.append(y)
     
     f.close()

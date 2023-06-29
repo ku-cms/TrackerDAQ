@@ -67,7 +67,7 @@ def plot(datasets, output_name, title, x_label, y_label, xlim, ylim):
 
 
 def run(input_csv, output_name):
-    data = tools.getCSVData(input_csv)
+    data = tools.readCSV(input_csv)
     #for row in data: 
     #    print(row)
     length_col  = 1

@@ -1,5 +1,5 @@
 #!/usr/bin/bash
-# BERT_Scan.sh
+# PortCard_BERT_Scan.sh
 
 # input arguments
 TAP0_Setting=$1
@@ -41,33 +41,20 @@ mkdir -p "$dataDir"
 # Set settings in config file.
 # Note that having the exact number of spaces as the original file matter for search and replace.
 # This is not ideal... it would be good to improve this.
-# Do not set SER_SEL_OUT_0 to custom values. 
-# SER_SEL_OUT_0 should be "0b01" for Aurora data so that read/write communication works for the RD53 chip.
 
 # Using sed with variables and quotes:
 # https://askubuntu.com/questions/76808/how-do-i-use-variables-in-a-sed-command
 
-# v0 command:
-# sed -e "s|CML_TAP0_BIAS           =   \"500\"|CML_TAP0_BIAS           =   \""${TAP0_Setting}"\"|g" CMSIT_BERT_Scan.xml > CMSIT_BERT_Scan_Custom.xml
 
-# v1 commands:
-#cp CMSIT_BERT_Scan.xml CMSIT_BERT_Scan_Custom.xml
-#sed -i -e "s|CML_TAP0_BIAS          =  \"500\"|CML_TAP0_BIAS          =  \""${TAP0_Setting}"\"|g" CMSIT_BERT_Scan_Custom.xml
-#sed -i -e "s|SER_SEL_OUT_1          = \"0b00\"|SER_SEL_OUT_1          = \""${Signal_Setting}"\"|g" CMSIT_BERT_Scan_Custom.xml
-#sed -i -e "s|SER_SEL_OUT_2          = \"0b00\"|SER_SEL_OUT_2          = \""${Signal_Setting}"\"|g" CMSIT_BERT_Scan_Custom.xml
-#sed -i -e "s|SER_SEL_OUT_3          = \"0b00\"|SER_SEL_OUT_3          = \""${Signal_Setting}"\"|g" CMSIT_BERT_Scan_Custom.xml
-
-# v2 commands:
-cp CMSIT_RD53A_BERT.xml CMSIT_RD53A_BERT_Custom.xml
-sed -i -e "s|DAC_CML_BIAS_0         =   \"500\"|DAC_CML_BIAS_0         =   \""${TAP0_Setting}"\"|g" CMSIT_RD53A_BERT_Custom.xml
+cp CMSIT_RD53B_Optical_BERT.xml CMSIT_RD53B_Optical_BERT_Custom.xml
+sed -i -e "s|DAC_CML_BIAS_0         =   \"500\"|DAC_CML_BIAS_0         =   \""${TAP0_Setting}"\"|g" CMSIT_RD53B_Optical_BERT_Custom.xml
 
 # Run BERT and send output to file
 echo "Running BERT with TAP0=$TAP0_Setting" | tee -a $outFile
-CMSITminiDAQ -f CMSIT_RD53A_BERT_Custom.xml -c bertest > "$dataDir/scan.log"
+CMSITminiDAQ -f CMSIT_RD53B_Optical_BERT_Custom.xml -c bertest > "$dataDir/scan.log"
 
 # Write values to output log file
-grep DAC_CML_BIAS_0 CMSIT_RD53A_BERT_Custom.xml >> $outFile
-grep SER_SEL_OUT CMSIT_RD53A_BERT_Custom.xml >> $outFile
+grep DAC_CML_BIAS_0 CMSIT_RD53B_Optical_BERT_Custom.xml >> $outFile
 grep Final "$dataDir/scan.log" >> $outFile
 
 # Remove color codes from log file
