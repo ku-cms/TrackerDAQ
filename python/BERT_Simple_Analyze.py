@@ -6,7 +6,7 @@ import glob
 import csv
 import argparse
 from BERT_Plot import plot
-from tools import getBERTData, makeDir
+from tools import makeDir, writeCSV, getBERTData, valuesAreSame
 
 # get cable number from directory name
 def getNumber(name):
@@ -35,28 +35,56 @@ def findMin(x_values, y_values):
     # did not find min TAP0
     return -1
 
+# save data to csv file
+def saveToCSV(csv_output_file, x_values, y_values):
+    n_x_values = len(x_values)
+    csv_data = [["TAP0", "Errors"]]
+    csv_data += [[x_values[i], y_values[i]] for i in range(n_x_values)]
+    writeCSV(csv_output_file, csv_data)
+
 # analyze data from a scan
-def analyze(input_file, plot_dir, output_file, useRD53B):
-    debug = False
+def analyze(input_file, data_dir, plot_dir, output_file, useRD53B):
+    debug   = False
+    setLogY = True
+    
+    # get data from log file
     data = getBERTData(input_file, useRD53B)
     x_values = data[0]
     y_values = data[1]
+    n_x_values = len(x_values)
+    n_y_values = len(y_values)
+    
     if debug:
         print("x_values: {0}".format(x_values))
         print("y_values: {0}".format(y_values))
+    
     # check for the same number of x and y values
-    if len(x_values) != len(y_values):
+    if n_x_values != n_y_values:
         print("ERROR: number of x and y values do not match")
-        print("input file: {0}, num x vals: {1}, num y vals: {2}".format(input_file, len(x_values), len(y_values)))
+        print("input file: {0}, num x vals: {1}, num y vals: {2}".format(input_file, n_x_values, n_y_values))
         return
+    
     if debug:
-        print("input file: {0}, num x vals: {1}, num y vals: {2}".format(input_file, len(x_values), len(y_values)))
+        print("input file: {0}, num x vals: {1}, num y vals: {2}".format(input_file, n_x_values, n_y_values))
     
-    plot(plot_dir, output_file, x_values, y_values)
-    #plot(plot_dir, output_file, x_values, y_values,setLogY=False)
-    
+    y_values_are_constant = valuesAreSame(y_values)
     min_value = findMin(x_values, y_values)
-    #print("Min TAP0: {0}".format(min_value))
+    
+    # if y values are constant, do not use log scale for y axis
+    if y_values_are_constant:
+        setLogY = False
+    
+    if debug:
+        print("y_values_are_constant: {0}".format(y_values_are_constant))
+        print("Min TAP0: {0}".format(min_value))
+    
+    # save data to csv file
+    csv_output_file = "{0}/{1}.csv".format(data_dir, output_file)
+    saveToCSV(csv_output_file, x_values, y_values)
+    
+    # plot data
+    plot(plot_dir, output_file, x_values, y_values, setLogY=setLogY)
+    
     return min_value
 
 # run over a single directory
@@ -68,7 +96,7 @@ def runDir(plot_dir, data_dir, table, data_name, useRD53B):
         name        = os.path.basename(input_file)
         x           = name.split(".")[0]
         output_file = "BERT_" + x
-        min_value = analyze(input_file, plot_dir, output_file, useRD53B)
+        min_value = analyze(input_file, data_dir, plot_dir, output_file, useRD53B)
         table.append([data_name, x, min_value])
     # sort so that the latest file is last
     table.sort()
@@ -125,14 +153,14 @@ def runSet(base_plot_dir, base_data_dir, useRD53B, cable_number=-1, output_csv_d
     if not foundCable:
         print("No data found for e-link {0}".format(cable_number))
 
-# make a plot for each scan
+# RD53A: make a plot for each scan
 def analyzeScansRD53A(cable_number):
     useRD53B = False
     output_csv_dir   = "output"
     
-    base_plot_dir    = "plots/BERT_TAP0_Scans/SingleDP"
-    base_data_dir    = "data/BERT_TAP0_Scans/SingleDP"
-    output_csv_name  = "output/BERT_Min_TAP0_Values_SingleDP.csv"
+    #base_plot_dir    = "plots/BERT_TAP0_Scans/SingleDP"
+    #base_data_dir    = "data/BERT_TAP0_Scans/SingleDP"
+    #output_csv_name  = "output/BERT_Min_TAP0_Values_SingleDP.csv"
     
     #base_plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DPAdapter"
     #base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter"
@@ -142,9 +170,9 @@ def analyzeScansRD53A(cable_number):
     #base_data_dir    = "data/BERT_TAP0_Scans/KSU_FMC_DoubleDP_DPAdapter"
     #output_csv_name  = "output/BERT_Min_TAP0_Values_KSU_FMC.csv"
    
-    #base_plot_dir    = "plots/BERT_TAP0_Scans/CERN_FMC_DoubleDP_DPAdapter"
-    #base_data_dir    = "data/BERT_TAP0_Scans/CERN_FMC_DoubleDP_DPAdapter"
-    #output_csv_name  = "output/BERT_Min_TAP0_Values_CERN_FMC.csv"
+    base_plot_dir    = "plots/BERT_TAP0_Scans/CERN_FMC_DoubleDP_DPAdapter"
+    base_data_dir    = "data/BERT_TAP0_Scans/CERN_FMC_DoubleDP_DPAdapter"
+    output_csv_name  = "output/BERT_Min_TAP0_Values_CERN_FMC.csv"
    
     if cable_number < 0:
         # run for all cables
@@ -153,9 +181,20 @@ def analyzeScansRD53A(cable_number):
         # run for a specific cable
         runSet(base_plot_dir, base_data_dir, useRD53B, cable_number)
 
+# RD53B: make a plot for each scan
 def analyzeScansRD53B(cable_number):
     useRD53B = True
     output_csv_dir   = "output"
+
+    # using port card with e-link in J2:
+    #base_plot_dir    = "plots/BERT_TAP0_Scans/Optical_FMC_PortCard_DP_SMA_Adapter"
+    #base_data_dir    = "data/BERT_TAP0_Scans/Optical_FMC_PortCard_DP_SMA_Adapter"
+    #output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
+    
+    # using port card with e-link in J2 with red adapter board:
+    base_plot_dir    = "plots/BERT_TAP0_Scans/Optical_FMC_PortCard_J2_DP_RedAdapter"
+    base_data_dir    = "data/BERT_TAP0_Scans/Optical_FMC_PortCard_J2_DP_RedAdapter"
+    output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
     
     #base_plot_dir    = "plots/BERT_TAP0_Scans/SingleDP"
     #base_data_dir    = "data/BERT_TAP0_Scans/SingleDP"
@@ -164,9 +203,9 @@ def analyzeScansRD53B(cable_number):
     #base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter"
     #output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
     
-    base_plot_dir    = "plots/BERT_TAP0_Scans/ShortDoubleDP_DPAdapter"
-    base_data_dir    = "data/BERT_TAP0_Scans/ShortDoubleDP_DPAdapter"
-    output_csv_name  = "output/BERT_Min_TAP0_Values_ShortDoubleDP_DPAdapter.csv"
+    #base_plot_dir    = "plots/BERT_TAP0_Scans/ShortDoubleDP_DPAdapter"
+    #base_data_dir    = "data/BERT_TAP0_Scans/ShortDoubleDP_DPAdapter"
+    #output_csv_name  = "output/BERT_Min_TAP0_Values_ShortDoubleDP_DPAdapter.csv"
     
     #base_plot_dir    = "plots/BERT_TAP0_Scans/ShortDP"
     #base_data_dir    = "data/BERT_TAP0_Scans/ShortDP"

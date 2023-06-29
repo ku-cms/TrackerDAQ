@@ -8,17 +8,40 @@ import os
 def getDefaultInputs(cable_number, channel):
     # Default input parameters
     inputs      = {}
-    tap0_min    = 20
-    tap0_max    = 100
-    tap0_step   = 10
+    #tap0_min    = 100
+    #tap0_max    = 1000
+    #tap0_step   = 100
+    #tap0_min    = 10
+    #tap0_max    = 100
+    #tap0_step   = 10
+    tap0_min    = 5
+    tap0_max    = 50
+    tap0_step   = 5
     signal      = 0
+    TAP1        = 0 # See note below about setting TAP1!!!
+    
+    # Important!!! You must also update TAP1 settings in CMSIT_RD53B_Optical_BERT.xml:
+    # - Don't change DAC_CML_BIAS_0 or DAC_CML_BIAS_2.
+    # - DAC_CML_BIAS_1 should be changed to the desired TAP1 setting, for example "0" or "100".
+    # - To use TAP1 = 0, CML_CONFIG_SER_EN_TAP and CML_CONFIG_SER_INV_TAP should be set to "0b00".
+    # - To use TAP1 > 0, CML_CONFIG_SER_EN_TAP and CML_CONFIG_SER_INV_TAP should be set to "0b01".
+    
     #output_dir  = "BERT_TAP0_Scans/SingleDP/CERN_FMC_FC7_FW_v4.2"
     #output_dir  = "BERT_TAP0_Scans/SingleDP/KSU_FMC_FC7_FW_v4.2"
-    output_dir  = "BERT_TAP0_Scans/SingleDP/KSU_FMC_FC7_FW_v4.2_TAP1_100"
+    #output_dir  = "BERT_TAP0_Scans/SingleDP/KSU_FMC_FC7_FW_v4.2_TAP1_100"
     #output_dir  = "BERT_TAP0_Scans/SingleDP/KSU_FMC_FC7_FW_v4.2_HybridID_3"
-    #output_dir  = "BERT_TAP0_Scans/DoubleDP_DPAdapter/elink{0}_SS{1}".format(cable_number, signal)
+    
+    #output_dir  = "BERT_TAP0_Scans/CERN_FMC_DoubleDP_DPAdapter/elink{0}_{1}_SS{2}".format(cable_number, channel, signal)
     #output_dir  = "BERT_TAP0_Scans/KSU_FMC_DoubleDP_DPAdapter/elink{0}_{1}_SS{2}".format(cable_number, channel, signal)
     #output_dir  = "BERT_TAP0_Scans/CERN_FMC_DoubleDP_DPAdapter/elink{0}_{1}_SS{2}_TAP1_10".format(cable_number, channel, signal)
+    
+    # RD53B + port card with e-link in J2:
+    #output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_DP_SMA_Adapter/elink{0}_{1}_SS{2}".format(cable_number, channel, signal)
+    #output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_DP_SMA_Adapter/elink{0}_{1}_SS{2}_TAP1_{3}".format(cable_number, channel, signal, TAP1)
+    output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_J2_DP_RedAdapter/elink{0}_{1}_SS{2}_TAP1_{3}".format(cable_number, channel, signal, TAP1)
+    
+    # RD53B + port card with e-link in J3:
+    #output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_J3_DP_SMA_Adapter/elink{0}_{1}_SS{2}_TAP1_{3}".format(cable_number, channel, signal, TAP1)
 
     inputs["tap0_min"]      = tap0_min
     inputs["tap0_max"]      = tap0_max
@@ -81,6 +104,9 @@ def getOutputFile(output_dir):
 
 # Scan over TAP0 DAQ settings
 def run(tap0_min, tap0_max, tap0_step, signal, output_dir):
+    # assign bash script
+    #bash_script = "./TrackerDAQ/scripts/BERT_Scan.sh"
+    bash_script = "./TrackerDAQ/scripts/PortCard_BERT_Scan.sh"
     valid = validInputs(tap0_min, tap0_max, tap0_step, signal, output_dir)
     if not valid:
         print("ERROR: Invalid inputs provided. Quitting now!")
@@ -90,7 +116,7 @@ def run(tap0_min, tap0_max, tap0_step, signal, output_dir):
         # Run BERT scan script
         # Format signal type setting in 2-bit binary (e.g. 0b00, 0b01, ...)
         sig_setting = format(signal, '#04b')
-        output = subprocess.run(["./TrackerDAQ/scripts/BERT_Scan.sh", str(x), sig_setting, output_dir, output_file])
+        output = subprocess.run([bash_script, str(x), sig_setting, output_dir, output_file])
         # append output to file
         with open(output_file, 'a') as f:
             f.write(str(output) + "\n")
