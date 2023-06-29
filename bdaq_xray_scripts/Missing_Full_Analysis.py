@@ -48,7 +48,7 @@ def analyze_chip_data(module_path, chip, xray_data_file, thr_data_file):
         module_path += "/"
     
     chip_path = module_path + chip 
-    data_dir = "data"
+    #data_dir = "data"
     hep.style.use("CMS")
     
     ####### Parameters: ############## 
@@ -68,7 +68,7 @@ def analyze_chip_data(module_path, chip, xray_data_file, thr_data_file):
     make_dir(chip_path)
     
     # Load Thr data
-    with tb.open_file(data_dir+'/'+thr_data_file, 'r') as infile:
+    with tb.open_file(thr_data_file, 'r') as infile:
         data1 = infile.get_node('/HistOcc')[:].T
         Chi2in = infile.get_node('/Chi2Map')[:].T
         mask1 = infile.get_node('/configuration_in/chip/masks/enable')[:].T
@@ -153,7 +153,7 @@ def analyze_chip_data(module_path, chip, xray_data_file, thr_data_file):
     
     ####### X-RAY PART  #################
     step=10 
-    with tb.open_file(data_dir+'/'+xray_data_file, 'r') as infile:
+    with tb.open_file(xray_data_file, 'r') as infile:
         data1 = infile.get_node('/HistOcc')[:].T
         mask1 = infile.get_node('/configuration_in/chip/masks/enable')[:].T
     
@@ -282,7 +282,7 @@ def run_analysis():
     make_dir(results_path)
 
     # Module_ZH0024
-    module_path = '{0}/Module_ZH0024'.format(results_path)
+    """ module_path = '{0}/Module_ZH0024'.format(results_path)
 
     dataMap = {}
     dataMap['ROC0'] = {}
@@ -304,7 +304,7 @@ def run_analysis():
     dataMap['ROC3']['xray_data_file'] = 'output_data/module_0_xray_run_7/chip_3/20230417_164701_noise_occupancy_scan_interpreted.h5'
     dataMap['ROC3']['thr_data_file']  = 'output_data/module_0_xray_run_7/chip_3/20230417_163833_threshold_scan_interpreted.h5'
     
-    analyze_module(module_path, dataMap)
+    analyze_module(module_path, dataMap) 
     
     # Module_ZH0022
     module_path = '{0}/Module_ZH0022'.format(results_path)
@@ -351,7 +351,47 @@ def run_analysis():
     dataMap['ROC3']['xray_data_file'] = 'output_data/module_ZH0023_xray_run_0/chip_3/20230511_182952_noise_occupancy_scan_interpreted.h5'
     dataMap['ROC3']['thr_data_file']  = 'output_data/module_ZH0023_xray_run_0/chip_3/20230511_182339_threshold_scan_interpreted.h5'
     
+    analyze_module(module_path, dataMap)"""
+
+    #Module_MJ321
+    module_path = '{0}/Module_MJ321_v2'.format(results_path)
+
+    dataMap = {}
+    dataMap['ROC0'] = {}
+    dataMap['ROC0']['xray_data_file'] = 'output_data/single_chip_modules_v2/20230621_153826_noise_occupancy_scan_interpreted.h5'
+    dataMap['ROC0']['thr_data_file']  = 'output_data/single_chip_modules_v2/20230621_153234_threshold_scan_interpreted.h5'
+    
     analyze_module(module_path, dataMap)
+
+    #Module_MJ322
+    module_path = '{0}/Module_MJ322_v2'.format(results_path)
+
+    dataMap = {}
+    dataMap['ROC0'] = {}
+    dataMap['ROC0']['xray_data_file'] = 'output_data/single_chip_modules_v2/20230621_160631_noise_occupancy_scan_interpreted.h5'
+    dataMap['ROC0']['thr_data_file']  = 'output_data/single_chip_modules_v2/20230621_155833_threshold_scan_interpreted.h5'
+    
+    analyze_module(module_path, dataMap)
+
+    '''#Module_MJ321
+    module_path = '{0}/Module_MJ321'.format(results_path)
+
+    dataMap = {}
+    dataMap['ROC0'] = {}
+    dataMap['ROC0']['xray_data_file'] = 'output_data/module_MJ321/20230619_142233_noise_occupancy_scan_interpreted.h5'
+    dataMap['ROC0']['thr_data_file']  = 'output_data/module_MJ321/20230619_141624_threshold_scan_interpreted.h5'
+    
+    analyze_module(module_path, dataMap)
+
+     #Module_MJ322
+    module_path = '{0}/Module_MJ322'.format(results_path)
+
+    dataMap = {}
+    dataMap['ROC0'] = {}
+    dataMap['ROC0']['xray_data_file'] = 'output_data/module_MJ322/20230619_144523_noise_occupancy_scan_interpreted.h5'
+    dataMap['ROC0']['thr_data_file']  = 'output_data/module_MJ322/20230619_143857_threshold_scan_interpreted.h5'
+    
+    analyze_module(module_path, dataMap)'''
 
 
 def main():
