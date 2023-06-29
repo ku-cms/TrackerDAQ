@@ -9,9 +9,8 @@ def plot(plot_dir, output_file, x_values, y_values, x_label="TAP0 DAC", y_label=
     setAxisLimits = False   # Use assigned axis limits
 
     # Assigned axis limits
-    #xlim = [0, 400]
     xlim = [0, 1100]
-    ylim = [0, 1e10]
+    ylim = [0, 1e11]
     
     makeDir(plot_dir)
     
