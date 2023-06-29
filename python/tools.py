@@ -144,14 +144,18 @@ def getBERTData(input_file, useRD53B):
 # - Based on functions from excel file from Matt Joyce (matthew.lawrence.joyce@cern.ch)
 # - The excel file is "Temperature_NTC.xlsx" in the attachments section here: https://twiki.cern.ch/twiki/bin/view/Main/USTFPXPhase2
 def getTempRD53B(voltage_mv):
-    # current in amps
-    current     = 0.05
-    parameter_1 = current / 4990.0
-    # convert voltage from mV to V
-    voltage_v   = voltage_mv / 1e3
-    # resistance (ohms?)
-    resistance  = (voltage_v / parameter_1) / 1e3
-    # temperature (C)
-    temperature = 1.0 / (1.0 / 298.15 + np.log(resistance / 10) / 3435.0) - 273.15
-    return temperature
+    if voltage_mv <= 0:
+        print("ERROR: Positive voltage required; the voltage {0} is not positive!".format(voltage_mv))
+        return -999
+    else:
+        # current in amps
+        current     = 0.05
+        parameter_1 = current / 4990.0
+        # convert voltage from mV to V
+        voltage_v   = voltage_mv / 1e3
+        # resistance (ohms?)
+        resistance  = (voltage_v / parameter_1) / 1e3
+        # temperature (C)
+        temperature = 1.0 / (1.0 / 298.15 + np.log(resistance / 10) / 3435.0) - 273.15
+        return temperature
 
