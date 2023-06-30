@@ -9,7 +9,7 @@ def getDefaultInputs(cable_number, channel):
     # Default input parameters
     inputs      = {}
     
-    tap0_min    = 500
+    tap0_min    = 400
     tap0_max    = 1000
     tap0_step   = 100
     
@@ -21,8 +21,8 @@ def getDefaultInputs(cable_number, channel):
     #tap0_max    = 50
     #tap0_step   = 5
     
-    signal      = 0 # Type of secondary signal; use 0 as default.
-    TAP1        = 0 # See note below about setting TAP1!!!
+    signal      = 0     # Type of secondary signal; use 0 as default.
+    TAP1        = 75    # See note below about setting TAP1!!!
     
     # Important!!! You must also update TAP1 settings in CMSIT_RD53B_Optical_BERT.xml:
     # - Don't change DAC_CML_BIAS_0 or DAC_CML_BIAS_2.

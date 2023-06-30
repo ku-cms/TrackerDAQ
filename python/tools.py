@@ -141,6 +141,7 @@ def getBERTData(input_file, useRD53B):
     return [x_values, y_values]
 
 # Get temperature for RD53B; input: voltage (mV), output: temperature (C)
+# - Connect multimeter to GND and NTC pins on the RD53B CROCv1 SCC to measure voltage (mV).
 # - Based on functions from excel file from Matt Joyce (matthew.lawrence.joyce@cern.ch)
 # - The excel file is "Temperature_NTC.xlsx" in the attachments section here: https://twiki.cern.ch/twiki/bin/view/Main/USTFPXPhase2
 def getTempRD53B(voltage_mv):
