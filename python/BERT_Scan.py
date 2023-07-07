@@ -9,20 +9,20 @@ def getDefaultInputs(cable_number, channel):
     # Default input parameters
     inputs      = {}
     
-    tap0_min    = 400
-    tap0_max    = 1000
-    tap0_step   = 100
+    #tap0_min    = 500
+    #tap0_max    = 1000
+    #tap0_step   = 100
     
-    #tap0_min    = 100
-    #tap0_max    = 300
-    #tap0_step   = 10
+    tap0_min    = 100
+    tap0_max    = 300
+    tap0_step   = 20
     
     #tap0_min    = 5
     #tap0_max    = 50
     #tap0_step   = 5
     
     signal      = 0     # Type of secondary signal; use 0 as default.
-    TAP1        = 75    # See note below about setting TAP1!!!
+    TAP1        = 0     # See note below about setting TAP1!!!
     
     # Important!!! You must also update TAP1 settings in CMSIT_RD53B_Optical_BERT.xml:
     # - Don't change DAC_CML_BIAS_0 or DAC_CML_BIAS_2.
@@ -46,7 +46,10 @@ def getDefaultInputs(cable_number, channel):
     
     # RD53B + port card with e-link in J3:
     #output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_J3_DP_SMA_Adapter/elink{0}_{1}_SS{2}_TAP1_{3}".format(cable_number, channel, signal, TAP1)
-    output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_J3_DP_RedAdapter/elink{0}_{1}_SS{2}_TAP1_{3}".format(cable_number, channel, signal, TAP1)
+    #output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_J3_DP_RedAdapter/elink{0}_{1}_SS{2}_TAP1_{3}".format(cable_number, channel, signal, TAP1)
+    
+    # RD53B + port card with e-link in J4:
+    output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_RedAdapter/elink{0}_{1}_SS{2}_TAP1_{3}".format(cable_number, channel, signal, TAP1)
 
     inputs["tap0_min"]      = tap0_min
     inputs["tap0_max"]      = tap0_max

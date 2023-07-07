@@ -6,7 +6,7 @@ from tools import makeDir
 
 def plot(plot_dir, output_file, x_values, y_values, x_label="TAP0 DAC", y_label="Bit errors per 10 seconds", setLogY=True, y_errors=[]):
     useXKCDStyle = False    # Use XKCD style
-    setAxisLimits = True    # Use assigned axis limits
+    setAxisLimits = False    # Use assigned axis limits
 
     # Assigned axis limits
     xlim = [0, 1100]
