@@ -212,21 +212,21 @@ ping fc7 -c 3
 CMSITminiDAQ -f CMSIT_RD53A_Electrical.xml -p
 ```
 
-To run the standard BERT program:
+To run the standard BERT program (use the correct xml file for your setup):
 ```
-CMSITminiDAQ -f CMSIT.xml -c bertest
+CMSITminiDAQ -f CMSIT_RD53A.xml -c bertest
 ```
 
-To run the standard pixel alive program:
+To run the standard pixel alive program (use the correct xml file for your setup):
 ```
-CMSITminiDAQ -f CMSIT.xml -c pixelalive
+CMSITminiDAQ -f CMSIT_RD53A.xml -c pixelalive
 ```
 
 ### Running BERTs
 
-First, run the standard BERT program:
+First, run the standard BERT program (use the correct xml file for your setup):
 ```
-CMSITminiDAQ -f CMSIT.xml -c bertest
+CMSITminiDAQ -f CMSIT_RD53A.xml -c bertest
 ```
 This is useful to check that the data link is working.
 If the BERT runs successfully and there are 0 errors, then follow the procedure in the "Running BERT TAP0 Scans" section.
