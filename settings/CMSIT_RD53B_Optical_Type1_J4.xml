@@ -50,10 +50,10 @@
               VOLTAGE_TRIM_DIG       =     "8"
               VOLTAGE_TRIM_ANA       =     "8"
 
-              CML_CONFIG_SER_EN_TAP  =  "0b01"
-              CML_CONFIG_SER_INV_TAP =  "0b01"
-              DAC_CML_BIAS_0         =   "250"
-              DAC_CML_BIAS_1         =    "25"
+              CML_CONFIG_SER_EN_TAP  =  "0b00"
+              CML_CONFIG_SER_INV_TAP =  "0b00"
+              DAC_CML_BIAS_0         =   "500"
+              DAC_CML_BIAS_1         =     "0"
               DAC_CML_BIAS_2         =     "0"
 
               MON_ADC_TRIM           =     "5"
