@@ -9,14 +9,17 @@ def getDefaultInputs(cable_number, channel):
     # Default input parameters
     inputs      = {}
     
-    #tap0_min    = 80
-    #tap0_max    = 180
-    #tap0_step   = 10
-    
-    tap0_min    = 100
-    tap0_max    = 300
+    # Small TAP0 range
+    tap0_min    = 50
+    tap0_max    = 150
     tap0_step   = 10
     
+    # Medium TAP0 range
+    #tap0_min    = 100
+    #tap0_max    = 300
+    #tap0_step   = 10
+    
+    # Large TAP0 range
     #tap0_min    = 500
     #tap0_max    = 1000
     #tap0_step   = 100
@@ -37,7 +40,7 @@ def getDefaultInputs(cable_number, channel):
     #output_dir  = "BERT_TAP0_Scans/SingleDP/KSU_FMC_FC7_FW_v4.2_TAP1_100"
     #output_dir  = "BERT_TAP0_Scans/SingleDP/KSU_FMC_FC7_FW_v4.2_HybridID_3"
     
-    output_dir  = "BERT_TAP0_Scans/CERN_FMC_DoubleDP_DPAdapter/elink{0}_{1}_SS{2}".format(cable_number, channel, signal)
+    #output_dir  = "BERT_TAP0_Scans/CERN_FMC_DoubleDP_DPAdapter/elink{0}_{1}_SS{2}".format(cable_number, channel, signal)
     #output_dir  = "BERT_TAP0_Scans/KSU_FMC_DoubleDP_DPAdapter/elink{0}_{1}_SS{2}".format(cable_number, channel, signal)
     #output_dir  = "BERT_TAP0_Scans/CERN_FMC_DoubleDP_DPAdapter/elink{0}_{1}_SS{2}_TAP1_10".format(cable_number, channel, signal)
     
@@ -51,6 +54,7 @@ def getDefaultInputs(cable_number, channel):
     #output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_J3_DP_RedAdapter/elink{0}_{1}_SS{2}_TAP1_{3}".format(cable_number, channel, signal, TAP1)
     
     # RD53B + port card with e-link in J4:
+    output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_SMA_Adapter/elink{0}_{1}_SS{2}_TAP1_{3}".format(cable_number, channel, signal, TAP1)
     #output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_RedAdapter/elink{0}_{1}_SS{2}_TAP1_{3}".format(cable_number, channel, signal, TAP1)
 
     inputs["tap0_min"]      = tap0_min
@@ -117,10 +121,10 @@ def run(tap0_min, tap0_max, tap0_step, signal, output_dir):
     # Important: assign which bash script to use!
     
     # Script for running without a port card
-    bash_script = "./TrackerDAQ/scripts/BERT_Scan.sh"
+    #bash_script = "./TrackerDAQ/scripts/BERT_Scan.sh"
     
     # Script for running with a port card
-    #bash_script = "./TrackerDAQ/scripts/PortCard_BERT_Scan.sh"
+    bash_script = "./TrackerDAQ/scripts/PortCard_BERT_Scan.sh"
     
     valid = validInputs(tap0_min, tap0_max, tap0_step, signal, output_dir)
     
