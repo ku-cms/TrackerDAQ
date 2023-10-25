@@ -345,7 +345,7 @@ Based on the port card slot (J2, J3, and J4) and the supported e-link types (1, 
 - Use the correct red adapter board or the correct SMA cable mapping with adapter boards.
 - Use the correct xml configuration file for all commands.
 - Change the softlink "CMSIT_RD53B_Optical_BERT.xml".
-- Update "python/BERT_Scan.py" and "python/BERT_Simple_Analyze.py" for your setup; see below for more details.
+- Update "BERT_Scan.py" and "BERT_Simple_Analyze.py" for your setup; see below for more details.
 
 Here is the syntax for changing the "CMSIT_RD53B_Optical_BERT.xml" softlink:
 ```
@@ -391,8 +391,10 @@ If you want to modify the TAP1 setting:
 - 3
 
 Before running the BERT TAP0 scan and analysis scripts, make sure to edit these files as needed for your configuration:
-- python/BERT_Scan.py: set the default TAP0 range, the "output_dir", and the "bash_script" for your setup
-- python/BERT_Simple_Analyze.py: set the "base_plot_dir", "base_data_dir", and "output_csv_name" for your setup
+- These files should be edited from the directory "/home/kucms/TrackerDAQ/TrackerDAQ/python", which is where this repository is installed.
+- There are softlinks to these files in the working areas, for example in "/home/kucms/TrackerDAQ/croc/Ph2_ACF/DAQSettings_v3/TrackerDAQ/python".
+- BERT_Scan.py: set the default TAP0 range, the "output_dir", and the "bash_script" for your setup
+- BERT_Simple_Analyze.py: set the "base_plot_dir", "base_data_dir", and "output_csv_name" for your setup
 
 Here is the command to run BERT TAP0 scans:
 ```
