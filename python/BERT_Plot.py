@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 from tools import makeDir
 
-def plot(plot_dir, output_file, x_values, y_values, x_label="TAP0 DAC", y_label="Bit errors per 10 seconds", setLogY=True, y_errors=[]):
+def plot(plot_dir, output_file, x_values, y_values, x_label="TAP0 DAC", y_label="Bit errors over 20 seconds", setLogY=True, y_errors=[]):
     useXKCDStyle = False    # Use XKCD style
-    setAxisLimits = False    # Use assigned axis limits
+    setAxisLimits = False   # Use assigned axis limits
 
     # Assigned axis limits
     xlim = [0, 1100]
@@ -46,7 +46,7 @@ def plot(plot_dir, output_file, x_values, y_values, x_label="TAP0 DAC", y_label=
     # close to avoid memory warning 
     plt.close('all')
 
-def plotMultiple(plot_dir, output_file, inputs, xlim, ylim, x_label="TAP0 DAC", y_label="Bit errors per 10 seconds", setLogY=True, alpha=None, setBERY=False):
+def plotMultiple(plot_dir, output_file, inputs, xlim, ylim, x_label="TAP0 DAC", y_label="Bit errors over 20 seconds", setLogY=True, alpha=None, setBERY=False):
     useXKCDStyle = False
     makeDir(plot_dir)
     if useXKCDStyle:
