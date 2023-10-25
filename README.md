@@ -335,34 +335,66 @@ Useful RD53B information can be found at these links:
 
 ## Using RD53B chips 
 
-First, turn on the FC7.
-Check that FC7 communication is working:
+TODO: Finish updating port card instructions!
+
+Latest setup (from 2023) for an RD53B SCC (CROCv1) with optical readout using an optical FMC and a port card.
+
+Based on the port card slot (J2, J3, and J4) and the supported e-link types (1, 1K, 5, and 5K), you need to:
+- Use the correct hardware connections: make sure that the VTRX+ and e-link are connected to the correct locations.
+- Make sure that the e-link is connected with the correct orientation based on its type.
+- Use the correct red adapter board or the correct SMA cable mapping with adapter boards.
+- Use the correct xml configuration file for all commands.
+- Change the softlink "CMSIT_RD53B_Optical_BERT.xml".
+- Update "python/BERT_Scan.py" and "python/BERT_Simple_Analyze.py" for your setup; see below for more details.
+
+Here is the syntax for changing the "CMSIT_RD53B_Optical_BERT.xml" softlink:
+```
+example
+```
+For example, if you want to set the softlink to point to the file X, the command would be:
+```
+example
+```
+
+After connecting the e-link, adapter boards, etc., you can power on the FC7, port card, and RD53B chip.
+
+Check that communication is working between the linux computer kucms and the FC7:
 ```
 ping fc7 -c 3
 ```
 
-Latest setup (from 2023) for an RD53B SCC (CROCv1) with optical readout using an optical FMC and a port card.
-Commands should be run in a terminal on the linux computer kucms.
+Then, these setup commands should be run in a terminal on kucms.
+In this example, we are using port card slot 4 and a Type 5K e-link,
+which is why we are using the xml configuration file "CMSIT_RD53B_Optical_Type5_J4.xml".
 ```
 cd /home/kucms/TrackerDAQ/croc/Ph2_ACF
 source setup.sh
 cd DAQSettings_v3
-fpgaconfig -c CMSIT_RD53B_Optical.xml -i IT-L8-OPTO_CROC_v4p5
-CMSITminiDAQ -f CMSIT_RD53B_Optical.xml -r
+fpgaconfig -c CMSIT_RD53B_Optical_Type5_J4.xml -i IT-L8-OPTO_CROC_v4p5
+CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -r
 ping fc7 -c 3
-CMSITminiDAQ -f CMSIT_RD53B_Optical.xml -p
+CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
 ```
 
 Useful CMSITminiDAQ programs:
 ```
-CMSITminiDAQ -f CMSIT_RD53B_Optical.xml -p
-CMSITminiDAQ -f CMSIT_RD53B_Optical.xml -c bertest
-CMSITminiDAQ -f CMSIT_RD53B_Optical.xml -c pixelalive
-CMSITminiDAQ -f CMSIT_RD53B_Optical.xml -c noise
-CMSITminiDAQ -f CMSIT_RD53B_Optical.xml -c scurve
+CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
+CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -c bertest
+CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -c pixelalive
+CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -c noise
+CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -c scurve
 ```
 
-Run the BERT TAP0 Scan script for RD53B with port card:
+If you want to modify the TAP1 setting:
+- 1
+- 2
+- 3
+
+Before running the BERT TAP0 scan and analysis scripts, make sure to edit these files as needed for your configuration:
+- python/BERT_Scan.py: set the default TAP0 range, the "output_dir", and the "bash_script" for your setup
+- python/BERT_Simple_Analyze.py: set the "base_plot_dir", "base_data_dir", and "output_csv_name" for your setup
+
+Here is the command to run BERT TAP0 scans:
 ```
 python3 TrackerDAQ/python/BERT_Run_Scan.py
 ```
@@ -375,12 +407,12 @@ Use this script to analyze RD53B data for one e-link or all e-links.
 ./TrackerDAQ/scripts/analyze_RD53B.sh
 ```
 
-To copy the data to your local computer, use this script:
+To copy the data to your local computer, use this script from this repository:
 ```
 ./scripts/getData.sh
 ```
 
-To copy the plots to your local computer, use this script:
+To copy the plots to your local computer, use this script from this repository:
 ```
 ./scripts/getPlots.sh
 ```
