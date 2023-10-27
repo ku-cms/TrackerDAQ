@@ -385,6 +385,23 @@ CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -c noise
 CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -c scurve
 ```
 
+If you get lpGBT errors like this:
+```
+CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
+...
+|11:22:00|I|Initializing communication to Low-power Gigabit Transceiver (LpGBT): 0
+|11:22:00|I|    --> Configured up and down link mapping in firmware
+|11:22:00|I|LpGBT version: LpGBT-v1
+|11:22:01|E|LpGBT PUSM status: ARESET
+|11:22:01|E|>>> LpGBT chip not configured, reached maximum number of attempts (10) <<<
+```
+Then you can turn off the RD53B chip and port card, reset and reprogram the FC7,
+and then turn the RD53B chip and port card on.
+```
+fpgaconfig -c CMSIT_RD53B_Optical_Type5_J4.xml -i IT-L8-OPTO_CROC_v4p5
+CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -r
+```
+
 If you want to modify the TAP1 setting:
 - 1
 - 2
@@ -399,6 +416,23 @@ Before running the BERT TAP0 scan and analysis scripts, make sure to edit these 
 Here is the command to run BERT TAP0 scans:
 ```
 python3 TrackerDAQ/python/BERT_Run_Scan.py
+```
+
+If you get lpGBT errors like this:
+```
+python3 TrackerDAQ/python/BERT_Run_Scan.py
+...
+Running BERT with TAP0=200
+Running BERT with TAP0=210
+terminate called after throwing an instance of 'Exception'
+  what():  [RD53lpGBTInterface::WriteReg] LpGBT register writing issue
+  ./TrackerDAQ/scripts/PortCard_BERT_Scan.sh: line 54: 25469 Aborted                 (core dumped) CMSITminiDAQ -f CMSIT_RD53B_Optical_BERT_Custom.xml -c bertest > "$dataDir/scan.log"
+```
+Then you can turn off the RD53B chip and port card, reset and reprogram the FC7,
+and then turn the RD53B chip and port card on.
+```
+fpgaconfig -c CMSIT_RD53B_Optical_Type5_J4.xml -i IT-L8-OPTO_CROC_v4p5
+CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -r
 ```
 
 Use this script to analyze RD53B data for one e-link or all e-links.
