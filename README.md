@@ -395,7 +395,7 @@ CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
 |11:22:01|E|LpGBT PUSM status: ARESET
 |11:22:01|E|>>> LpGBT chip not configured, reached maximum number of attempts (10) <<<
 ```
-Then you can turn off the RD53B chip and port card, reset and reprogram the FC7,
+Then you can turn off the RD53B chip and port card, reprogram and reset the FC7 with these commands,
 and then turn the RD53B chip and port card on.
 ```
 fpgaconfig -c CMSIT_RD53B_Optical_Type5_J4.xml -i IT-L8-OPTO_CROC_v4p5
@@ -428,7 +428,7 @@ terminate called after throwing an instance of 'Exception'
   what():  [RD53lpGBTInterface::WriteReg] LpGBT register writing issue
   ./TrackerDAQ/scripts/PortCard_BERT_Scan.sh: line 54: 25469 Aborted                 (core dumped) CMSITminiDAQ -f CMSIT_RD53B_Optical_BERT_Custom.xml -c bertest > "$dataDir/scan.log"
 ```
-Then you can turn off the RD53B chip and port card, reset and reprogram the FC7,
+Then you can turn off the RD53B chip and port card, reprogram and reset the FC7 with these commands,
 and then turn the RD53B chip and port card on.
 ```
 fpgaconfig -c CMSIT_RD53B_Optical_Type5_J4.xml -i IT-L8-OPTO_CROC_v4p5
