@@ -157,6 +157,8 @@ def runSet(base_plot_dir, base_data_dir, useRD53B, cable_number=-1, output_csv_d
 def analyzeScansRD53A(cable_number):
     useRD53B = False
     output_csv_dir   = "output"
+
+    # Important: choose which directory to analyze!
     
     #base_plot_dir    = "plots/BERT_TAP0_Scans/SingleDP"
     #base_data_dir    = "data/BERT_TAP0_Scans/SingleDP"
@@ -185,8 +187,10 @@ def analyzeScansRD53A(cable_number):
 def analyzeScansRD53B(cable_number):
     useRD53B = True
     output_csv_dir   = "output"
+    
+    # Important: choose which directory to analyze!
 
-    # using port card with e-link in J2:
+    # using port card with e-link in J2, SMA adapter boards and cables:
     #base_plot_dir    = "plots/BERT_TAP0_Scans/Optical_FMC_PortCard_DP_SMA_Adapter"
     #base_data_dir    = "data/BERT_TAP0_Scans/Optical_FMC_PortCard_DP_SMA_Adapter"
     #output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
@@ -196,7 +200,7 @@ def analyzeScansRD53B(cable_number):
     #base_data_dir    = "data/BERT_TAP0_Scans/Optical_FMC_PortCard_J2_DP_RedAdapter"
     #output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
     
-    # using port card with e-link in J3:
+    # using port card with e-link in J3, SMA adapter boards and cables:
     #base_plot_dir    = "plots/BERT_TAP0_Scans/Optical_FMC_PortCard_J3_DP_SMA_Adapter"
     #base_data_dir    = "data/BERT_TAP0_Scans/Optical_FMC_PortCard_J3_DP_SMA_Adapter"
     #output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
@@ -206,10 +210,15 @@ def analyzeScansRD53B(cable_number):
     #base_data_dir    = "data/BERT_TAP0_Scans/Optical_FMC_PortCard_J3_DP_RedAdapter"
     #output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
     
-    # using port card with e-link in J4 with red adapter board:
-    base_plot_dir    = "plots/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_RedAdapter"
-    base_data_dir    = "data/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_RedAdapter"
+    # using port card with e-link in J4, SMA adapter boards and cables:
+    base_plot_dir    = "plots/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_SMA_Adapter"
+    base_data_dir    = "data/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_SMA_Adapter"
     output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
+    
+    # using port card with e-link in J4 with red adapter board:
+    #base_plot_dir    = "plots/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_RedAdapter"
+    #base_data_dir    = "data/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_RedAdapter"
+    #output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
     
     #base_plot_dir    = "plots/BERT_TAP0_Scans/SingleDP"
     #base_data_dir    = "data/BERT_TAP0_Scans/SingleDP"

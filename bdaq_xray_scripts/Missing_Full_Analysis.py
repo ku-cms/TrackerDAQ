@@ -353,25 +353,63 @@ def run_analysis():
     
     analyze_module(module_path, dataMap)"""
 
-    #Module_MJ321
-    module_path = '{0}/Module_MJ321_v2'.format(results_path)
+    #Module_ZH0036
+    #module_path = '{0}/Module_ZH0036'.format(results_path)
+
+    #dataMap = {}
+    #dataMap['ROC0'] = {}
+    #dataMap['ROC0']['xray_data_file'] = 'output_data/module_ZH0036/chip_0/20230710_134647_noise_occupancy_scan_interpreted.h5'
+    #dataMap['ROC0']['thr_data_file']  = 'output_data/module_ZH0036/chip_0/20230710_133310_threshold_scan_interpreted.h5'
+    #dataMap['ROC1'] = {}
+    #dataMap['ROC1']['xray_data_file'] = 'output_data/module_ZH0036/chip_1/20230710_132124_noise_occupancy_scan_interpreted.h5'
+    #dataMap['ROC1']['thr_data_file']  = 'output_data/module_ZH0036/chip_1/20230710_131449_threshold_scan_interpreted.h5'
+    #dataMap['ROC2'] = {}
+    #dataMap['ROC2']['xray_data_file'] = 'output_data/module_ZH0036/chip_2/20230710_124452_noise_occupancy_scan_interpreted.h5'
+    #dataMap['ROC2']['thr_data_file']  = 'output_data/module_ZH0036/chip_2/20230710_123826_threshold_scan_interpreted.h5'
+    #dataMap['ROC3'] = {}
+    #dataMap['ROC3']['xray_data_file'] = 'output_data/module_ZH0036/chip_3/20230710_114935_noise_occupancy_scan_interpreted.h5'
+    #dataMap['ROC3']['thr_data_file']  = 'output_data/module_ZH0036/chip_3/20230710_114312_threshold_scan_interpreted.h5'
+    
+    #analyze_module(module_path, dataMap)
+
+    #Module_ZH0034
+    module_path = '{0}/Module_ZH0034'.format(results_path)
 
     dataMap = {}
-    dataMap['ROC0'] = {}
-    dataMap['ROC0']['xray_data_file'] = 'output_data/single_chip_modules_v2/20230621_153826_noise_occupancy_scan_interpreted.h5'
-    dataMap['ROC0']['thr_data_file']  = 'output_data/single_chip_modules_v2/20230621_153234_threshold_scan_interpreted.h5'
+    #dataMap['ROC0'] = {}
+    #dataMap['ROC0']['xray_data_file'] = 'output_data/module_ZH0036/chip_0/20230710_134647_noise_occupancy_scan_interpreted.h5'
+    #dataMap['ROC0']['thr_data_file']  = 'output_data/module_ZH0036/chip_0/20230710_133310_threshold_scan_interpreted.h5'
+    dataMap['ROC1'] = {}
+    dataMap['ROC1']['xray_data_file'] = 'output_data/module_ZH0034/chip_1/20230720_114857_noise_occupancy_scan_interpreted.h5'
+    dataMap['ROC1']['thr_data_file']  = 'output_data/module_ZH0034/chip_1/20230720_114127_threshold_scan_interpreted.h5'
+    dataMap['ROC2'] = {}
+    dataMap['ROC2']['xray_data_file'] = 'output_data/module_ZH0034/chip_2/20230718_162508_noise_occupancy_scan_interpreted.h5'
+    dataMap['ROC2']['thr_data_file']  = 'output_data/module_ZH0034/chip_2/20230718_161900_threshold_scan_interpreted.h5'
+    dataMap['ROC3'] = {}
+    dataMap['ROC3']['xray_data_file'] = 'output_data/module_ZH0034/chip_3/20230718_160514_noise_occupancy_scan_interpreted.h5'
+    dataMap['ROC3']['thr_data_file']  = 'output_data/module_ZH0034/chip_3/20230718_155509_threshold_scan_interpreted.h5'
     
     analyze_module(module_path, dataMap)
+
+    #Module_MJ321
+    #module_path = '{0}/Module_MJ321_v2'.format(results_path)
+
+    #dataMap = {}
+    #dataMap['ROC0'] = {}
+    #dataMap['ROC0']['xray_data_file'] = 'output_data/single_chip_modules_v2/20230621_153826_noise_occupancy_scan_interpreted.h5'
+    #dataMap['ROC0']['thr_data_file']  = 'output_data/single_chip_modules_v2/20230621_153234_threshold_scan_interpreted.h5'
+    
+    #analyze_module(module_path, dataMap)
 
     #Module_MJ322
-    module_path = '{0}/Module_MJ322_v2'.format(results_path)
+    #module_path = '{0}/Module_MJ322_v2'.format(results_path)
 
-    dataMap = {}
-    dataMap['ROC0'] = {}
-    dataMap['ROC0']['xray_data_file'] = 'output_data/single_chip_modules_v2/20230621_160631_noise_occupancy_scan_interpreted.h5'
-    dataMap['ROC0']['thr_data_file']  = 'output_data/single_chip_modules_v2/20230621_155833_threshold_scan_interpreted.h5'
+    #dataMap = {}
+    #dataMap['ROC0'] = {}
+    #dataMap['ROC0']['xray_data_file'] = 'output_data/single_chip_modules_v2/20230621_160631_noise_occupancy_scan_interpreted.h5'
+    #dataMap['ROC0']['thr_data_file']  = 'output_data/single_chip_modules_v2/20230621_155833_threshold_scan_interpreted.h5'
     
-    analyze_module(module_path, dataMap)
+    #analyze_module(module_path, dataMap)
 
     '''#Module_MJ321
     module_path = '{0}/Module_MJ321'.format(results_path)
