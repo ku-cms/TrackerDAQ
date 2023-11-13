@@ -453,3 +453,8 @@ To copy the plots to your local computer, use this script from this repository:
 ./scripts/getPlots.sh
 ```
 
+## Digital module (1x2 CROC digital module) 
+
+TODO: Document digital module electrical readout.
+
+
