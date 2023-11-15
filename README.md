@@ -455,9 +455,19 @@ To copy the plots to your local computer, use this script from this repository:
 
 ## Digital module (1x2 CROC digital module) 
 
-TODO: Finish digital module electrical readout instructions (power settings, etc.).
+For electrical readout of the RD53B 1x2 CROC digital module,
+we are using the KSU FMC in slot L12 of the FC7 (the slot on the right).
+The digital module should connect to the KSU FMC (in the upper left port) using a mini-DP cable.
 
-RD53B digital module electrical readout:
+To power the digital module, we are putting both power cables on one power supply output channel,
+with both red cables on positive and both black cables on negative.
+The power cable should connect to the connector on the digital module.
+We are using constant voltage mode with these settings:
+- Total voltage: 1.70 V on the supply (1.68 V with multimeter)
+- Total current: 4.25 A on the supply
+
+We are using Ph2_ACF tag v4-13,
+and we are using firmware v4.6 for KSU (L12) electrical readout for CROCv1 QUAD modules.
 
 Setup:
 ```
@@ -476,6 +486,4 @@ CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Electrical.xml -c bertest
 CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Electrical.xml -c pixelalive
 CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Electrical.xml -c scurve
 ```
-
-
 
