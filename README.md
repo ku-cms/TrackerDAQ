@@ -455,6 +455,27 @@ To copy the plots to your local computer, use this script from this repository:
 
 ## Digital module (1x2 CROC digital module) 
 
-TODO: Document digital module electrical readout.
+TODO: Finish digital module electrical readout instructions (power settings, etc.).
+
+RD53B digital module electrical readout:
+
+Setup:
+```
+cd /home/kucms/TrackerDAQ/croc/Ph2_ACF
+source setup.sh
+cd DAQSettings_v3
+fpgaconfig -c CMSIT_RD53B_Digital_Module_Electrical.xml -i IT-L12-KSU-CROC_QUAD_v4p6
+CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Electrical.xml -r
+ping fc7 -c 3
+```
+
+Run tests:
+```
+CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Electrical.xml -p
+CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Electrical.xml -c bertest
+CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Electrical.xml -c pixelalive
+CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Electrical.xml -c scurve
+```
+
 
 
