@@ -4,7 +4,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 from tools import makeDir
 
-def plot(plot_dir, output_file, x_values, y_values, x_label="TAP0 DAC", y_label="Bit errors over 20 seconds", setLogY=True, y_errors=[]):
+# Change y-axis label based on BERT; bits/frams and time
+#def plot(plot_dir, output_file, x_values, y_values, x_label="TAP0 DAC", y_label="Bit errors over 20 seconds", setLogY=True, y_errors=[]):
+def plot(plot_dir, output_file, x_values, y_values, x_label="TAP0 DAC", y_label="Frame errors over 10 seconds", setLogY=True, y_errors=[]):
     useXKCDStyle = False    # Use XKCD style
     setAxisLimits = False   # Use assigned axis limits
 
