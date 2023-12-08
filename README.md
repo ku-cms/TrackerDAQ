@@ -457,14 +457,13 @@ To copy the plots to your local computer, use this script from this repository:
 
 ### Power Settings
 
-FIXME: update for constant current settings!
-
-To power the digital module, we are putting both power cables on one power supply output channel,
+We are powering the digital module in constant current mode.
+We put both power cables on one power supply output channel (on the right side of the power supply),
 with both red cables on positive and both black cables on negative.
-The power cable should connect to the connector on the digital module.
-We are using constant voltage mode with these settings:
-- Total voltage: 1.70 V on the supply (1.68 V with multimeter)
-- Total current: 4.25 A on the supply
+
+We are using constant current mode with these settings:
+- Current limit: 3.80 A - should measure 3.80 A when output is on.
+- Voltage limit: 1.70 V - should measure 1.62 V when output is on.
 
 ### Electrical readout
 
@@ -498,7 +497,7 @@ CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Electrical.xml -c scurve
 For optical readout of the RD53B 1x2 CROC digital module,
 we are using the optical FMC in slot L8 of the FC7 (the slot on the left).
 The port card should connect to the optical FMC using an optical fiber;
-channels FIXME should be connected to the location FIXME.
+the optical fiber channels 6 and 7 should be connected to the leftmost position of the bottom row of the optical FMC.
 
 For Ph2_ACF, we are using the latest master branch (as of December 7, 2023)
 from the cmsinnertracker [here](https://gitlab.cern.ch/cmsinnertracker/Ph2_ACF).
