@@ -455,9 +455,9 @@ To copy the plots to your local computer, use this script from this repository:
 
 ## Digital module (1x2 CROC digital module) 
 
-For electrical readout of the RD53B 1x2 CROC digital module,
-we are using the KSU FMC in slot L12 of the FC7 (the slot on the right).
-The digital module should connect to the KSU FMC (in the upper left port) using a mini-DP cable.
+### Power Settings
+
+FIXME: update for constant current settings!
 
 To power the digital module, we are putting both power cables on one power supply output channel,
 with both red cables on positive and both black cables on negative.
@@ -466,8 +466,14 @@ We are using constant voltage mode with these settings:
 - Total voltage: 1.70 V on the supply (1.68 V with multimeter)
 - Total current: 4.25 A on the supply
 
+### Electrical readout
+
+For electrical readout of the RD53B 1x2 CROC digital module,
+we are using the KSU FMC in slot L12 of the FC7 (the slot on the right).
+The digital module should connect to the KSU FMC (in the upper left port) using a mini-DP cable.
+
 We are using Ph2_ACF tag v4-13,
-and we are using firmware v4.6 for KSU (L12) electrical readout for CROCv1 QUAD modules.
+and we are using FC7 firmware v4.6 for KSU (L12) electrical readout for CROCv1 QUAD modules.
 
 Setup:
 ```
@@ -486,4 +492,46 @@ CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Electrical.xml -c bertest
 CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Electrical.xml -c pixelalive
 CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Electrical.xml -c scurve
 ```
+
+### Optical readout
+
+For optical readout of the RD53B 1x2 CROC digital module,
+we are using the optical FMC in slot L8 of the FC7 (the slot on the left).
+The port card should connect to the optical FMC using an optical fiber;
+channels FIXME should be connected to the location FIXME.
+
+For Ph2_ACF, we are using the latest master branch (as of December 7, 2023)
+from the cmsinnertracker [here](https://gitlab.cern.ch/cmsinnertracker/Ph2_ACF).
+We are using FC7 firmware v4.8 for optical readout (L8), quad module, and CROCv1.   
+
+RD53B digital module optical readout:
+
+Setup:
+```
+cd /home/kucms/TrackerDAQ/croc/Ph2_ACF
+source setup.sh
+cd DAQSettings_v3
+fpgaconfig -c CMSIT_RD53B_Digital_Module_Optical_J4.xml -i IT-L8-OPTO-CROC_QUAD_v4p8
+CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Optical_J4.xml -r
+ping fc7 -c 3
+```
+
+Run tests:
+```
+CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Optical_J4.xml -p
+CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Optical_J4.xml -c bertest
+CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Optical_J4.xml -c pixelalive
+CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Optical_J4.xml -c scurve
+```
+
+Note: The "pixelalive" program is not working;
+it causes the "LpGBT PUSM status: ARESET" error, after which communicaiton fails for all programs.
+
+To resolve the "LpGBT PUSM status: ARESET" error, reprogram and reset the FC7 using these commands:
+```
+fpgaconfig -c CMSIT_RD53B_Digital_Module_Optical_J4.xml -i IT-L8-OPTO-CROC_QUAD_v4p8
+CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Optical_J4.xml -r
+```
+
+
 
