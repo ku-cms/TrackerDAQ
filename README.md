@@ -498,18 +498,25 @@ For optical readout of the RD53B 1x2 CROC digital module,
 we are using the optical FMC in slot L8 of the FC7 (the slot on the left).
 The port card should connect to the optical FMC using an optical fiber;
 the optical fiber channels 6 and 7 should be connected to the leftmost position of the bottom row of the optical FMC.
+We are using a "TFPX H1x2 K" e-link (e-link 520),
+with the 15-pin connector P1 installed on the digital module
+and the 45-pin connector installed on port card slot J4.
 
-For Ph2_ACF, we are using the latest master branch (as of December 7, 2023)
-from the cmsinnertracker [here](https://gitlab.cern.ch/cmsinnertracker/Ph2_ACF).
+Here are the software and firmware versions that we are using (as of December 14, 2023).
+For Ph2_ACF, we are using the Ph2_ACF tag v4-18.
 We are using FC7 firmware v4.8 for optical readout (L8), quad module, and CROCv1.   
+Note that we are using a dedicated working area for modules in kucms at this path:
+```
+/home/kucms/TrackerDAQ/modules/Ph2_ACF
+```
 
 RD53B digital module optical readout:
 
 Setup:
 ```
-cd /home/kucms/TrackerDAQ/croc/Ph2_ACF
+cd /home/kucms/TrackerDAQ/modules/Ph2_ACF
 source setup.sh
-cd DAQSettings_v3
+cd DAQSettings_v1
 fpgaconfig -c CMSIT_RD53B_Digital_Module_Optical_J4.xml -i IT-L8-OPTO-CROC_QUAD_v4p8
 CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Optical_J4.xml -r
 ping fc7 -c 3
@@ -522,9 +529,6 @@ CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Optical_J4.xml -c bertest
 CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Optical_J4.xml -c pixelalive
 CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Optical_J4.xml -c scurve
 ```
-
-Note: The "pixelalive" program is not working;
-it causes the "LpGBT PUSM status: ARESET" error, after which communicaiton fails for all programs.
 
 To resolve the "LpGBT PUSM status: ARESET" error, reprogram and reset the FC7 using these commands:
 ```
