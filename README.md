@@ -457,13 +457,21 @@ To copy the plots to your local computer, use this script from this repository:
 
 ### Power Settings
 
+We are powering the port card in constant votlage mode.
+We put the power cables on one power suppy output channel (on the left side of the power supply),
+with the white cable on positive and the black cable on negative.
+
+For the port card, we are using constant voltage mode with these settings:
+- Voltage limit: 10.16 V - should measure about 10.17 V when output is on.
+- Current limit:  0.80 A - should measure about  0.15 A when output is on.
+
 We are powering the digital module in constant current mode.
 We put both power cables on one power supply output channel (on the right side of the power supply),
 with both red cables on positive and both black cables on negative.
 
-We are using constant current mode with these settings:
-- Current limit: 3.80 A - should measure 3.80 A when output is on.
-- Voltage limit: 1.70 V - should measure 1.62 V when output is on.
+For the digital module, we are using constant current mode with these settings:
+- Current limit: 3.80 A - should measure about 3.80 A when output is on.
+- Voltage limit: 1.70 V - should measure about 1.63 V when output is on.
 
 ### Electrical readout
 
@@ -536,5 +544,17 @@ fpgaconfig -c CMSIT_RD53B_Digital_Module_Optical_J4.xml -i IT-L8-OPTO-CROC_QUAD_
 CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Optical_J4.xml -r
 ```
 
+Here is the command to run BERT TAP0 scans:
+```
+python3 TrackerDAQ/python/BERT_Run_Scan.py
+```
+
+Use this script to analyze RD53B data for one e-link or all e-links.
+```
+# specific e-link
+./TrackerDAQ/scripts/analyze_RD53B.sh 520
+# all e-links
+./TrackerDAQ/scripts/analyze_RD53B.sh
+```
 
 
