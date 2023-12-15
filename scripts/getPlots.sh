@@ -7,6 +7,7 @@
 #rsync -az kucms@kucms-01.phsx.ku.edu:/home/kucms/TrackerDAQ/croc/Ph2_ACF/DAQSettings_v1/plots/ raw_plots_RD53B
 
 # kucms
-rsync -az kucms@kucms.phsx.ku.edu:/home/kucms/TrackerDAQ/croc/Ph2_ACF/DAQSettings_v3/plots/ raw_plots_PortCard_RD53B
 rsync -az kucms@kucms.phsx.ku.edu:/home/kucms/TrackerDAQ/update/Ph2_ACF/DAQSettings_v1/plots/ raw_plots_RD53A
+rsync -az kucms@kucms.phsx.ku.edu:/home/kucms/TrackerDAQ/croc/Ph2_ACF/DAQSettings_v3/plots/ raw_plots_PortCard_RD53B
+rsync -az kucms@kucms.phsx.ku.edu:/home/kucms/TrackerDAQ/modules/Ph2_ACF/DAQSettings_v1/plots/ raw_plots_PortCard_Module
 
