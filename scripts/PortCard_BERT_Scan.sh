@@ -47,7 +47,12 @@ mkdir -p "$dataDir"
 
 
 cp CMSIT_RD53B_Optical_BERT.xml CMSIT_RD53B_Optical_BERT_Custom.xml
-sed -i -e "s|DAC_CML_BIAS_0         =   \"500\"|DAC_CML_BIAS_0         =   \""${TAP0_Setting}"\"|g" CMSIT_RD53B_Optical_BERT_Custom.xml
+
+# FIXME: We should find a better way to do this that does not break based on the number of spaces!!
+
+# Be careful about the number of spaces!
+#sed -i -e "s|DAC_CML_BIAS_0         =   \"500\"|DAC_CML_BIAS_0         =   \""${TAP0_Setting}"\"|g" CMSIT_RD53B_Optical_BERT_Custom.xml
+sed -i -e "s|DAC_CML_BIAS_0         =    \"500\"|DAC_CML_BIAS_0         =    \""${TAP0_Setting}"\"|g" CMSIT_RD53B_Optical_BERT_Custom.xml
 
 # Run BERT and send output to file
 echo "Running BERT with TAP0=$TAP0_Setting" | tee -a $outFile

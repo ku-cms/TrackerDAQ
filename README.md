@@ -455,19 +455,32 @@ To copy the plots to your local computer, use this script from this repository:
 
 ## Digital module (1x2 CROC digital module) 
 
+### Power Settings
+
+We are powering the port card in constant votlage mode.
+We put the power cables on one power suppy output channel (on the left side of the power supply),
+with the white cable on positive and the black cable on negative.
+
+For the port card, we are using constant voltage mode with these settings:
+- Voltage limit: 10.16 V - should measure about 10.17 V when output is on.
+- Current limit:  0.80 A - should measure about  0.15 A when output is on.
+
+We are powering the digital module in constant current mode.
+We put both power cables on one power supply output channel (on the right side of the power supply),
+with both red cables on positive and both black cables on negative.
+
+For the digital module, we are using constant current mode with these settings:
+- Current limit: 3.80 A - should measure about 3.80 A when output is on.
+- Voltage limit: 1.70 V - should measure about 1.63 V when output is on.
+
+### Electrical readout
+
 For electrical readout of the RD53B 1x2 CROC digital module,
 we are using the KSU FMC in slot L12 of the FC7 (the slot on the right).
 The digital module should connect to the KSU FMC (in the upper left port) using a mini-DP cable.
 
-To power the digital module, we are putting both power cables on one power supply output channel,
-with both red cables on positive and both black cables on negative.
-The power cable should connect to the connector on the digital module.
-We are using constant voltage mode with these settings:
-- Total voltage: 1.70 V on the supply (1.68 V with multimeter)
-- Total current: 4.25 A on the supply
-
 We are using Ph2_ACF tag v4-13,
-and we are using firmware v4.6 for KSU (L12) electrical readout for CROCv1 QUAD modules.
+and we are using FC7 firmware v4.6 for KSU (L12) electrical readout for CROCv1 QUAD modules.
 
 Setup:
 ```
@@ -486,4 +499,62 @@ CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Electrical.xml -c bertest
 CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Electrical.xml -c pixelalive
 CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Electrical.xml -c scurve
 ```
+
+### Optical readout
+
+For optical readout of the RD53B 1x2 CROC digital module,
+we are using the optical FMC in slot L8 of the FC7 (the slot on the left).
+The port card should connect to the optical FMC using an optical fiber;
+the optical fiber channels 6 and 7 should be connected to the leftmost position of the bottom row of the optical FMC.
+We are using a "TFPX H1x2 K" e-link (e-link 520),
+with the 15-pin connector P1 installed on the digital module
+and the 45-pin connector installed on port card slot J4.
+
+Here are the software and firmware versions that we are using (as of December 14, 2023).
+For Ph2_ACF, we are using the Ph2_ACF tag v4-18.
+We are using FC7 firmware v4.8 for optical readout (L8), quad module, and CROCv1.   
+Note that we are using a dedicated working area for modules in kucms at this path:
+```
+/home/kucms/TrackerDAQ/modules/Ph2_ACF
+```
+
+RD53B digital module optical readout:
+
+Setup:
+```
+cd /home/kucms/TrackerDAQ/modules/Ph2_ACF
+source setup.sh
+cd DAQSettings_v1
+fpgaconfig -c CMSIT_RD53B_Digital_Module_Optical_J4.xml -i IT-L8-OPTO-CROC_QUAD_v4p8
+CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Optical_J4.xml -r
+ping fc7 -c 3
+```
+
+Run tests:
+```
+CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Optical_J4.xml -p
+CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Optical_J4.xml -c bertest
+CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Optical_J4.xml -c pixelalive
+CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Optical_J4.xml -c scurve
+```
+
+To resolve the "LpGBT PUSM status: ARESET" error, reprogram and reset the FC7 using these commands:
+```
+fpgaconfig -c CMSIT_RD53B_Digital_Module_Optical_J4.xml -i IT-L8-OPTO-CROC_QUAD_v4p8
+CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Optical_J4.xml -r
+```
+
+Here is the command to run BERT TAP0 scans:
+```
+python3 TrackerDAQ/python/BERT_Run_Scan.py
+```
+
+Use this script to analyze RD53B data for one e-link or all e-links.
+```
+# specific e-link
+./TrackerDAQ/scripts/analyze_RD53B.sh 520
+# all e-links
+./TrackerDAQ/scripts/analyze_RD53B.sh
+```
+
 

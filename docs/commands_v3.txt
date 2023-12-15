@@ -1,0 +1,196 @@
+RD53B Testing
+
+# References:
+https://github.com/ku-cms/TrackerDAQ
+https://gitlab.cern.ch/cms_tk_ph2/Ph2_ACF
+
+# Installation:
+
+First, follow the instructions in the "Setup on CentOs7" section here, including all required packages:
+https://gitlab.cern.ch/cms_tk_ph2/Ph2_ACF
+
+# Install Ph2_ACF:
+git clone --recurse-submodules https://gitlab.cern.ch/cms_tk_ph2/Ph2_ACF.git
+cd Ph2_ACF
+source setup.sh
+mkdir build
+cd build
+cmake3 ..
+make -j8 
+cd ..
+
+# Checkout a new version (using a tag) and update the submodules (MessageUtils and NetworkUtils);
+# there can be compile errors if you do not update the submodules:
+git checkout <tag_name>
+git submodule sync
+git submodule update --init --recursive --remote
+
+# Note: We use cmake3, which was installed with yum.
+
+# Full recompile
+source setup.sh
+rm -rf build
+mkdir build
+cd build
+cmake3 ..
+make -j8 
+cd ..
+
+# Compile (only make)
+source setup.sh
+cd build
+make -j8 
+cd ..
+
+Setup Ph2_ACF working area; choose a directory name (using DAQSettings_v1 for this example):
+
+mkdir -p DAQSettings_v1
+cp settings/RD53Files/CMSIT*.txt DAQSettings_v1
+cp settings/CMSIT*.xml DAQSettings_v1
+cd DAQSettings_v1
+
+Edit the "connection" line in these files with your FC7 IP address (e.g. 192.168.1.100):
+CMSIT_RD53A.xml
+CMSIT_RD53B.xml
+
+move to:
+CMSIT_RD53A_Electrical.xml
+CMSIT_RD53B_Electrical.xml
+
+copy to new xml for optical:
+CMSIT_RD53A_Optical.xml
+CMSIT_RD53B_Optical.xml
+
+Example connection line for 192.168.1.100:
+<connection id="nanocrate" uri="ipbusudp-2.0://192.168.1.100:50001" address_table="file://${PH2ACF_BASE_DIR}/settings/address_tables/CMSIT_address_table.xml" />
+
+Setup FC7:
+Load new firmware onto SD card:
+
+RD53B optical readout:
+fpgaconfig -c CMSIT_RD53B_Optical.xml -l
+fpgaconfig -c CMSIT_RD53B_Optical.xml -f IT-uDTC_L8-OPTO-4xSCC_OPTICAL_CROC_v4.5.bit -i IT-L8-OPTO_CROC_v4p5
+fpgaconfig -c CMSIT_RD53B_Optical.xml -l
+
+RD53A quad module electrical readout:
+fpgaconfig -c CMSIT_RD53A_Electrical.xml -l
+fpgaconfig -c CMSIT_RD53A_Electrical.xml -f IT-uDTC_L12-KSU-3xQUAD_L8-DIO5_ELECTRICAL_RD53A_v4.5.bit -i IT-L12-KSU-RD53A_QUAD_v4p5
+fpgaconfig -c CMSIT_RD53A_Electrical.xml -l
+
+RD53B digital module electrical readout:
+fpgaconfig -c CMSIT_RD53B_Digital_Module_Electrical.xml -l
+fpgaconfig -c CMSIT_RD53B_Digital_Module_Electrical.xml -f FC7_firmware/RD53B_Digital_Module/IT-uDTC_L12-KSU-3xQUAD_L8-KSU-2xQUAD_ELECTRICAL_CROC_v4.6.bit -i IT-L12-KSU-CROC_QUAD_v4p6
+fpgaconfig -c CMSIT_RD53B_Digital_Module_Electrical.xml -l
+
+RD53B digital module optical readout:
+fpgaconfig -c CMSIT_RD53B_Digital_Module_Optical_J4.xml -l
+fpgaconfig -c CMSIT_RD53B_Digital_Module_Optical_J4.xml -f FC7_firmware/RD53B_Digital_Module/IT-uDTC_L8-OPTO-4xQUAD_OPTICAL_CROC_v4.6.bit -i IT-L8-OPTO-CROC_QUAD_v4p6
+fpgaconfig -c CMSIT_RD53B_Digital_Module_Optical_J4.xml -l
+
+fpgaconfig -c CMSIT_RD53B_Digital_Module_Optical_J4.xml -l
+fpgaconfig -c CMSIT_RD53B_Digital_Module_Optical_J4.xml -f FC7_firmware/RD53B_Digital_Module/IT-uDTC_L8-OPTO-4xQUAD_OPTICAL_CROC_v4.8.bit -i IT-L8-OPTO-CROC_QUAD_v4p8
+fpgaconfig -c CMSIT_RD53B_Digital_Module_Optical_J4.xml -l
+
+Load firmware: 
+
+RD53B optical readout:
+fpgaconfig -c CMSIT_RD53B_Optical.xml -i IT-L8-OPTO_CROC_v4p5
+CMSITminiDAQ -f CMSIT_RD53B_Optical.xml -r
+
+RD53B digital module electrical readout:
+fpgaconfig -c CMSIT_RD53B_Digital_Module_Electrical.xml -i IT-L12-KSU-CROC_QUAD_v4p6
+CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Electrical.xml -r
+
+RD53B digital module optical readout:
+fpgaconfig -c CMSIT_RD53B_Digital_Module_Optical_J4.xml -i IT-L8-OPTO-CROC_QUAD_v4p6
+CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Optical_J4.xml -r
+
+fpgaconfig -c CMSIT_RD53B_Digital_Module_Optical_J4.xml -i IT-L8-OPTO-CROC_QUAD_v4p8
+CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Optical_J4.xml -r
+
+Test:
+
+CMSITminiDAQ -f CMSIT_RD53B_Optical.xml -p
+CMSITminiDAQ -f CMSIT_RD53B_Optical.xml -c bertest
+
+CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Electrical.xml -p
+CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Electrical.xml -c bertest
+
+Get lpGBT settings:
+cp settings/lpGBTFiles/CMSIT_LpGBT-v1.txt DAQSettings_v1
+
+-------------------------------------
+RD53A quad module electrical readout procedure:
+
+Setup:
+cd /home/kucms/TrackerDAQ/croc/Ph2_ACF
+source setup.sh
+cd DAQSettings_v2
+fpgaconfig -c CMSIT_RD53A_Electrical.xml -i IT-L12-KSU-RD53A_QUAD_v4p5
+CMSITminiDAQ -f CMSIT_RD53A_Electrical.xml -r
+ping fc7 -c 3
+
+Run tests:
+CMSITminiDAQ -f CMSIT_RD53A_Electrical.xml -p
+CMSITminiDAQ -f CMSIT_RD53A_Electrical.xml -c bertest
+CMSITminiDAQ -f CMSIT_RD53A_Electrical.xml -c pixelalive 
+CMSITminiDAQ -f CMSIT_RD53A_Electrical.xml -c scurve
+-------------------------------------
+RD53B digital module electrical readout:
+
+Setup:
+cd /home/kucms/TrackerDAQ/croc/Ph2_ACF
+source setup.sh
+cd DAQSettings_v3
+fpgaconfig -c CMSIT_RD53B_Digital_Module_Electrical.xml -i IT-L12-KSU-CROC_QUAD_v4p6
+CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Electrical.xml -r
+ping fc7 -c 3
+
+Run tests:
+CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Electrical.xml -p
+CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Electrical.xml -c bertest
+CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Electrical.xml -c pixelalive
+CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Electrical.xml -c scurve
+-------------------------------------
+RD53B digital module optical readout:
+
+Setup:
+cd /home/kucms/TrackerDAQ/croc/Ph2_ACF
+source setup.sh
+cd DAQSettings_v3
+fpgaconfig -c CMSIT_RD53B_Digital_Module_Optical_J4.xml -i IT-L8-OPTO-CROC_QUAD_v4p8
+CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Optical_J4.xml -r
+ping fc7 -c 3
+
+Run tests:
+CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Optical_J4.xml -p
+CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Optical_J4.xml -c bertest
+CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Optical_J4.xml -c pixelalive
+CMSITminiDAQ -f CMSIT_RD53B_Digital_Module_Optical_J4.xml -c scurve
+-------------------------------------
+RD53B optical readout procedure:
+
+DAQ Settings versions:
+DAQSettings_v1
+DAQSettings_v3
+
+cd /home/kucms/TrackerDAQ/croc/Ph2_ACF
+source setup.sh
+cd DAQSettings_v3
+fpgaconfig -c CMSIT_RD53B_Optical.xml -i IT-L8-OPTO_CROC_v4p5
+CMSITminiDAQ -f CMSIT_RD53B_Optical.xml -r
+ping fc7 -c 3
+
+For e-link in J2:
+CMSITminiDAQ -f CMSIT_RD53B_Optical.xml -p
+CMSITminiDAQ -f CMSIT_RD53B_Optical.xml -c bertest
+CMSITminiDAQ -f CMSIT_RD53B_Optical.xml -c pixelalive
+CMSITminiDAQ -f CMSIT_RD53B_Optical.xml -c noise
+CMSITminiDAQ -f CMSIT_RD53B_Optical.xml -c scurve
+
+For e-link in J3:
+CMSITminiDAQ -f CMSIT_RD53B_Optical_J3.xml -p
+CMSITminiDAQ -f CMSIT_RD53B_Optical_J3.xml -c bertest
+-------------------------------------
+
+
