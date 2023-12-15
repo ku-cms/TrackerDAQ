@@ -55,7 +55,10 @@ def getDefaultInputs(cable_number, channel):
     
     # RD53B + port card with e-link in J4:
     #output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_SMA_Adapter/elink{0}_{1}_SS{2}_TAP1_{3}".format(cable_number, channel, signal, TAP1)
-    output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_RedAdapter/elink{0}_{1}_SS{2}_TAP1_{3}".format(cable_number, channel, signal, TAP1)
+    #output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_RedAdapter/elink{0}_{1}_SS{2}_TAP1_{3}".format(cable_number, channel, signal, TAP1)
+
+    # Module + port card with e-link in J4:
+    output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_J4_Module/elink{0}_{1}_SS{2}_TAP1_{3}".format(cable_number, channel, signal, TAP1)
 
     # FIXME: add directory for digital module and e-link: no DP cable or adapter board
 
