@@ -142,23 +142,23 @@ fpgaconfig --help
 ```
 Load FC7 firmware from SD card:
 ```
-fpgaconfig -c <config_file.xml> -i <FW_File_SD>
+fpgaconfig -c <xml_config_file> -i <FW_File_SD>
 ```
 Reset FC7 after loading firmware:
 ```
-CMSITminiDAQ -f <config_file.xml> -r
+CMSITminiDAQ -f <xml_config_file> -r
 ```
 List available FC7 firmware versions loaded on the SD card:
 ```
-fpgaconfig -c CMSIT.xml -l
+fpgaconfig -c <xml_config_file> -l
 ```
 Load new FC7 firmware onto the SD card:
 ```
-fpgaconfig -c <config_file.xml> -f <FW_File_PC> -i <FW_File_SD>
+fpgaconfig -c <xml_config_file> -f <FW_File_PC> -i <FW_File_SD>
 ```
 Delete FC7 firmware from SD card:
 ```
-fpgaconfig  -c <config_file.xml> -d <FW_File_SD>
+fpgaconfig  -c <xml_config_file> -d <FW_File_SD>
 ```
 
 # Using RD53A chips 
