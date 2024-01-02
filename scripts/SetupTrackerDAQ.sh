@@ -4,11 +4,18 @@
 INSTALL_DIR=/home/kucms/TrackerDAQ/TrackerDAQ
 TARGET_DIR=TrackerDAQ
 
-# Check if the directory already exists; if it does, exit.
-
-if [ -d $TARGET_DIR ]
+# Check if the install directory exists; if it does not, exit.
+if [ ! -d "$INSTALL_DIR" ]
 then
-    echo "The directory '$TARGET_DIR' already exists."
+    echo "The install directory '$INSTALL_DIR' does not exist"
+    echo "Please install TrackerDAQ and/or modify the installation path in this script."
+    exit 1
+fi
+
+# Check if the target directory already exists; if it does, exit.
+if [ -d "$TARGET_DIR" ]
+then
+    echo "The target directory '$TARGET_DIR' already exists."
     echo "If you want to rerun setup, please remove the directory '$TARGET_DIR' first."
     exit 1
 fi
