@@ -335,7 +335,11 @@ Useful RD53B information can be found at these links:
 
 ## Using RD53B chips 
 
-TODO: Finish updating port card instructions!
+TODO: Finish updating instructions!
+- Include port card and RD53B chip power settings.
+- Update installation section, including soft link and xml setup. 
+- Move TAP1 setting details to a new section.
+- Move debugging errors to a new section.
 
 Latest setup (from 2023) for an RD53B SCC (CROCv1) with optical readout using an optical FMC and a port card.
 
@@ -367,9 +371,9 @@ Then, these setup commands should be run in a terminal on kucms.
 In this example, we are using port card slot 4 and a Type 5K e-link,
 which is why we are using the xml configuration file "CMSIT_RD53B_Optical_Type5_J4.xml".
 ```
-cd /home/kucms/TrackerDAQ/croc/Ph2_ACF
+cd /home/kucms/TrackerDAQ/elink_testing_v1/Ph2_ACF
 source setup.sh
-cd DAQSettings_v3
+cd DAQSettings_v1
 fpgaconfig -c CMSIT_RD53B_Optical_Type5_J4.xml -i IT-L8-OPTO_CROC_v4p5
 CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -r
 ping fc7 -c 3
