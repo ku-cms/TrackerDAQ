@@ -355,11 +355,13 @@ Useful RD53B information can be found at these links:
 
 TODO: Finish updating instructions!
 - Include port card and RD53B chip power settings.
-- Update installation section, including soft link and xml setup. 
+- Write down standard TAP0 scan ranges: [100, 1000, 100] and [50, 150]
 - Move TAP1 setting details to a new section.
 - Move debugging errors to a new section.
+DONE:
+- Update installation section, including soft link and xml setup. 
 
-Latest setup (from 2023) for an RD53B SCC (CROCv1) with optical readout using an optical FMC and a port card.
+Latest setup (from 2024) for an RD53B SCC (CROCv1) with optical readout using an optical FMC and a port card.
 
 Based on the port card slot (J2, J3, and J4) and the supported e-link types (1, 1K, 5, and 5K), you need to:
 - Use the correct hardware connections: make sure that the VTRX+ and e-link are connected to the correct locations.
