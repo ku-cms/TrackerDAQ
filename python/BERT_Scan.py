@@ -9,15 +9,20 @@ def getDefaultInputs(cable_number, channel):
     # Default input parameters
     inputs      = {}
     
+    # Mini TAP0 range
+    tap0_min    = 20
+    tap0_max    = 100
+    tap0_step   = 10
+    
     # Small TAP0 range
     #tap0_min    = 50
     #tap0_max    = 150
     #tap0_step   = 10
     
     # Medium TAP0 range
-    tap0_min    = 200
-    tap0_max    = 400
-    tap0_step   = 10
+    #tap0_min    = 200
+    #tap0_max    = 400
+    #tap0_step   = 10
     
     # Large TAP0 range
     #tap0_min    = 100
