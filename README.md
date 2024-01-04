@@ -354,12 +354,58 @@ Useful RD53B information can be found at these links:
 ## Using RD53B chips 
 
 TODO: Finish updating instructions!
-- Include port card and RD53B chip power settings.
 - Write down standard TAP0 scan ranges: [100, 1000, 100] and [50, 150]
-- Move TAP1 setting details to a new section.
-- Move debugging errors to a new section.
+- Add instructions for changing TAP1 setting.
 DONE:
 - Update installation section, including soft link and xml setup. 
+- Document adapter board jumper settings.
+- Include port card and RD53B chip power settings.
+- Move debugging errors to a new section.
+
+A display port (DP) cable should be connected between the RD53B chip (use the DP1 port) and the red adapter board.
+For Type 5K e-links tested with the port card, we are using the
+"TBPIX 15 to Display Port Rev A" board that was developed in 2023.
+This adapter board has two jumpers for every channel (ten jumpers in total).
+We are using e-link channels CMD and D3.
+
+Here are the standard jumper settings on the red adapter board used for Type 5K e-links:
+- CMD: P -> N, N -> P
+- D3:  P -> N, N -> P
+
+Refer to the diagram on the red adapter board, and make sure that CMD and D3 both have two jumpers
+matching these standard jumper settings.
+Make sure that the jumpers are fully inserted.
+The BERT TAP0 scans have shown problems (large error rates that do not converge to 0 errors)
+when the jumpers have poor connection.
+
+Finally, insert the Type 5K e-link that will be tested.
+The 15-pin paddle board on the e-link should connect to the red adapter board with the 
+notch on the left (matching the white dot) and the leads facing up.
+The 45-pin paddle board on the e-link should connect to the port card slot J4.
+The VTRX+ on the bottom of the port card should be in slot Z3.
+
+### Power Settings
+
+After checking the jumper configuration/connection and the e-link connection/configuration, you can power on the FC7, port card, and RD53B chip.
+There are also fans used to cool the port card and RD53B chip that should be used to prevent overheating.
+
+We are powering the port card in constant voltage mode.
+We put the power cables on one power suppy output channel (on the left side of the power supply),
+with the white cable on positive and the black cable on negative.
+
+For the port card, we are using constant voltage mode with these settings:
+- Voltage limit: 10.16 V - should measure about 10.17 V when output is on.
+- Current limit:  0.80 A - should measure about  0.16 A when output is on.
+
+We are powering the RD53B chip in LDO mode with a constant voltage.
+We put the power cables on two power supply output channels (two pairs of red and black cables)
+with the red cables on positive ouputs and the black cables on negative outputs.
+
+For the RD53B chip, we are using constant voltage mode with these settings on two output channels:
+- Voltage limit: 1.60 V - should measure about 1.60 V when output is on.
+- Current limit: 2.00 A - should measure about 0.76 A (left) and 0.40 A (right) when output is on and about 0.94 A (left) and 0.81 (right) after establishing communication.
+
+### BERT TAP0 scans (with optical readout using the port card)
 
 Latest setup (from 2024) for an RD53B SCC (CROCv1) with optical readout using an optical FMC and a port card.
 
@@ -371,17 +417,6 @@ Based on the port card slot (J2, J3, and J4) and the supported e-link types (1, 
 - Change the softlink "CMSIT_RD53B_Optical_BERT.xml".
 - Update "BERT_Scan.py" and "BERT_Simple_Analyze.py" for your setup; see below for more details.
 
-Here is the syntax for changing the "CMSIT_RD53B_Optical_BERT.xml" softlink:
-```
-example
-```
-For example, if you want to set the softlink to point to the file X, the command would be:
-```
-example
-```
-
-After connecting the e-link, adapter boards, etc., you can power on the FC7, port card, and RD53B chip.
-
 Check that communication is working between the linux computer kucms and the FC7:
 ```
 ping fc7 -c 3
@@ -390,6 +425,7 @@ ping fc7 -c 3
 Then, these setup commands should be run in a terminal on kucms.
 In this example, we are using port card slot 4 and a Type 5K e-link,
 which is why we are using the xml configuration file "CMSIT_RD53B_Optical_Type5_J4.xml".
+Make sure that the FC7 is powered on before running these commands.
 ```
 cd /home/kucms/TrackerDAQ/elink_testing_v1/Ph2_ACF
 source setup.sh
@@ -397,10 +433,16 @@ cd DAQSettings_v1
 fpgaconfig -c CMSIT_RD53B_Optical_Type5_J4.xml -i IT-L8-OPTO_CROC_v4p5
 CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -r
 ping fc7 -c 3
-CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
 ```
 
-Useful CMSITminiDAQ programs:
+Then, you should run these commands to establish communication with the RD53B chip.
+The port card and RD53B chip need to be powered on before running these commands.
+```
+CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
+CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -c bertest
+```
+
+Here are other useful CMSITminiDAQ programs for reference:
 ```
 CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
 CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -c bertest
@@ -409,60 +451,21 @@ CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -c noise
 CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -c scurve
 ```
 
-If you get lpGBT errors like this:
-```
-CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
-...
-|11:22:00|I|Initializing communication to Low-power Gigabit Transceiver (LpGBT): 0
-|11:22:00|I|    --> Configured up and down link mapping in firmware
-|11:22:00|I|LpGBT version: LpGBT-v1
-|11:22:01|E|LpGBT PUSM status: ARESET
-|11:22:01|E|>>> LpGBT chip not configured, reached maximum number of attempts (10) <<<
-```
-Then you can turn off the RD53B chip and port card, reprogram and reset the FC7 with these commands,
-and then turn the RD53B chip and port card on.
-```
-fpgaconfig -c CMSIT_RD53B_Optical_Type5_J4.xml -i IT-L8-OPTO_CROC_v4p5
-CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -r
-```
-
-If you want to modify the TAP1 setting:
-- 1
-- 2
-- 3
-
 Before running the BERT TAP0 scan and analysis scripts, make sure to edit these files as needed for your configuration:
 - These files should be edited from the directory "/home/kucms/TrackerDAQ/TrackerDAQ/python", which is where this repository is installed.
 - There are softlinks to these files in the working areas, for example in "/home/kucms/TrackerDAQ/croc/Ph2_ACF/DAQSettings_v3/TrackerDAQ/python".
-- BERT_Scan.py: set the default TAP0 range, the "output_dir", and the "bash_script" for your setup
-- BERT_Simple_Analyze.py: set the "base_plot_dir", "base_data_dir", and "output_csv_name" for your setup
+- BERT_Scan.py: set the default TAP0 range, the "output_dir", and the "bash_script" for your setup.
+- BERT_Simple_Analyze.py: set the "base_plot_dir", "base_data_dir", and "output_csv_name" for your setup.
 
 Here is the command to run BERT TAP0 scans:
 ```
 python3 TrackerDAQ/python/BERT_Run_Scan.py
 ```
 
-If you get lpGBT errors like this:
+Use this script to analyze RD53B data for one e-link (specify which e-link number) or all e-links.
 ```
-python3 TrackerDAQ/python/BERT_Run_Scan.py
-...
-Running BERT with TAP0=200
-Running BERT with TAP0=210
-terminate called after throwing an instance of 'Exception'
-  what():  [RD53lpGBTInterface::WriteReg] LpGBT register writing issue
-  ./TrackerDAQ/scripts/PortCard_BERT_Scan.sh: line 54: 25469 Aborted                 (core dumped) CMSITminiDAQ -f CMSIT_RD53B_Optical_BERT_Custom.xml -c bertest > "$dataDir/scan.log"
-```
-Then you can turn off the RD53B chip and port card, reprogram and reset the FC7 with these commands,
-and then turn the RD53B chip and port card on.
-```
-fpgaconfig -c CMSIT_RD53B_Optical_Type5_J4.xml -i IT-L8-OPTO_CROC_v4p5
-CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -r
-```
-
-Use this script to analyze RD53B data for one e-link or all e-links.
-```
-# specific e-link
-./TrackerDAQ/scripts/analyze_RD53B.sh 138
+# specific e-link (specify e-link number)
+./TrackerDAQ/scripts/analyze_RD53B.sh <elink_number>
 # all e-links
 ./TrackerDAQ/scripts/analyze_RD53B.sh
 ```
@@ -477,11 +480,60 @@ To copy the plots to your local computer, use this script from this repository:
 ./scripts/getPlots.sh
 ```
 
+FIXME: If you want to modify the TAP1 setting, do this:
+- 1
+- 2
+- 3
+
+### Debugging Issues
+
+If you see lpGBT errors like this for "CMSITminiDAQ" commands:
+```
+CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
+...
+|11:22:00|I|Initializing communication to Low-power Gigabit Transceiver (LpGBT): 0
+|11:22:00|I|    --> Configured up and down link mapping in firmware
+|11:22:00|I|LpGBT version: LpGBT-v1
+|11:22:01|E|LpGBT PUSM status: ARESET
+|11:22:01|E|>>> LpGBT chip not configured, reached maximum number of attempts (10) <<<
+```
+then you should reprogram and reset the FC7 with these commands, which usually fixes the issue:
+```
+fpgaconfig -c CMSIT_RD53B_Optical_Type5_J4.xml -i IT-L8-OPTO_CROC_v4p5
+CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -r
+```
+If you still have communication problems, then you can turn off the RD53B and the port card,
+reprogram and reset the FC7, and then turn the RD53B chip and port card on.
+Then, you can repeat the "CMSITminiDAQ" command to re-establish communication:  
+```
+CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
+```
+
+Similary, if you see lpGBT errors like this when running the BERT_Run_Scan.py python script:
+```
+python3 TrackerDAQ/python/BERT_Run_Scan.py
+...
+Running BERT with TAP0=200
+Running BERT with TAP0=210
+terminate called after throwing an instance of 'Exception'
+  what():  [RD53lpGBTInterface::WriteReg] LpGBT register writing issue
+  ./TrackerDAQ/scripts/PortCard_BERT_Scan.sh: line 54: 25469 Aborted                 (core dumped) CMSITminiDAQ -f CMSIT_RD53B_Optical_BERT_Custom.xml -c bertest > "$dataDir/scan.log"
+```
+then you should reprogram and reset the FC7 with these commands, which usually fixes the issue:
+```
+fpgaconfig -c CMSIT_RD53B_Optical_Type5_J4.xml -i IT-L8-OPTO_CROC_v4p5
+CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -r
+```
+Then, you should re-establish communication with these commands before continuing:
+```
+CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
+```
+
 ## Digital module (1x2 CROC digital module) 
 
 ### Power Settings
 
-We are powering the port card in constant votlage mode.
+We are powering the port card in constant voltage mode.
 We put the power cables on one power suppy output channel (on the left side of the power supply),
 with the white cable on positive and the black cable on negative.
 
