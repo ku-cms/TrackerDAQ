@@ -8,6 +8,7 @@ TODO: Finish updating instructions for Type 5K e-links!
 - Write down standard TAP0 scan ranges: [100, 1000, 100] and [50, 150]
 - Improve instructions for adjusting TAP0 scan settings.
 - Add instructions for changing TAP1 setting.
+- Add the macbook terminal fix for LC_CTYPE and LC_ALL variables to a new issues section.
 
 DONE:
 - Update installation section, including soft link and xml setup. 
