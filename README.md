@@ -65,7 +65,25 @@ cp settings/lpGBTFiles/CMSIT_LpGBT-v1.txt DAQSettings_v1
 cd DAQSettings_v1
 ```
 
-Edit the "connection" line in these files with your FC7 IP address (e.g. 192.168.1.100):
+Use this script to setup symbolic links for the TrackerDAQ framework;
+this only needs to be run once to setup the working area.
+The script will only create new soft links if there is no
+TrackerDAQ directory in the current working area.
+```
+~/TrackerDAQ/TrackerDAQ/scripts/SetupTrackerDAQ.sh
+```
+
+Then, copy the xml config file that you need for this working area and create a soft link
+that will be used by the TAP0 scan script.
+For example, here are the commands to copy and create the soft link for the xml config file
+for Type 5K e-links tested in port card slot J4.
+```
+cp ~/TrackerDAQ/TrackerDAQ/settings/CMSIT_RD53B_Optical_Type5_J4.xml .
+ln -s CMSIT_RD53B_Optical_Type5_J4.xml CMSIT_RD53B_Optical_BERT.xml
+```
+
+If you are setting up new xml files from scratch,
+edit the "connection" line in these files with your FC7 IP address (e.g. 192.168.1.100):
 ```
 CMSIT_RD53A.xml
 CMSIT_RD53B.xml
