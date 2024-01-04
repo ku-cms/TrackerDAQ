@@ -4,6 +4,17 @@ Software for the Tracker DAQ setups used at the University of Kansas (KU)... Roc
 There are instructions for using setups with Ph2_ACF, an FC7, CERN or KSU FMCs, a port card (optional),
 RD53A or RD53B single chip cards (SCC), and an RD53A quad module.
 
+TODO: Finish updating instructions for Type 5K e-links!
+- Write down standard TAP0 scan ranges: [100, 1000, 100] and [50, 150]
+- Improve instructions for adjusting TAP0 scan settings.
+- Add instructions for changing TAP1 setting.
+
+DONE:
+- Update installation section, including soft link and xml setup. 
+- Document adapter board jumper settings.
+- Include port card and RD53B chip power settings.
+- Move debugging errors to a new section.
+
 # Using Ph2_ACF
 
 The main Ph2_ACF software repository (with instructions) is [here](https://gitlab.cern.ch/cms_tk_ph2/Ph2_ACF).
@@ -353,15 +364,6 @@ Useful RD53B information can be found at these links:
 
 ## Using RD53B chips 
 
-TODO: Finish updating instructions!
-- Write down standard TAP0 scan ranges: [100, 1000, 100] and [50, 150]
-- Add instructions for changing TAP1 setting.
-DONE:
-- Update installation section, including soft link and xml setup. 
-- Document adapter board jumper settings.
-- Include port card and RD53B chip power settings.
-- Move debugging errors to a new section.
-
 A display port (DP) cable should be connected between the RD53B chip (use the DP1 port) and the red adapter board.
 For Type 5K e-links tested with the port card, we are using the
 "TBPIX 15 to Display Port Rev A" board that was developed in 2023.
@@ -379,9 +381,10 @@ The BERT TAP0 scans have shown problems (large error rates that do not converge 
 when the jumpers have poor connection.
 
 Finally, insert the Type 5K e-link that will be tested.
-The 15-pin paddle board on the e-link should connect to the red adapter board with the 
-notch on the left (matching the white dot) and the leads facing up.
-The 45-pin paddle board on the e-link should connect to the port card slot J4.
+The 15-pin paddle board on the e-link should connect to the red adapter board
+with the notch on the left (matching the white dot) and the leads facing up.
+The 45-pin paddle board on the e-link should connect to the port card slot J4
+with the notch on the left (towards the gray DC-DC converter) and the leads away from the black bail.
 The VTRX+ on the bottom of the port card should be in slot Z3.
 
 ### Power Settings
@@ -453,7 +456,7 @@ CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -c scurve
 
 Before running the BERT TAP0 scan and analysis scripts, make sure to edit these files as needed for your configuration:
 - These files should be edited from the directory "/home/kucms/TrackerDAQ/TrackerDAQ/python", which is where this repository is installed.
-- There are softlinks to these files in the working areas, for example in "/home/kucms/TrackerDAQ/croc/Ph2_ACF/DAQSettings_v3/TrackerDAQ/python".
+- There are softlinks to these files in the working areas, for example in "/home/kucms/TrackerDAQ/elink_testing_v1/Ph2_ACF/DAQSettings_v1/TrackerDAQ/python".
 - BERT_Scan.py: set the default TAP0 range, the "output_dir", and the "bash_script" for your setup.
 - BERT_Simple_Analyze.py: set the "base_plot_dir", "base_data_dir", and "output_csv_name" for your setup.
 
@@ -479,11 +482,6 @@ To copy the plots to your local computer, use this script from this repository:
 ```
 ./scripts/getPlots.sh
 ```
-
-FIXME: If you want to modify the TAP1 setting, do this:
-- 1
-- 2
-- 3
 
 ### Debugging Issues
 
