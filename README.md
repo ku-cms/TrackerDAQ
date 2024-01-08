@@ -26,6 +26,7 @@ If you need to use the password and do not know it, please contact Caleb Smith (
 
 You can either open a terminal on the kucms desktop, or you can login remotely with ssh.
 If the kucms desktop is freezing when running the terminal and/or the file explorer, please restart the kucms linux machine and try again; this should (hopefully) fix these problems.
+If you still encounter problems with the kucms desktop, please contact the KU Physics IT support with details about the problem (tsc_phsx@ku.edu).
 
 Here is the ssh command to login to kucms:
 ```
