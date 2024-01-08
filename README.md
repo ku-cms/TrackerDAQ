@@ -34,7 +34,7 @@ ssh -Y kucms@kucms.phsx.ku.edu
 ```
 
 For convenience, you can create an alias for this login command on your personal machine (if you are using Mac or Linux).
-Check which shell you are using with these commands in a terminal on your personal machine.
+First, check which shell you are using by running these commands in a terminal on your personal machine.
 ```
 echo $0
 echo $SHELL
@@ -107,7 +107,7 @@ source ~/.bash_profile
 
 If you are using zsh, add these lines to ~/.zprofile on your machine:
 ```
-# Setting for the new UTF-8 terminal support in Lion
+# Setting for the new UTF-8 terminal support
 LC_CTYPE=en_US.UTF-8
 LC_ALL=en_US.UTF-8
 ```
