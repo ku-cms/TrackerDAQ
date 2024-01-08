@@ -1,20 +1,69 @@
 # TrackerDAQ
 
 Software for the Tracker DAQ setups used at the University of Kansas (KU)... Rock Chalk, Jayhawk!
-There are instructions for using setups with Ph2_ACF, an FC7, CERN or KSU FMCs, a port card (optional),
-RD53A or RD53B single chip cards (SCC), and an RD53A quad module.
+There are instructions for using setups with Ph2_ACF, an FC7, CERN, KSU, or optical FMCs, a port card (optional),
+RD53A or RD53B single chip cards (SCC), an RD53A quad module, and an RD53B 1x2 CROC digital module.
 
 TODO: Finish updating instructions for Type 5K e-links!
 - Write down standard TAP0 scan ranges: [100, 1000, 100] and [50, 150]
 - Improve instructions for adjusting TAP0 scan settings.
 - Add instructions for changing TAP1 setting.
-- Add the macbook terminal fix for LC_CTYPE and LC_ALL variables to a new issues section.
+- Add the macbook terminal fix for LC_CTYPE and LC_ALL variables to the login section.
 
 DONE:
 - Update installation section, including soft link and xml setup. 
 - Document adapter board jumper settings.
 - Include port card and RD53B chip power settings.
 - Move debugging errors to a new section.
+- Add command to ssh to kucms.
+- Add details on alias for ssh command.
+
+# Login
+
+We are using Ph2_ACF and TrackerDAQ on the kucms linux machine in Malott 4078.
+The hostname is "kucms.phsx.ku.edu", and we are using the user "kucms".
+You can either open a terminal on the kucms desktop, or you can login remotely with ssh.
+If the kucms desktop is freezing when running the terminal and/or the file explorer, please restart the kucms linux machine and try again; this should (hopefully) fix these problems.
+
+Here is the ssh command to login to kucms:
+```
+ssh -Y kucms@kucms.phsx.ku.edu
+```
+
+For convenience, you can create an alias for this login command on your personal machine (if you are using Mac or Linux).
+Check which shell you are using with these commands in a terminal on your personal machine.
+```
+echo $0
+echo $SHELL
+```
+If you are using bash, you can add aliases to one of the bash startup configuration files (for example, ~/.bash_profile).
+If you are using zsh, then you can add aliases to one of the zsh startup configuration files (for example, ~/.zprofile).
+
+You can add this line to your shell configuration file:
+```
+alias kucms='ssh -Y kucms@kucms.phsx.ku.edu'
+```
+
+To apply changes to your current session, you need to source your configuration file.
+This is not required for new terminal sessions, as those will load the new configuration on startup.
+
+Example source command for bash:
+```
+source ~/.bash_profile
+```
+Example source command for zsh:
+```
+source ~/.zprofile
+```
+You can check that the new alias is available with these commands:
+```
+alias
+alias kucms
+```
+Then, you can login using the new alias:
+```
+kucms
+```
 
 # Using Ph2_ACF
 
@@ -158,12 +207,12 @@ Also, use an FC7 version that matches your hardware setup: RD53A or RD53B, CERN 
 
 To use the FC7, first turn it on.
 
-Check that FC7 communication is working:
+Check that FC7 communication is working (run on the kucms linux machine):
 ```
 ping fc7 -c 3
 ```
 
-Here are useful commands for the FC7.
+Here are useful commands for the FC7; these should be run run on the kucms linux machine.
 You will need run the Ph2_ACF setup script before using these commands (see RD53A/B setup below for details). 
 
 Help menu:
@@ -203,6 +252,8 @@ Useful RD53A information can be found at these links:
 - [RD53A Twiki](https://twiki.cern.ch/twiki/bin/viewauth/RD53/RD53ATesting)
 
 ## Using RD53A chips 
+
+Commands should be run on the kucms linux machine.
 
 First, turn on the FC7.
 Check that FC7 communication is working:
@@ -411,6 +462,8 @@ For the RD53B chip, we are using constant voltage mode with these settings on tw
 
 ### BERT TAP0 scans (with optical readout using the port card)
 
+Commands should be run on the kucms linux machine.
+
 Latest setup (from 2024) for an RD53B SCC (CROCv1) with optical readout using an optical FMC and a port card.
 
 Based on the port card slot (J2, J3, and J4) and the supported e-link types (1, 1K, 5, and 5K), you need to:
@@ -484,7 +537,7 @@ To copy the plots to your local computer, use this script from this repository:
 ./scripts/getPlots.sh
 ```
 
-### Debugging Issues
+### Debugging Errors
 
 If you see lpGBT errors like this for "CMSITminiDAQ" commands:
 ```
@@ -528,7 +581,7 @@ Then, you should re-establish communication with these commands before continuin
 CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
 ```
 
-## Digital module (1x2 CROC digital module) 
+## Digital module (RD53B 1x2 CROC digital module)
 
 ### Power Settings
 
