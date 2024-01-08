@@ -8,7 +8,6 @@ TODO: Finish updating instructions for Type 5K e-links!
 - Write down standard TAP0 scan ranges: [100, 1000, 100] and [50, 150]
 - Improve instructions for adjusting TAP0 scan settings.
 - Add instructions for changing TAP1 setting.
-- Add the macbook terminal fix for LC_CTYPE and LC_ALL variables to the login section.
 
 DONE:
 - Update installation section, including soft link and xml setup. 
@@ -17,11 +16,14 @@ DONE:
 - Move debugging errors to a new section.
 - Add command to ssh to kucms.
 - Add details on alias for ssh command.
+- Add the Macbook terminal fix for LC_CTYPE and LC_ALL variables to the login section.
 
 # Login
 
 We are using Ph2_ACF and TrackerDAQ on the kucms linux machine in Malott 4078.
 The hostname is "kucms.phsx.ku.edu", and we are using the user "kucms".
+If you need to use the password and do not know it, please contact Caleb Smith (caleb.smith@ku.edu) or Alice Bean (abean@ku.edu).
+
 You can either open a terminal on the kucms desktop, or you can login remotely with ssh.
 If the kucms desktop is freezing when running the terminal and/or the file explorer, please restart the kucms linux machine and try again; this should (hopefully) fix these problems.
 
@@ -64,6 +66,65 @@ Then, you can login using the new alias:
 ```
 kucms
 ```
+If you are using a Mac and encounter this error after logging into kucms with ssh:
+```
+Last failed login: Thu Jan  4 10:24:34 CST 2024 from 10.105.79.64 on ssh:notty
+There was 1 failed login attempt since the last successful login.
+Last login: Thu Jan  4 10:19:55 2024 from 10.105.79.64
+perl: warning: Setting locale failed.
+perl: warning: Please check that your locale settings:
+	LANGUAGE = (unset),
+	LC_ALL = (unset),
+	LC_CTYPE = "UTF-8",
+	LANG = "en_US.UTF-8"
+    are supported and installed on your system.
+perl: warning: Falling back to the standard locale ("C").
+```
+then you will need to fix this before using Ph2_ACF, as we discovered that the command to program the FC7 firmware will not work:
+```
+[kucms@kucms DAQSettings_v1]$ fpgaconfig -c CMSIT_RD53B_Optical_Type5_J4.xml -i IT-L8-OPTO_CROC_v4p5
+04.01.2024 10:31:28: |140251851439552|I| Loading IT-L8-OPTO_CROC_v4p5 into the FPGA...
+terminate called after throwing an instance of 'std::runtime_error'
+  what():  Board with id 0 does not exist in file CMSIT_RD53B_Optical_Type5_J4.xml
+Aborted (core dumped)
+```
+
+We found the solution here: https://stackoverflow.com/questions/2499794/how-to-fix-a-locale-setting-warning-from-perl
+
+First, logout of kucms.
+
+If you are using bash, add these lines to ~/.bash_profile on your machine:
+```
+# Setting for the new UTF-8 terminal support
+export LC_CTYPE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+```
+and then run this command on your machine:
+```
+source ~/.bash_profile
+```
+
+If you are using zsh, add these lines to ~/.zprofile on your machine:
+```
+# Setting for the new UTF-8 terminal support in Lion
+LC_CTYPE=en_US.UTF-8
+LC_ALL=en_US.UTF-8
+```
+and then run this command on your machine:
+```
+source ~/.zprofile
+```
+
+Check that these variables are now set to the values that you just specified:
+```
+echo $LC_CTYPE
+echo $LC_ALL
+```
+Finally, login to kucms again and check that there are no errors.
+```
+kucms
+```
+You can then follow the setup instructions and confirm that the FC7 program and reset commands work.
 
 # Using Ph2_ACF
 
