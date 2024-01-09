@@ -1,8 +1,131 @@
 # TrackerDAQ
 
 Software for the Tracker DAQ setups used at the University of Kansas (KU)... Rock Chalk, Jayhawk!
-There are instructions for using setups with Ph2_ACF, an FC7, CERN or KSU FMCs, a port card (optional),
-RD53A or RD53B single chip cards (SCC), and an RD53A quad module.
+There are instructions for using setups with Ph2_ACF, an FC7, CERN, KSU, or optical FMCs, a port card (optional),
+RD53A or RD53B single chip cards (SCC), an RD53A quad module, and an RD53B 1x2 CROC digital module.
+
+TODO: Finish updating instructions for Type 5K e-links!
+- Write down standard TAP0 scan ranges: [100, 1000, 100] and [50, 150]
+- Improve instructions for adjusting TAP0 scan settings.
+- Add instructions for changing TAP1 setting.
+
+DONE:
+- Update installation section, including soft link and xml setup. 
+- Document adapter board jumper settings.
+- Include port card and RD53B chip power settings.
+- Move debugging errors to a new section.
+- Add command to ssh to kucms.
+- Add details on alias for ssh command.
+- Add the Macbook terminal fix for LC_CTYPE and LC_ALL variables to the login section.
+
+# Login
+
+We are using Ph2_ACF and TrackerDAQ on the kucms linux machine in Malott 4078.
+The hostname is "kucms.phsx.ku.edu", and we are using the user "kucms".
+If you need to use the password and do not know it, please contact Caleb Smith (caleb.smith@ku.edu) or Alice Bean (abean@ku.edu).
+
+You can either open a terminal on the kucms desktop, or you can login remotely with ssh.
+If the kucms desktop is freezing when running the terminal and/or the file explorer, please restart the kucms linux machine and try again; this should (hopefully) fix these problems.
+If you still encounter problems with the kucms desktop, please contact the KU Physics IT support with details about the problem (tsc_phsx@ku.edu).
+
+Here is the ssh command to login to kucms:
+```
+ssh -Y kucms@kucms.phsx.ku.edu
+```
+
+For convenience, you can create an alias for this login command on your personal machine (if you are using Mac or Linux).
+First, check which shell you are using by running these commands in a terminal on your personal machine.
+```
+echo $0
+echo $SHELL
+```
+If you are using bash, you can add aliases to one of the bash startup configuration files (for example, ~/.bash_profile).
+If you are using zsh, then you can add aliases to one of the zsh startup configuration files (for example, ~/.zprofile).
+
+You can add this line to your shell configuration file:
+```
+alias kucms='ssh -Y kucms@kucms.phsx.ku.edu'
+```
+
+To apply changes to your current session, you need to source your configuration file.
+This is not required for new terminal sessions, as those will load the new configuration on startup.
+
+Example source command for bash:
+```
+source ~/.bash_profile
+```
+Example source command for zsh:
+```
+source ~/.zprofile
+```
+You can check that the new alias is available with these commands:
+```
+alias
+alias kucms
+```
+Then, you can login using the new alias:
+```
+kucms
+```
+If you are using a Mac and encounter this error after logging into kucms with ssh:
+```
+Last failed login: Thu Jan  4 10:24:34 CST 2024 from 10.105.79.64 on ssh:notty
+There was 1 failed login attempt since the last successful login.
+Last login: Thu Jan  4 10:19:55 2024 from 10.105.79.64
+perl: warning: Setting locale failed.
+perl: warning: Please check that your locale settings:
+	LANGUAGE = (unset),
+	LC_ALL = (unset),
+	LC_CTYPE = "UTF-8",
+	LANG = "en_US.UTF-8"
+    are supported and installed on your system.
+perl: warning: Falling back to the standard locale ("C").
+```
+then you will need to fix this before using Ph2_ACF, as we discovered that the command to program the FC7 firmware will not work:
+```
+[kucms@kucms DAQSettings_v1]$ fpgaconfig -c CMSIT_RD53B_Optical_Type5_J4.xml -i IT-L8-OPTO_CROC_v4p5
+04.01.2024 10:31:28: |140251851439552|I| Loading IT-L8-OPTO_CROC_v4p5 into the FPGA...
+terminate called after throwing an instance of 'std::runtime_error'
+  what():  Board with id 0 does not exist in file CMSIT_RD53B_Optical_Type5_J4.xml
+Aborted (core dumped)
+```
+
+We found the solution here: https://stackoverflow.com/questions/2499794/how-to-fix-a-locale-setting-warning-from-perl
+
+First, logout of kucms.
+
+If you are using bash, add these lines to ~/.bash_profile on your machine:
+```
+# Setting for the new UTF-8 terminal support
+export LC_CTYPE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+```
+and then run this command on your machine:
+```
+source ~/.bash_profile
+```
+
+If you are using zsh, add these lines to ~/.zprofile on your machine:
+```
+# Setting for the new UTF-8 terminal support
+LC_CTYPE=en_US.UTF-8
+LC_ALL=en_US.UTF-8
+```
+and then run this command on your machine:
+```
+source ~/.zprofile
+```
+
+Check that these variables are now set to the values that you just specified:
+```
+echo $LC_CTYPE
+echo $LC_ALL
+```
+Finally, login to kucms again and check that there are no errors.
+```
+kucms
+```
+You can then follow the setup instructions and confirm that the FC7 program and reset commands work.
 
 # Using Ph2_ACF
 
@@ -65,7 +188,25 @@ cp settings/lpGBTFiles/CMSIT_LpGBT-v1.txt DAQSettings_v1
 cd DAQSettings_v1
 ```
 
-Edit the "connection" line in these files with your FC7 IP address (e.g. 192.168.1.100):
+Use this script to setup symbolic links for the TrackerDAQ framework;
+this only needs to be run once to setup the working area.
+The script will only create new soft links if there is no
+TrackerDAQ directory in the current working area.
+```
+~/TrackerDAQ/TrackerDAQ/scripts/SetupTrackerDAQ.sh
+```
+
+Then, copy the xml config file that you need for this working area and create a soft link
+that will be used by the TAP0 scan script.
+For example, here are the commands to copy and create the soft link for the xml config file
+for Type 5K e-links tested in port card slot J4.
+```
+cp ~/TrackerDAQ/TrackerDAQ/settings/CMSIT_RD53B_Optical_Type5_J4.xml .
+ln -s CMSIT_RD53B_Optical_Type5_J4.xml CMSIT_RD53B_Optical_BERT.xml
+```
+
+If you are setting up new xml files from scratch,
+edit the "connection" line in these files with your FC7 IP address (e.g. 192.168.1.100):
 ```
 CMSIT_RD53A.xml
 CMSIT_RD53B.xml
@@ -128,12 +269,12 @@ Also, use an FC7 version that matches your hardware setup: RD53A or RD53B, CERN 
 
 To use the FC7, first turn it on.
 
-Check that FC7 communication is working:
+Check that FC7 communication is working (run on the kucms linux machine):
 ```
 ping fc7 -c 3
 ```
 
-Here are useful commands for the FC7.
+Here are useful commands for the FC7; these should be run run on the kucms linux machine.
 You will need run the Ph2_ACF setup script before using these commands (see RD53A/B setup below for details). 
 
 Help menu:
@@ -173,6 +314,8 @@ Useful RD53A information can be found at these links:
 - [RD53A Twiki](https://twiki.cern.ch/twiki/bin/viewauth/RD53/RD53ATesting)
 
 ## Using RD53A chips 
+
+Commands should be run on the kucms linux machine.
 
 First, turn on the FC7.
 Check that FC7 communication is working:
@@ -335,9 +478,55 @@ Useful RD53B information can be found at these links:
 
 ## Using RD53B chips 
 
-TODO: Finish updating port card instructions!
+A display port (DP) cable should be connected between the RD53B chip (use the DP1 port) and the red adapter board.
+For Type 5K e-links tested with the port card, we are using the
+"TBPIX 15 to Display Port Rev A" board that was developed in 2023.
+This adapter board has two jumpers for every channel (ten jumpers in total).
+We are using e-link channels CMD and D3.
 
-Latest setup (from 2023) for an RD53B SCC (CROCv1) with optical readout using an optical FMC and a port card.
+Here are the standard jumper settings on the red adapter board used for Type 5K e-links:
+- CMD: P -> N, N -> P
+- D3:  P -> N, N -> P
+
+Refer to the diagram on the red adapter board, and make sure that CMD and D3 both have two jumpers
+matching these standard jumper settings.
+Make sure that the jumpers are fully inserted.
+The BERT TAP0 scans have shown problems (large error rates that do not converge to 0 errors)
+when the jumpers have poor connection.
+
+Finally, insert the Type 5K e-link that will be tested.
+The 15-pin paddle board on the e-link should connect to the red adapter board
+with the notch on the left (matching the white dot) and the leads facing up.
+The 45-pin paddle board on the e-link should connect to the port card slot J4
+with the notch on the left (towards the gray DC-DC converter) and the leads away from the black bail.
+The VTRX+ on the bottom of the port card should be in slot Z3.
+
+### Power Settings
+
+After checking the jumper configuration/connection and the e-link connection/configuration, you can power on the FC7, port card, and RD53B chip.
+There are also fans used to cool the port card and RD53B chip that should be used to prevent overheating.
+
+We are powering the port card in constant voltage mode.
+We put the power cables on one power suppy output channel (on the left side of the power supply),
+with the white cable on positive and the black cable on negative.
+
+For the port card, we are using constant voltage mode with these settings:
+- Voltage limit: 10.16 V - should measure about 10.17 V when output is on.
+- Current limit:  0.80 A - should measure about  0.16 A when output is on.
+
+We are powering the RD53B chip in LDO mode with a constant voltage.
+We put the power cables on two power supply output channels (two pairs of red and black cables)
+with the red cables on positive ouputs and the black cables on negative outputs.
+
+For the RD53B chip, we are using constant voltage mode with these settings on two output channels:
+- Voltage limit: 1.60 V - should measure about 1.60 V when output is on.
+- Current limit: 2.00 A - should measure about 0.76 A (left) and 0.40 A (right) when output is on and about 0.94 A (left) and 0.81 (right) after establishing communication.
+
+### BERT TAP0 scans (with optical readout using the port card)
+
+Commands should be run on the kucms linux machine.
+
+Latest setup (from 2024) for an RD53B SCC (CROCv1) with optical readout using an optical FMC and a port card.
 
 Based on the port card slot (J2, J3, and J4) and the supported e-link types (1, 1K, 5, and 5K), you need to:
 - Use the correct hardware connections: make sure that the VTRX+ and e-link are connected to the correct locations.
@@ -347,17 +536,6 @@ Based on the port card slot (J2, J3, and J4) and the supported e-link types (1, 
 - Change the softlink "CMSIT_RD53B_Optical_BERT.xml".
 - Update "BERT_Scan.py" and "BERT_Simple_Analyze.py" for your setup; see below for more details.
 
-Here is the syntax for changing the "CMSIT_RD53B_Optical_BERT.xml" softlink:
-```
-example
-```
-For example, if you want to set the softlink to point to the file X, the command would be:
-```
-example
-```
-
-After connecting the e-link, adapter boards, etc., you can power on the FC7, port card, and RD53B chip.
-
 Check that communication is working between the linux computer kucms and the FC7:
 ```
 ping fc7 -c 3
@@ -366,17 +544,24 @@ ping fc7 -c 3
 Then, these setup commands should be run in a terminal on kucms.
 In this example, we are using port card slot 4 and a Type 5K e-link,
 which is why we are using the xml configuration file "CMSIT_RD53B_Optical_Type5_J4.xml".
+Make sure that the FC7 is powered on before running these commands.
 ```
-cd /home/kucms/TrackerDAQ/croc/Ph2_ACF
+cd /home/kucms/TrackerDAQ/elink_testing_v1/Ph2_ACF
 source setup.sh
-cd DAQSettings_v3
+cd DAQSettings_v1
 fpgaconfig -c CMSIT_RD53B_Optical_Type5_J4.xml -i IT-L8-OPTO_CROC_v4p5
 CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -r
 ping fc7 -c 3
-CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
 ```
 
-Useful CMSITminiDAQ programs:
+Then, you should run these commands to establish communication with the RD53B chip.
+The port card and RD53B chip need to be powered on before running these commands.
+```
+CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
+CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -c bertest
+```
+
+Here are other useful CMSITminiDAQ programs for reference:
 ```
 CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
 CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -c bertest
@@ -385,60 +570,21 @@ CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -c noise
 CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -c scurve
 ```
 
-If you get lpGBT errors like this:
-```
-CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
-...
-|11:22:00|I|Initializing communication to Low-power Gigabit Transceiver (LpGBT): 0
-|11:22:00|I|    --> Configured up and down link mapping in firmware
-|11:22:00|I|LpGBT version: LpGBT-v1
-|11:22:01|E|LpGBT PUSM status: ARESET
-|11:22:01|E|>>> LpGBT chip not configured, reached maximum number of attempts (10) <<<
-```
-Then you can turn off the RD53B chip and port card, reprogram and reset the FC7 with these commands,
-and then turn the RD53B chip and port card on.
-```
-fpgaconfig -c CMSIT_RD53B_Optical_Type5_J4.xml -i IT-L8-OPTO_CROC_v4p5
-CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -r
-```
-
-If you want to modify the TAP1 setting:
-- 1
-- 2
-- 3
-
 Before running the BERT TAP0 scan and analysis scripts, make sure to edit these files as needed for your configuration:
 - These files should be edited from the directory "/home/kucms/TrackerDAQ/TrackerDAQ/python", which is where this repository is installed.
-- There are softlinks to these files in the working areas, for example in "/home/kucms/TrackerDAQ/croc/Ph2_ACF/DAQSettings_v3/TrackerDAQ/python".
-- BERT_Scan.py: set the default TAP0 range, the "output_dir", and the "bash_script" for your setup
-- BERT_Simple_Analyze.py: set the "base_plot_dir", "base_data_dir", and "output_csv_name" for your setup
+- There are softlinks to these files in the working areas, for example in "/home/kucms/TrackerDAQ/elink_testing_v1/Ph2_ACF/DAQSettings_v1/TrackerDAQ/python".
+- BERT_Scan.py: set the default TAP0 range, the "output_dir", and the "bash_script" for your setup.
+- BERT_Simple_Analyze.py: set the "base_plot_dir", "base_data_dir", and "output_csv_name" for your setup.
 
 Here is the command to run BERT TAP0 scans:
 ```
 python3 TrackerDAQ/python/BERT_Run_Scan.py
 ```
 
-If you get lpGBT errors like this:
+Use this script to analyze RD53B data for one e-link (specify which e-link number) or all e-links.
 ```
-python3 TrackerDAQ/python/BERT_Run_Scan.py
-...
-Running BERT with TAP0=200
-Running BERT with TAP0=210
-terminate called after throwing an instance of 'Exception'
-  what():  [RD53lpGBTInterface::WriteReg] LpGBT register writing issue
-  ./TrackerDAQ/scripts/PortCard_BERT_Scan.sh: line 54: 25469 Aborted                 (core dumped) CMSITminiDAQ -f CMSIT_RD53B_Optical_BERT_Custom.xml -c bertest > "$dataDir/scan.log"
-```
-Then you can turn off the RD53B chip and port card, reprogram and reset the FC7 with these commands,
-and then turn the RD53B chip and port card on.
-```
-fpgaconfig -c CMSIT_RD53B_Optical_Type5_J4.xml -i IT-L8-OPTO_CROC_v4p5
-CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -r
-```
-
-Use this script to analyze RD53B data for one e-link or all e-links.
-```
-# specific e-link
-./TrackerDAQ/scripts/analyze_RD53B.sh 138
+# specific e-link (specify e-link number)
+./TrackerDAQ/scripts/analyze_RD53B.sh <elink_number>
 # all e-links
 ./TrackerDAQ/scripts/analyze_RD53B.sh
 ```
@@ -453,11 +599,55 @@ To copy the plots to your local computer, use this script from this repository:
 ./scripts/getPlots.sh
 ```
 
-## Digital module (1x2 CROC digital module) 
+### Debugging Errors
+
+If you see lpGBT errors like this for "CMSITminiDAQ" commands:
+```
+CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
+...
+|11:22:00|I|Initializing communication to Low-power Gigabit Transceiver (LpGBT): 0
+|11:22:00|I|    --> Configured up and down link mapping in firmware
+|11:22:00|I|LpGBT version: LpGBT-v1
+|11:22:01|E|LpGBT PUSM status: ARESET
+|11:22:01|E|>>> LpGBT chip not configured, reached maximum number of attempts (10) <<<
+```
+then you should reprogram and reset the FC7 with these commands, which usually fixes the issue:
+```
+fpgaconfig -c CMSIT_RD53B_Optical_Type5_J4.xml -i IT-L8-OPTO_CROC_v4p5
+CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -r
+```
+If you still have communication problems, then you can turn off the RD53B and the port card,
+reprogram and reset the FC7, and then turn the RD53B chip and port card on.
+Then, you can repeat the "CMSITminiDAQ" command to re-establish communication:  
+```
+CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
+```
+
+Similary, if you see lpGBT errors like this when running the BERT_Run_Scan.py python script:
+```
+python3 TrackerDAQ/python/BERT_Run_Scan.py
+...
+Running BERT with TAP0=200
+Running BERT with TAP0=210
+terminate called after throwing an instance of 'Exception'
+  what():  [RD53lpGBTInterface::WriteReg] LpGBT register writing issue
+  ./TrackerDAQ/scripts/PortCard_BERT_Scan.sh: line 54: 25469 Aborted                 (core dumped) CMSITminiDAQ -f CMSIT_RD53B_Optical_BERT_Custom.xml -c bertest > "$dataDir/scan.log"
+```
+then you should reprogram and reset the FC7 with these commands, which usually fixes the issue:
+```
+fpgaconfig -c CMSIT_RD53B_Optical_Type5_J4.xml -i IT-L8-OPTO_CROC_v4p5
+CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -r
+```
+Then, you should re-establish communication with these commands before continuing:
+```
+CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
+```
+
+## Digital module (RD53B 1x2 CROC digital module)
 
 ### Power Settings
 
-We are powering the port card in constant votlage mode.
+We are powering the port card in constant voltage mode.
 We put the power cables on one power suppy output channel (on the left side of the power supply),
 with the white cable on positive and the black cable on negative.
 
