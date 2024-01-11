@@ -3,21 +3,23 @@
 For the port card BERT TAP0 scans, we use an RD53B SCC (CROCv1) with optical readout, an optical FMC, and a port card.
 To test Type 5K e-links, there is a custom red adapter board (with jumpers) that is used to connect a display port (DP) cable on one side and the 15-pin paddle board of the e-link on the other side.
 
-1. Connect a desired e-link between RD53B chip and port card! Make sure kucms desktop, power supplies, and FC7 are all on and running. ![Full readout chain ](Full_Readoutchain_with_SMA_cables.jpg)
+1. Connect a desired e-link between RD53B chip and port card! Make sure kucms desktop, power supplies, and FC7 are all on and running.
+
+![Full readout chain](Full_Readoutchain_with_SMA_cables.jpg)
 
 2. The top power supply must be set to 10.16 volts and .8 amps. The bottom power supply must be set too 1.6 volts and 2 amps (make sure you follow these paramaters to the upmost or else the hardware could be fried!) once verified press the synchronos on/off switch
 
 Power Supply output off:
 
-![Power Supply output off ](Power_Supply_output_off.jpg)
+![Power Supply output off](Power_Supply_output_off.jpg)
 
  Power Supply output on:
 
-![Power Supply output on ](Power_Supply_output_on.jpg)
+![Power Supply output on](Power_Supply_output_on.jpg)
 
 Power Supply Readout mode:
 
-![Power Supply Readout mode ](Power_Supply_Readoutmode.jpg)
+![Power Supply Readout mode](Power_Supply_Readoutmode.jpg)
 
 3. If you want to run the scan to your laptop you must ssh into the desktop with this command: ssh -Y kucms@kucms-01.phsx.ku.edu (usefull to set up an alias to make this step faster  ‘kucms’)
 to add an alias we need to locate .bashrc file (in home directory) open .bashrc file with text editor and add an alias to the bottom of it. the format is: alias kucms='ssh -Y kucms@kucms.phsx.ku.edu'
