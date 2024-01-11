@@ -15,19 +15,19 @@ def getDefaultInputs(cable_number, channel):
     #tap0_step   = 10
     
     # Small TAP0 range
-    #tap0_min    = 50
-    #tap0_max    = 150
-    #tap0_step   = 10
+    tap0_min    = 50
+    tap0_max    = 150
+    tap0_step   = 10
     
     # Medium TAP0 range
-    #tap0_min    = 200
-    #tap0_max    = 400
+    #tap0_min    = 100
+    #tap0_max    = 300
     #tap0_step   = 10
     
     # Large TAP0 range
-    tap0_min    = 100
-    tap0_max    = 1000
-    tap0_step   = 100
+    #tap0_min    = 100
+    #tap0_max    = 1000
+    #tap0_step   = 100
     
     signal      = 0     # Type of secondary signal; use 0 as default.
     TAP1        = 0     # See note below about setting TAP1!!!
