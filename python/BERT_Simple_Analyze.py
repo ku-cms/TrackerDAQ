@@ -226,8 +226,13 @@ def analyzeScansRD53B(cable_number):
     #output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
     
     # using port card with e-link in J4 with module, chip 12:
-    base_plot_dir    = "plots/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_Module_Chip12"
-    base_data_dir    = "data/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_Module_Chip12"
+    #base_plot_dir    = "plots/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_Module_Chip12"
+    #base_data_dir    = "data/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_Module_Chip12"
+    #output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
+    
+    # using port card with e-link in J4 with module, chip 13:
+    base_plot_dir    = "plots/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_Module_Chip13"
+    base_data_dir    = "data/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_Module_Chip13"
     output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
     
     #base_plot_dir    = "plots/BERT_TAP0_Scans/SingleDP"
