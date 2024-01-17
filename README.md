@@ -734,7 +734,6 @@ Use this script to analyze RD53B data for one e-link or all e-links.
 ```
 
 ## TODO
-- Finish updating instructions for Type 5K e-links!
 - Write down standard TAP0 scan ranges: [100, 1000, 100] and [50, 150]
 - Improve instructions for adjusting TAP0 scan settings.
 - Add instructions for changing TAP1 setting.
@@ -744,6 +743,7 @@ Use this script to analyze RD53B data for one e-link or all e-links.
 - Document adapter board jumper settings.
 - Include port card and RD53B chip power settings.
 - Move debugging errors to a new section.
+- Finish updating instructions for Type 5K e-links!
 - Add command to ssh to kucms.
 - Add details on alias for ssh command.
 - Add the Macbook terminal fix for LC_CTYPE and LC_ALL variables to the login section.
