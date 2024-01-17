@@ -4,20 +4,6 @@ Software for the Tracker DAQ setups used at the University of Kansas (KU)... Roc
 There are instructions for using setups with Ph2_ACF, an FC7, CERN, KSU, or optical FMCs, a port card (optional),
 RD53A or RD53B single chip cards (SCC), an RD53A quad module, and an RD53B 1x2 CROC digital module.
 
-TODO: Finish updating instructions for Type 5K e-links!
-- Write down standard TAP0 scan ranges: [100, 1000, 100] and [50, 150]
-- Improve instructions for adjusting TAP0 scan settings.
-- Add instructions for changing TAP1 setting.
-
-DONE:
-- Update installation section, including soft link and xml setup. 
-- Document adapter board jumper settings.
-- Include port card and RD53B chip power settings.
-- Move debugging errors to a new section.
-- Add command to ssh to kucms.
-- Add details on alias for ssh command.
-- Add the Macbook terminal fix for LC_CTYPE and LC_ALL variables to the login section.
-
 # Login
 
 We are using Ph2_ACF and TrackerDAQ on the kucms linux machine in Malott 4078.
@@ -616,12 +602,12 @@ then you should reprogram and reset the FC7 with these commands, which usually f
 fpgaconfig -c CMSIT_RD53B_Optical_Type5_J4.xml -i IT-L8-OPTO_CROC_v4p5
 CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -r
 ```
-If you still have communication problems, then you can turn off the RD53B and the port card,
-reprogram and reset the FC7, and then turn the RD53B chip and port card on.
-Then, you can repeat the "CMSITminiDAQ" command to re-establish communication:  
+Then, you should repeat the "CMSITminiDAQ" command to re-establish communication:
 ```
 CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
 ```
+If you still have communication problems, then you can turn off the RD53B chip and the port card,
+reprogram and reset the FC7, and then turn the RD53B chip and port card on.
 
 Similary, if you see lpGBT errors like this when running the BERT_Run_Scan.py python script:
 ```
@@ -747,4 +733,17 @@ Use this script to analyze RD53B data for one e-link or all e-links.
 ./TrackerDAQ/scripts/analyze_RD53B.sh
 ```
 
+## TODO
+- Finish updating instructions for Type 5K e-links!
+- Write down standard TAP0 scan ranges: [100, 1000, 100] and [50, 150]
+- Improve instructions for adjusting TAP0 scan settings.
+- Add instructions for changing TAP1 setting.
 
+## DONE
+- Update installation section, including soft link and xml setup. 
+- Document adapter board jumper settings.
+- Include port card and RD53B chip power settings.
+- Move debugging errors to a new section.
+- Add command to ssh to kucms.
+- Add details on alias for ssh command.
+- Add the Macbook terminal fix for LC_CTYPE and LC_ALL variables to the login section.

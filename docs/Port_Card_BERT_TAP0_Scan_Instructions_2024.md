@@ -111,6 +111,49 @@ To copy the plots to your local computer, use this script from this repository:
 ./scripts/getPlots.sh
 ```
 
+## Debugging Errors
+
+If you see lpGBT errors like this for "CMSITminiDAQ" commands:
+```
+CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
+...
+|11:22:00|I|Initializing communication to Low-power Gigabit Transceiver (LpGBT): 0
+|11:22:00|I|    --> Configured up and down link mapping in firmware
+|11:22:00|I|LpGBT version: LpGBT-v1
+|11:22:01|E|LpGBT PUSM status: ARESET
+|11:22:01|E|>>> LpGBT chip not configured, reached maximum number of attempts (10) <<<
+```
+then you should reprogram and reset the FC7 with these commands, which usually fixes the issue:
+```
+fpgaconfig -c CMSIT_RD53B_Optical_Type5_J4.xml -i IT-L8-OPTO_CROC_v4p5
+CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -r
+```
+Then, you should repeat the "CMSITminiDAQ" command to re-establish communication:
+```
+CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
+```
+If you still have communication problems, then you can turn off the RD53B chip and the port card, reprogram and reset the FC7, and then turn the RD53B chip and port card on.
+
+Similary, if you see lpGBT errors like this when running the BERT_Run_Scan.py python script:
+```
+python3 TrackerDAQ/python/BERT_Run_Scan.py
+...
+Running BERT with TAP0=200
+Running BERT with TAP0=210
+terminate called after throwing an instance of 'Exception'
+  what():  [RD53lpGBTInterface::WriteReg] LpGBT register writing issue
+  ./TrackerDAQ/scripts/PortCard_BERT_Scan.sh: line 54: 25469 Aborted                 (core dumped) CMSITminiDAQ -f CMSIT_RD53B_Optical_BERT_Custom.xml -c bertest > "$dataDir/scan.log"
+```
+then you should reprogram and reset the FC7 with these commands, which usually fixes the issue:
+```
+fpgaconfig -c CMSIT_RD53B_Optical_Type5_J4.xml -i IT-L8-OPTO_CROC_v4p5
+CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -r
+```
+Then, you should re-establish communication with this command before trying the scan again:
+```
+CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
+```
+
 ## TODO
 - Add pictures of Type 5K e-link setup.
 - Document jumper settings.
@@ -120,3 +163,4 @@ To copy the plots to your local computer, use this script from this repository:
 
 ## DONE
 - Document setup commands.
+- Add debugging section.
