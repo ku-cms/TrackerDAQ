@@ -65,6 +65,12 @@ Please see the solution [here](https://stackoverflow.com/questions/2499794/how-t
 For the port card BERT TAP0 scans, we use an RD53B SCC (CROCv1) with optical readout, an optical FMC, and a port card.
 To test Type 5K e-links, there is a custom red adapter board (with jumpers) that is used to connect a display port (DP) cable on one side and the 15-pin paddle board of the e-link on the other side.
 
+[//]: # (Port card setup images)
+
+<img src="Port_Card_Setup/port_card_setup_1.jpg" alt="port card setup (1)" width="600"/>
+<img src="Port_Card_Setup/port_card_setup_3.jpg" alt="port card setup (3)" width="300"/>
+<img src="Port_Card_Setup/port_card_setup_4.jpg" alt="port card setup (4)" width="300"/>
+
 ### Hardware setup
 
 A display port (DP) cable should be connected between the RD53B chip (use the DP1 port) and the red adapter board.
@@ -208,8 +214,7 @@ CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
 ```
 
 ## TODO
-- Document terminals: two on kucms (login and edit), and one locally (copy)
-- Add pictures of Type 5K e-link setup.
+- Document terminals: two on kucms (login and edit), and one locally (copy).
 
 ## DONE
 - Document setup commands.
@@ -217,3 +222,4 @@ CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
 - Add links to TrackerDAQ and Ph2_ACF repositories and FC7 firmware.
 - Document jumper settings.
 - Document power settings.
+- Add pictures of Type 5K e-link setup.
