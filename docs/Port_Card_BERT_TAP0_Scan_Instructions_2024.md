@@ -60,10 +60,50 @@ Aborted (core dumped)
 
 Please see the solution [here](https://stackoverflow.com/questions/2499794/how-to-fix-a-locale-setting-warning-from-perl), along with details in the TrackerDAQ readme [here](https://github.com/ku-cms/TrackerDAQ).
 
-## Port Card BERT TAP0 Scans for Type 5K e-links
+## Testing Type 5K e-links
 
 For the port card BERT TAP0 scans, we use an RD53B SCC (CROCv1) with optical readout, an optical FMC, and a port card.
 To test Type 5K e-links, there is a custom red adapter board (with jumpers) that is used to connect a display port (DP) cable on one side and the 15-pin paddle board of the e-link on the other side.
+
+### Hardware setup
+
+A display port (DP) cable should be connected between the RD53B chip (use the DP1 port) and the red adapter board.
+For Type 5K e-links tested with the port card, we are using the "TBPIX 15 to Display Port Rev A" board that was developed in 2023.
+This adapter board has two jumpers for every channel (ten jumpers in total).
+We are using e-link channels CMD and D3 (as labeled on the 15-pin side).
+
+Here are the standard jumper settings on the red adapter board used for Type 5K e-links:
+- CMD: P -> N, N -> P
+- D3:  P -> N, N -> P
+
+Refer to the diagram on the red adapter board, and make sure that CMD and D3 both have two jumpers matching these standard jumper settings.
+Make sure that the jumpers are fully inserted.
+The BERT TAP0 scans have shown problems (large error rates that do not converge to 0 errors) when the jumpers have poor connection.
+
+Finally, insert the Type 5K e-link that will be tested.
+The 15-pin paddle board on the e-link should connect to the red adapter board with the notch on the left (matching the white dot) and the leads facing up.
+The 45-pin paddle board on the e-link should connect to the port card slot J4 with the notch on the left (towards the gray DC-DC converter) and the leads away from the black bail.
+The VTRX+ on the bottom of the port card should be in slot Z3.
+
+### Power settings
+
+After checking the jumper configuration/connection and the e-link connection/configuration, you can power on the FC7, port card, and RD53B chip.
+There are also fans used to cool the port card and RD53B chip that should be used to prevent overheating.
+
+We are powering the port card in constant voltage mode.
+We put the power cables on one power supply output channel (on the left side of the power supply), with the white cable on positive and the black cable on negative.
+
+For the port card, we are using constant voltage mode with these settings:
+- Voltage limit: 10.16 V - should measure about 10.17 V when output is on.
+- Current limit:  0.80 A - should measure about  0.16 A when output is on.
+
+For the RD53B chip, we are using constant voltage mode with these settings on two output channels:
+- Voltage limit: 1.60 V - should measure about 1.60 V when output is on.
+- Current limit: 2.00 A - should measure about 0.76 A (left) and 0.40 A (right) when output is on and about 0.94 A (left) and 0.81 (right) after establishing communication.
+
+### BERT TAP0 Scans
+
+Commands should be run on the kucms linux machine.
 
 Check that communication is working between the linux computer kucms and the FC7:
 ```
@@ -124,7 +164,7 @@ To copy the plots to your local computer, use this script from this repository:
 ./scripts/getPlots.sh
 ```
 
-## Debugging Errors
+### Debugging Errors
 
 If you see lpGBT errors like this for "CMSITminiDAQ" commands:
 ```
@@ -147,7 +187,7 @@ CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
 ```
 If you still have communication problems, then you can turn off the RD53B chip and the port card, reprogram and reset the FC7, and then turn the RD53B chip and port card on.
 
-Similary, if you see lpGBT errors like this when running the BERT_Run_Scan.py python script:
+Similarly, if you see lpGBT errors like this when running the BERT_Run_Scan.py python script:
 ```
 python3 TrackerDAQ/python/BERT_Run_Scan.py
 ...
@@ -168,8 +208,6 @@ CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
 ```
 
 ## TODO
-- Document jumper settings.
-- Document power settings.
 - Document terminals: two on kucms (login and edit), and one locally (copy)
 - Add pictures of Type 5K e-link setup.
 
@@ -177,3 +215,5 @@ CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
 - Document setup commands.
 - Add debugging section.
 - Add links to TrackerDAQ and Ph2_ACF repositories and FC7 firmware.
+- Document jumper settings.
+- Document power settings.

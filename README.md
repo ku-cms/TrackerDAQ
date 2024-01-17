@@ -462,13 +462,13 @@ Useful RD53B information can be found at these links:
 - [RD53B Manual](http://cds.cern.ch/record/2665301)
 - [RD53B Twiki](https://twiki.cern.ch/twiki/bin/viewauth/RD53/RD53BTesting)
 
-## Using RD53B chips 
+## Testing Type 5K e-links
 
 A display port (DP) cable should be connected between the RD53B chip (use the DP1 port) and the red adapter board.
 For Type 5K e-links tested with the port card, we are using the
 "TBPIX 15 to Display Port Rev A" board that was developed in 2023.
 This adapter board has two jumpers for every channel (ten jumpers in total).
-We are using e-link channels CMD and D3.
+We are using e-link channels CMD and D3 (as labeled on the 15-pin side).
 
 Here are the standard jumper settings on the red adapter board used for Type 5K e-links:
 - CMD: P -> N, N -> P
@@ -493,7 +493,7 @@ After checking the jumper configuration/connection and the e-link connection/con
 There are also fans used to cool the port card and RD53B chip that should be used to prevent overheating.
 
 We are powering the port card in constant voltage mode.
-We put the power cables on one power suppy output channel (on the left side of the power supply),
+We put the power cables on one power supply output channel (on the left side of the power supply),
 with the white cable on positive and the black cable on negative.
 
 For the port card, we are using constant voltage mode with these settings:
@@ -502,7 +502,7 @@ For the port card, we are using constant voltage mode with these settings:
 
 We are powering the RD53B chip in LDO mode with a constant voltage.
 We put the power cables on two power supply output channels (two pairs of red and black cables)
-with the red cables on positive ouputs and the black cables on negative outputs.
+with the red cables on positive outputs and the black cables on negative outputs.
 
 For the RD53B chip, we are using constant voltage mode with these settings on two output channels:
 - Voltage limit: 1.60 V - should measure about 1.60 V when output is on.
@@ -609,7 +609,7 @@ CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
 If you still have communication problems, then you can turn off the RD53B chip and the port card,
 reprogram and reset the FC7, and then turn the RD53B chip and port card on.
 
-Similary, if you see lpGBT errors like this when running the BERT_Run_Scan.py python script:
+Similarly, if you see lpGBT errors like this when running the BERT_Run_Scan.py python script:
 ```
 python3 TrackerDAQ/python/BERT_Run_Scan.py
 ...
