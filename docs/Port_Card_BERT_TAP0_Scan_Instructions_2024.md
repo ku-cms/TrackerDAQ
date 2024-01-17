@@ -1,5 +1,18 @@
 # Port Card BERT TAP0 Scan Instructions (2024)
 
+## Resources
+
+We are using the [TrackerDAQ](https://github.com/ku-cms/TrackerDAQ) and [Ph2_ACF](https://gitlab.cern.ch/cms_tk_ph2/Ph2_ACF) frameworks to perform BERT TAP0 scans.
+
+The TrackerDAQ repository is located here: [https://github.com/ku-cms/TrackerDAQ](https://github.com/ku-cms/TrackerDAQ).
+Please see the TrackerDAQ readme for additional information, including details on installing and running the TrackerDAQ and Ph2_ACF frameworks and loading the FC7 firmware.
+
+The Ph2_ACF repository is located here: [https://gitlab.cern.ch/cms_tk_ph2/Ph2_ACF](https://gitlab.cern.ch/cms_tk_ph2/Ph2_ACF).
+The Ph2_ACF readme has information about installation and running the Ph2_ACF framework.
+
+The FC7 firmware releases that can be used with Ph2_ACF are available here: [https://gitlab.cern.ch/cmstkph2-IT/d19c-firmware/-/releases](https://gitlab.cern.ch/cmstkph2-IT/d19c-firmware/-/releases).
+You will need to use the correct version of FC7 firmware for the Ph2_ACF version and the hardware configuration that you are using.
+
 ## Login to kucms
 
 We are using Ph2_ACF and TrackerDAQ on the kucms linux machine in Malott 4078.
@@ -155,12 +168,12 @@ CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
 ```
 
 ## TODO
-- Add pictures of Type 5K e-link setup.
 - Document jumper settings.
 - Document power settings.
-- Add links to TrackerDAQ and Ph2_ACF repositories.
 - Document terminals: two on kucms (login and edit), and one locally (copy)
+- Add pictures of Type 5K e-link setup.
 
 ## DONE
 - Document setup commands.
 - Add debugging section.
+- Add links to TrackerDAQ and Ph2_ACF repositories and FC7 firmware.
