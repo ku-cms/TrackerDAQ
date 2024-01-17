@@ -1,6 +1,6 @@
 # Port Card BERT TAP0 Scan Instructions (2024)
 
-## Login
+## Login to kucms
 
 We are using Ph2_ACF and TrackerDAQ on the kucms linux machine in Malott 4078.
 The hostname is "kucms.phsx.ku.edu", and we are using the user "kucms".
@@ -14,6 +14,38 @@ Here is the ssh command to login to kucms:
 ```
 ssh -Y kucms@kucms.phsx.ku.edu
 ```
+
+If you are using Mac or Linux, you can add this alias to your shell configuration file on your personal machine:
+```
+alias kucms='ssh -Y kucms@kucms.phsx.ku.edu'
+```
+
+For more details on setting up this alias, please see the TrackerDAQ readme [here](https://github.com/ku-cms/TrackerDAQ).
+
+If you are using a Mac and encounter this error after logging into kucms with ssh:
+```
+Last failed login: Thu Jan  4 10:24:34 CST 2024 from 10.105.79.64 on ssh:notty
+There was 1 failed login attempt since the last successful login.
+Last login: Thu Jan  4 10:19:55 2024 from 10.105.79.64
+perl: warning: Setting locale failed.
+perl: warning: Please check that your locale settings:
+	LANGUAGE = (unset),
+	LC_ALL = (unset),
+	LC_CTYPE = "UTF-8",
+	LANG = "en_US.UTF-8"
+    are supported and installed on your system.
+perl: warning: Falling back to the standard locale ("C").
+```
+then you will need to fix this before using Ph2_ACF, as we discovered that the command to program the FC7 firmware will not work:
+```
+[kucms@kucms DAQSettings_v1]$ fpgaconfig -c CMSIT_RD53B_Optical_Type5_J4.xml -i IT-L8-OPTO_CROC_v4p5
+04.01.2024 10:31:28: |140251851439552|I| Loading IT-L8-OPTO_CROC_v4p5 into the FPGA...
+terminate called after throwing an instance of 'std::runtime_error'
+  what():  Board with id 0 does not exist in file CMSIT_RD53B_Optical_Type5_J4.xml
+Aborted (core dumped)
+```
+
+Please see the solution [here](https://stackoverflow.com/questions/2499794/how-to-fix-a-locale-setting-warning-from-perl), along with details in the TrackerDAQ readme [here](https://github.com/ku-cms/TrackerDAQ).
 
 ## Port Card BERT TAP0 Scans for Type 5K e-links
 
