@@ -12,5 +12,6 @@
 #rsync -az kucms@kucms.phsx.ku.edu:/home/kucms/TrackerDAQ/modules/Ph2_ACF/DAQSettings_v1/plots/ raw_plots_PortCard_Module
 
 rsync -az kucms@kucms.phsx.ku.edu:/home/kucms/TrackerDAQ/elink_testing_v1/Ph2_ACF/DAQSettings_v1/plots/ plots_elink_testing_v1
+rsync -az kucms@kucms.phsx.ku.edu:/home/kucms/TrackerDAQ/modules/Ph2_ACF/DAQSettings_v1/plots/ plots_modules
 
 
