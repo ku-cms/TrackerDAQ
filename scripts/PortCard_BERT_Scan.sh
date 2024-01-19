@@ -47,13 +47,12 @@ mkdir -p "$dataDir"
 
 cp CMSIT_RD53B_Optical_BERT.xml CMSIT_RD53B_Optical_BERT_Custom.xml
 
-# FIXME: We should find a better way to do this that does not break based on the number of spaces!!
-
-# WARNING
-# Be careful about the number of spaces;
-# must match the line in the xml file for search/replace to work!!!
-sed -i -e "s|DAC_CML_BIAS_0         =   \"500\"|DAC_CML_BIAS_0         =   \""${TAP0_Setting}"\"|g" CMSIT_RD53B_Optical_BERT_Custom.xml
-#sed -i -e "s|DAC_CML_BIAS_0         =    \"500\"|DAC_CML_BIAS_0         =    \""${TAP0_Setting}"\"|g" CMSIT_RD53B_Optical_BERT_Custom.xml
+# Updated sed command (credit: ChatGPT 3.5):
+# - the -E option enables extended regular expressions to make the syntax simpler
+# - the -i is for editing the file in place
+# - should match zero or more whitespace characters (space, tab, or newline) around the equal sign
+# - after replacement, it should maintain the same whitespace as the original line
+sed -E -i "s/(DAC_CML_BIAS_0\s*=\s*)\"[0-9]+\"/\1\"$TAP0_Setting\"/" CMSIT_RD53B_Optical_BERT_Custom.xml
 
 # Run BERT and send output to file
 echo "Running BERT with TAP0=$TAP0_Setting" | tee -a $outFile
