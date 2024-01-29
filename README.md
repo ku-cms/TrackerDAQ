@@ -487,6 +487,13 @@ The 45-pin paddle board on the e-link should connect to the port card slot J4
 with the notch on the left (towards the gray DC-DC converter) and the leads away from the black bail.
 The VTRX+ on the bottom of the port card should be in slot Z3.
 
+The optical link from the VTRX+ should connect to an optical adapter
+which in turn connects to an optical fiber breakout to 12 channels.
+Out of these 12 optical fibers, fibers 6 and 7 should connect as a pair to the optical FMC,
+which should be mounted on the FC7 in position L8.
+We are connecting the fibers to bottom left position of the optical FMC, and when connected,
+fiber 6 should be on the right and fiber 7 should be on the left.
+
 ### Power Settings
 
 After checking the jumper configuration/connection and the e-link connection/configuration, you can power on the FC7, port card, and RD53B chip.
