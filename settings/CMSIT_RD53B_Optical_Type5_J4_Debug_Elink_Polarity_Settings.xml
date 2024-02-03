@@ -8,7 +8,7 @@
     -->
 
     <!-- Frontend chip configuration -->
-    <OpticalGroup Id="0" FMCId="0">
+    <OpticalGroup Id="0" FMCId="L8">
       <lpGBT_Files path="${PWD}/" />
       <lpGBT Id="0" version="1" configfile="CMSIT_LpGBT-v1.txt" ChipAddress="0x73" RxDataRate="1280" RxHSLPolarity="0" TxDataRate="160" TxHSLPolarity="0">
         <Settings/>

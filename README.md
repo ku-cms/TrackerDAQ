@@ -519,7 +519,8 @@ For the RD53B chip, we are using constant voltage mode with these settings on tw
 
 Commands should be run on the kucms linux machine.
 
-Latest setup (from 2024) for an RD53B SCC (CROCv1) with optical readout using an optical FMC and a port card.
+This is the latest setup (from 2024) for an RD53B SCC (CROCv1) with optical readout using an optical FMC and a port card.
+We are using Ph2_ACF v4-13 and FC7 FW v4.5 for RD53B CROCv1 SCC.
 
 Based on the port card slot (J2, J3, and J4) and the supported e-link types (1, 1K, 5, and 5K), you need to:
 - Use the correct hardware connections: make sure that the VTRX+ and e-link are connected to the correct locations.
