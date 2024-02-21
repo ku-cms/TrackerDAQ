@@ -33,6 +33,7 @@ echo "   that point to the install directory '$INSTALL_DIR'."
 cd $TARGET_DIR/python
 ln -s $INSTALL_DIR/python/BERT_Run_Scan.py .
 ln -s $INSTALL_DIR/python/BERT_Simple_Analyze.py .
+ln -s $INSTALL_DIR/python/analyze_occupancy.py .
 cd ../..
 
 cd $TARGET_DIR/scripts
