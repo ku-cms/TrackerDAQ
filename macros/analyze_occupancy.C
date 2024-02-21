@@ -37,5 +37,5 @@ void analyze_occupancy()
     cout << "n_bins_x: " << n_bins_x << endl;
     cout << "n_bins_y: " << n_bins_y << endl;
     
-    //occ_2d_hist->Draw();
+    occ_2d_hist->Draw();
 }
