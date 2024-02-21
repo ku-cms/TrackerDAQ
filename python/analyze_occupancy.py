@@ -42,6 +42,7 @@ def main():
         print(f" - {type(object)}: {object}")
 
     # Load 2D occupancy histogram
+    # occ_2d_hist_name = "example_histogram"
     occ_2d_hist_name = "D_B(0)_O(0)_H(0)_Occ2D_Chip(15)"
     occ_2d_hist = occ_2d_canvas.GetPrimitive(occ_2d_hist_name)
 
