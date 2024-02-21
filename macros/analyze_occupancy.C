@@ -36,5 +36,6 @@ void analyze_occupancy()
     Int_t n_bins_y = occ_2d_hist->GetNbinsY();
     cout << "n_bins_x: " << n_bins_x << endl;
     cout << "n_bins_y: " << n_bins_y << endl;
+    
     //occ_2d_hist->Draw();
 }

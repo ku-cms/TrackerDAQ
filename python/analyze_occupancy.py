@@ -28,10 +28,14 @@ def main():
     print(f"occ_2d_hist: {occ_2d_hist}")
     print(f"occ_2d_hist type: {type(occ_2d_hist)}")
 
-    n_bins_x = occ_2d_hist.GetNbinsX()
-    n_bins_y = occ_2d_hist.GetNbinsY()
-    print(f"n_bins_x: {n_bins_x}")
-    print(f"n_bins_y: {n_bins_y}")
+    #n_bins_x = occ_2d_hist.GetNbinsX()
+    #n_bins_y = occ_2d_hist.GetNbinsY()
+    #print(f"n_bins_x: {n_bins_x}")
+    #print(f"n_bins_y: {n_bins_y}")
+
+    occ_2d_hist.Draw()
+
+    user_input = input("Press enter to continue... ")
 
 if __name__ == "__main__":
     main()
