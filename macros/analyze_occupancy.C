@@ -29,9 +29,11 @@ void analyze_occupancy()
         return;
     }
 
+    cout << "occ_2d_hist: " << occ_2d_hist << endl;
+
     Int_t n_bins_x = occ_2d_hist->GetNbinsX();
     Int_t n_bins_y = occ_2d_hist->GetNbinsY();
     cout << "n_bins_x: " << n_bins_x << endl;
     cout << "n_bins_y: " << n_bins_y << endl;
-    occ_2d_hist->Draw();
+    //occ_2d_hist->Draw();
 }
