@@ -30,6 +30,7 @@ void analyze_occupancy()
     }
 
     cout << "occ_2d_hist: " << occ_2d_hist << endl;
+    cout << "occ_2d_hist type: " << typeid(occ_2d_hist).name() << endl;
 
     Int_t n_bins_x = occ_2d_hist->GetNbinsX();
     Int_t n_bins_y = occ_2d_hist->GetNbinsY();

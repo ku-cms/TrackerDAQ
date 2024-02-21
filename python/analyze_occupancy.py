@@ -26,7 +26,7 @@ def main():
         return
     
     print(f"occ_2d_hist: {occ_2d_hist}")
-    print(f"type(occ_2d_hist): {type(occ_2d_hist)}")
+    print(f"occ_2d_hist type: {type(occ_2d_hist)}")
 
     n_bins_x = occ_2d_hist.GetNbinsX()
     n_bins_y = occ_2d_hist.GetNbinsY()
