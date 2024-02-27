@@ -487,6 +487,13 @@ The 45-pin paddle board on the e-link should connect to the port card slot J4
 with the notch on the left (towards the gray DC-DC converter) and the leads away from the black bail.
 The VTRX+ on the bottom of the port card should be in slot Z3.
 
+The optical link from the VTRX+ should connect to an optical adapter
+which in turn connects to an optical fiber breakout to 12 channels.
+Out of these 12 optical fibers, fibers 6 and 7 should connect as a pair to the optical FMC,
+which should be mounted on the FC7 in position L8.
+We are connecting the fibers to bottom left position of the optical FMC, and when connected,
+fiber 6 should be on the right and fiber 7 should be on the left.
+
 ### Power Settings
 
 After checking the jumper configuration/connection and the e-link connection/configuration, you can power on the FC7, port card, and RD53B chip.
@@ -512,7 +519,8 @@ For the RD53B chip, we are using constant voltage mode with these settings on tw
 
 Commands should be run on the kucms linux machine.
 
-Latest setup (from 2024) for an RD53B SCC (CROCv1) with optical readout using an optical FMC and a port card.
+This is the latest setup (from 2024) for an RD53B SCC (CROCv1) with optical readout using an optical FMC and a port card.
+We are using Ph2_ACF v4-13 and FC7 FW v4.5 for RD53B CROCv1 SCC.
 
 Based on the port card slot (J2, J3, and J4) and the supported e-link types (1, 1K, 5, and 5K), you need to:
 - Use the correct hardware connections: make sure that the VTRX+ and e-link are connected to the correct locations.
