@@ -5,7 +5,7 @@ import ROOT
 def main():
     # Input ROOT file name
     # input_file = "example_file.root"
-    input_file = "Results/Run000201_Physics.root"
+    input_file = "Results/Run000211_Physics.root"
 
     print(f"Running occupancy analysis on this input file: {input_file}")
 

@@ -1,0 +1,17 @@
+Instructions from Alan Feltz (February 20, 2024):
+
+ROOT version installed to use PyROOT:
+root-6.30.04
+
+In order to use it, you will need to do the following:
+
+export PATH=/usr/local/root-6.30.04/bin:/usr/local/binutils-2.42/bin:/usr/local/gcc-13.2.0/bin:$PATH
+root
+
+If you want to use use root within python or python within root, you will need to also do the following:
+
+export PYTHONPATH=/usr/local/root-6.30.04/lib
+export LD_LIBRARY_PATH=/usr/local/root-6.30.04/lib
+root
+
+
