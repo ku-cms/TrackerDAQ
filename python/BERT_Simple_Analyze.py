@@ -211,14 +211,14 @@ def analyzeScansRD53B(cable_number):
     #output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
     
     # using port card with e-link in J4, SMA adapter boards and cables:
-    base_plot_dir    = "plots/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_SMA_Adapter"
-    base_data_dir    = "data/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_SMA_Adapter"
-    output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
+    #base_plot_dir    = "plots/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_SMA_Adapter"
+    #base_data_dir    = "data/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_SMA_Adapter"
+    #output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
     
     # using port card with e-link in J4 with red adapter board:
-    #base_plot_dir    = "plots/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_RedAdapter"
-    #base_data_dir    = "data/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_RedAdapter"
-    #output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
+    base_plot_dir    = "plots/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_RedAdapter"
+    base_data_dir    = "data/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_RedAdapter"
+    output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
     
     # using port card with e-link in J4 with module:
     #base_plot_dir    = "plots/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_Module"
