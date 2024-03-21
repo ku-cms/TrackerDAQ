@@ -185,10 +185,10 @@ TrackerDAQ directory in the current working area.
 Then, copy the xml config file that you need for this working area and create a soft link
 that will be used by the TAP0 scan script.
 For example, here are the commands to copy and create the soft link for the xml config file
-for Type 5K e-links tested in port card slot J4.
+for a Type 5K e-link, channel D0, tested in port card slot J4.
 ```
-cp ~/TrackerDAQ/TrackerDAQ/settings/CMSIT_RD53B_Optical_Type5_J4.xml .
-ln -s CMSIT_RD53B_Optical_Type5_J4.xml CMSIT_RD53B_Optical_BERT.xml
+cp ~/TrackerDAQ/TrackerDAQ/settings/CMSIT_RD53B_Optical_J4_Type5K_D0.xml .
+ln -s CMSIT_RD53B_Optical_J4_Type5K_D0.xml CMSIT_RD53B_Optical_BERT.xml
 ```
 
 If you are setting up new xml files from scratch,
@@ -536,37 +536,40 @@ ping fc7 -c 3
 ```
 
 Then, these setup commands should be run in a terminal on kucms.
-In this example, we are using port card slot 4 and a Type 5K e-link,
-which is why we are using the xml configuration file "CMSIT_RD53B_Optical_Type5_J4.xml".
+In this example, we are using port card slot 4 and a Type 5K e-link, channel D0,
+which is why we are using the xml configuration file "CMSIT_RD53B_Optical_J4_Type5K_D0.xml".
 Make sure that the FC7 is powered on before running these commands.
 ```
-cd /home/kucms/TrackerDAQ/elink_testing_v1/Ph2_ACF
+cd /home/kucms/TrackerDAQ/elink_testing_v2/Ph2_ACF
 source setup.sh
 cd DAQSettings_v1
-fpgaconfig -c CMSIT_RD53B_Optical_Type5_J4.xml -i IT-L8-OPTO_CROC_v4p5
-CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -r
+fpgaconfig -c CMSIT_RD53B_Optical_J4_Type5K_D0.xml -i IT-L8-OPTO_CROC_v4p8
+CMSITminiDAQ -f CMSIT_RD53B_Optical_J4_Type5K_D0.xml -r
 ping fc7 -c 3
 ```
 
 Then, you should run these commands to establish communication with the RD53B chip.
 The port card and RD53B chip need to be powered on before running these commands.
 ```
-CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
-CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -c bertest
+CMSITminiDAQ -f CMSIT_RD53B_Optical_J4_Type5K_D0.xml -p
+CMSITminiDAQ -f CMSIT_RD53B_Optical_J4_Type5K_D0.xml -c bertest
+
+CMSITminiDAQ -f CMSIT_RD53B_Optical_J4_Type5K_D0.xml -p
+CMSITminiDAQ -f CMSIT_RD53B_Optical_J4_Type5K_D0.xml -c bertest
 ```
 
 Here are other useful CMSITminiDAQ programs for reference:
 ```
-CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
-CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -c bertest
-CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -c pixelalive
-CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -c noise
-CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -c scurve
+CMSITminiDAQ -f CMSIT_RD53B_Optical_J4_Type5K_D0.xml -p
+CMSITminiDAQ -f CMSIT_RD53B_Optical_J4_Type5K_D0.xml -c bertest
+CMSITminiDAQ -f CMSIT_RD53B_Optical_J4_Type5K_D0.xml -c pixelalive
+CMSITminiDAQ -f CMSIT_RD53B_Optical_J4_Type5K_D0.xml -c noise
+CMSITminiDAQ -f CMSIT_RD53B_Optical_J4_Type5K_D0.xml -c scurve
 ```
 
 Before running the BERT TAP0 scan and analysis scripts, make sure to edit these files as needed for your configuration:
 - These files should be edited from the directory "/home/kucms/TrackerDAQ/TrackerDAQ/python", which is where this repository is installed.
-- There are softlinks to these files in the working areas, for example in "/home/kucms/TrackerDAQ/elink_testing_v1/Ph2_ACF/DAQSettings_v1/TrackerDAQ/python".
+- There are softlinks to these files in the working areas, for example in "/home/kucms/TrackerDAQ/elink_testing_v2/Ph2_ACF/DAQSettings_v1/TrackerDAQ/python".
 - BERT_Scan.py: set the default TAP0 range, the "output_dir", and the "bash_script" for your setup.
 - BERT_Simple_Analyze.py: set the "base_plot_dir", "base_data_dir", and "output_csv_name" for your setup.
 
@@ -597,7 +600,7 @@ To copy the plots to your local computer, use this script from this repository:
 
 If you see lpGBT errors like this for "CMSITminiDAQ" commands:
 ```
-CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
+CMSITminiDAQ -f CMSIT_RD53B_Optical_J4_Type5K_D0.xml -p
 ...
 |11:22:00|I|Initializing communication to Low-power Gigabit Transceiver (LpGBT): 0
 |11:22:00|I|    --> Configured up and down link mapping in firmware
@@ -607,12 +610,12 @@ CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
 ```
 then you should reprogram and reset the FC7 with these commands, which usually fixes the issue:
 ```
-fpgaconfig -c CMSIT_RD53B_Optical_Type5_J4.xml -i IT-L8-OPTO_CROC_v4p5
-CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -r
+fpgaconfig -c CMSIT_RD53B_Optical_J4_Type5K_D0.xml -i IT-L8-OPTO_CROC_v4p5
+CMSITminiDAQ -f CMSIT_RD53B_Optical_J4_Type5K_D0.xml -r
 ```
 Then, you should repeat the "CMSITminiDAQ" command to re-establish communication:
 ```
-CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
+CMSITminiDAQ -f CMSIT_RD53B_Optical_J4_Type5K_D0.xml -p
 ```
 If you still have communication problems, then you can turn off the RD53B chip and the port card,
 reprogram and reset the FC7, and then turn the RD53B chip and port card on.
@@ -629,12 +632,12 @@ terminate called after throwing an instance of 'Exception'
 ```
 then you should reprogram and reset the FC7 with these commands, which usually fixes the issue:
 ```
-fpgaconfig -c CMSIT_RD53B_Optical_Type5_J4.xml -i IT-L8-OPTO_CROC_v4p5
-CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -r
+fpgaconfig -c CMSIT_RD53B_Optical_J4_Type5K_D0.xml -i IT-L8-OPTO_CROC_v4p5
+CMSITminiDAQ -f CMSIT_RD53B_Optical_J4_Type5K_D0.xml -r
 ```
 Then, you should re-establish communication with these commands before continuing:
 ```
-CMSITminiDAQ -f CMSIT_RD53B_Optical_Type5_J4.xml -p
+CMSITminiDAQ -f CMSIT_RD53B_Optical_J4_Type5K_D0.xml -p
 ```
 
 ## Digital module (RD53B 1x2 CROC digital module)
@@ -745,6 +748,7 @@ Use this script to analyze RD53B data for one e-link or all e-links.
 - Write down standard TAP0 scan ranges: [100, 1000, 100] and [50, 150]
 - Improve instructions for adjusting TAP0 scan settings.
 - Add instructions for changing TAP1 setting.
+- Update instructions for Type 5K and 5K2 e-links, with support for testing all data channels.
 
 ## DONE
 - Update installation section, including soft link and xml setup. 
