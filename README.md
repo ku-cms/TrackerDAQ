@@ -553,9 +553,6 @@ The port card and RD53B chip need to be powered on before running these commands
 ```
 CMSITminiDAQ -f CMSIT_RD53B_Optical_J4_Type5K_D0.xml -p
 CMSITminiDAQ -f CMSIT_RD53B_Optical_J4_Type5K_D0.xml -c bertest
-
-CMSITminiDAQ -f CMSIT_RD53B_Optical_J4_Type5K_D0.xml -p
-CMSITminiDAQ -f CMSIT_RD53B_Optical_J4_Type5K_D0.xml -c bertest
 ```
 
 Here are other useful CMSITminiDAQ programs for reference:
