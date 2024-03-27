@@ -5,6 +5,7 @@ import os
 import glob
 import csv
 import argparse
+from BERT_Scan import getBaseDirectory
 from BERT_Plot import plot
 from tools import makeDir, writeCSV, getBERTData, valuesAreSame
 
@@ -185,8 +186,9 @@ def analyzeScansRD53A(cable_number):
 
 # RD53B: make a plot for each scan
 def analyzeScansRD53B(cable_number):
-    useRD53B = True
-    output_csv_dir   = "output"
+    useRD53B        = True
+    base_dir        = getBaseDirectory()
+    output_csv_dir  = "output"
     
     # Important: choose which directory to analyze!
 
@@ -216,9 +218,9 @@ def analyzeScansRD53B(cable_number):
     #output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
     
     # using port card with e-link in J4 with red adapter board:
-    base_plot_dir    = "plots/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_RedAdapter"
-    base_data_dir    = "data/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_RedAdapter"
-    output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
+    #base_plot_dir    = "plots/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_RedAdapter"
+    #base_data_dir    = "data/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_RedAdapter"
+    #output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
     
     # using port card with e-link in J4 with module:
     #base_plot_dir    = "plots/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_Module"
@@ -250,6 +252,10 @@ def analyzeScansRD53B(cable_number):
     #base_data_dir    = "data/BERT_TAP0_Scans/ShortDP"
     #output_csv_name  = "output/BERT_Min_TAP0_Values_ShortDP.csv"
     
+    base_plot_dir   = "plots/BERT_TAP0_Scans/{0}".format(base_dir)
+    base_data_dir   = "data/BERT_TAP0_Scans/{0}".format(base_dir)
+    output_csv_name = "output/BERT_Min_TAP0_Values.csv"
+
     if cable_number < 0:
         # run for all cables
         runSet(base_plot_dir, base_data_dir, useRD53B, cable_number, output_csv_dir, output_csv_name)

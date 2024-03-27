@@ -64,7 +64,7 @@ cp CMSIT_RD53B_Optical_BERT.xml CMSIT_RD53B_Optical_BERT_Custom.xml
 sed -E -i "s/(DAC_CML_BIAS_0\s*=\s*)\"[0-9]+\"/\1\"$TAP0_Setting\"/" CMSIT_RD53B_Optical_BERT_Custom.xml
 
 # Run BERT and send output to file
-echo "Running BERT with TAP0=$TAP0_Setting" | tee -a $Out_File
+echo " - Running BERT with TAP0=$TAP0_Setting" | tee -a $Out_File
 CMSITminiDAQ -f CMSIT_RD53B_Optical_BERT_Custom.xml -c bertest > "$Data_Dir/scan.log"
 
 # Write values to output log file

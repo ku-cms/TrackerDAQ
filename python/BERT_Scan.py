@@ -4,16 +4,60 @@ import subprocess
 import argparse
 import os
 
+# TODO:
+# - Use port card slot and cable type variables for output directory name.
+# - Use function to get output directory name both for data-taking and analysis.
+
+# Get setup info: used for both data-taking and analysis
+def getSetupInfo():
+    info = {}
+
+    # Default port card slot: currently, only J4 is supported
+    port_card_slot = "J4"
+
+    # Hardware configuration
+    #hardware_config = "Module"
+    #hardware_config = "Module_Chip12"
+    #hardware_config = "Module_Chip13"
+    #hardware_config = "DP_SMA_Adapter"
+    hardware_config = "DP_RedAdapter"
+
+    info["port_card_slot"]  = port_card_slot
+    info["hardware_config"] = hardware_config
+    
+    return info
+
+# Get base directory name: used for both data-taking and analysis
+# For now, assume we are using an optical FMC and a port card
+def getBaseDirectory():
+    info = getSetupInfo()
+    port_card_slot  = info["port_card_slot"]
+    hardware_config = info["hardware_config"]
+    
+    # Example: "Optical_FMC_PortCard_J4_DP_RedAdapter"
+    base_dir = "Optical_FMC_PortCard_{0}_{1}".format(port_card_slot, hardware_config)
+    
+    return base_dir
+
 # Get default inputs
 def getDefaultInputs(cable_number, cable_type, channel):
     # Default input parameters
     inputs      = {}
 
-    # TODO: Use port card slot and cable type variables for output directory
+    info = getSetupInfo()
+    port_card_slot  = info["port_card_slot"]
+    hardware_config = info["hardware_config"]
 
-    # Default port card slot: only J4 currently supported
-    port_card_slot = "J4"
-    
+    # Default port card slot: currently, only J4 is supported
+    #port_card_slot = "J4"
+
+    # Hardware configuration
+    #hardware_config = "Module"
+    #hardware_config = "Module_Chip12"
+    #hardware_config = "Module_Chip13"
+    #hardware_config = "DP_SMA_Adapter"
+    #hardware_config = "DP_RedAdapter"
+
     # Micro TAP0 range
     #tap0_min    = 50 #10
     #tap0_max    = 70 #30
@@ -70,12 +114,15 @@ def getDefaultInputs(cable_number, cable_type, channel):
     
     # RD53B + port card with e-link in J4:
     #output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_SMA_Adapter/elink{0}_{1}_SS{2}_TAP1_{3}".format(cable_number, channel, signal, TAP1)
-    output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_RedAdapter/elink{0}_{1}_SS{2}_TAP1_{3}".format(cable_number, channel, signal, TAP1)
+    #output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_RedAdapter/elink{0}_{1}_SS{2}_TAP1_{3}".format(cable_number, channel, signal, TAP1)
 
     # Module + port card with e-link in J4:
     #output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_J4_Module/elink{0}_{1}_SS{2}_TAP1_{3}".format(cable_number, channel, signal, TAP1)
     #output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_J4_Module_Chip12/elink{0}_{1}_SS{2}_TAP1_{3}".format(cable_number, channel, signal, TAP1)
     #output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_J4_Module_Chip13/elink{0}_{1}_SS{2}_TAP1_{3}".format(cable_number, channel, signal, TAP1)
+
+    base_dir    = getBaseDirectory()
+    output_dir  = "BERT_TAP0_Scans/{0}/elink{1}_{2}_SS{3}_TAP1_{4}".format(base_dir, cable_number, channel, signal, TAP1)
 
     inputs["port_card_slot"]    = port_card_slot
     inputs["cable_type"]        = cable_type
@@ -85,12 +132,14 @@ def getDefaultInputs(cable_number, cable_type, channel):
     inputs["tap0_step"]         = tap0_step
     inputs["signal"]            = signal
     inputs["output_dir"]        = output_dir
+
     return inputs
 
 # Get user inputs
 def getUserInputs():
     # Prompt user for all input parameters
     inputs      = {}
+    
     port_card_slot  = str(input("Enter port card slot [J4]: "))
     cable_type      = str(input("Enter cable type [5K, 5K2]: "))
     channel         = str(input("Enter channel [D0, D1, D2, D3]: "))
@@ -99,6 +148,7 @@ def getUserInputs():
     tap0_step       = int(input("Enter step size for TAP0: "))
     signal          = int(input("Select type of secondary signal [0, 1, 2, 3]: "))
     output_dir      = str(input("Output directory: "))
+    
     inputs["port_card_slot"]    = port_card_slot
     inputs["cable_type"]        = cable_type
     inputs["channel"]           = channel
@@ -107,6 +157,7 @@ def getUserInputs():
     inputs["tap0_step"]         = tap0_step
     inputs["signal"]            = signal
     inputs["output_dir"]        = output_dir
+    
     return inputs
 
 # Check for valid inputs
@@ -151,6 +202,7 @@ def validInputs(port_card_slot, cable_type, channel, tap0_min, tap0_max, tap0_st
 
 # Get xml config file name based on port card slot, cable type, and channel
 def getXMLConfigFile(port_card_slot, cable_type, channel):
+    # Example: CMSIT_RD53B_Optical_J4_Type5K_D0.xml
     xml_config_file = "CMSIT_RD53B_Optical_{0}_Type{1}_{2}.xml".format(port_card_slot, cable_type, channel)
     return xml_config_file
 
@@ -162,7 +214,6 @@ def getOutputFile(output_dir):
         #print("File exists: {0}".format(output_file))
         i += 1
         output_file = "{0}/scan_{1:03}.log".format(output_dir, i)
-    print("Final output file: {0}".format(output_file))
     return output_file
 
 # Scan over TAP0 DAQ settings
@@ -182,9 +233,12 @@ def run(port_card_slot, cable_type, channel, tap0_min, tap0_max, tap0_step, sign
         return
     
     xml_config_file = getXMLConfigFile(port_card_slot, cable_type, channel)
+    print("xml config file: {0}".format(xml_config_file))
     
     output_file = getOutputFile(output_dir)
+    print("output file: {0}".format(output_file))
     
+    print("Start BERT TAP0 Scan.")
     for x in range(tap0_min, tap0_max + tap0_step, tap0_step):
         # Run BERT scan script
         # Format signal type setting in 2-bit binary (e.g. 0b00, 0b01, ...)
@@ -193,6 +247,7 @@ def run(port_card_slot, cable_type, channel, tap0_min, tap0_max, tap0_step, sign
         # append output to file
         with open(output_file, 'a') as f:
             f.write(str(output) + "\n")
+    print("BERT TAP0 Scan is complete!")
 
 def main():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
