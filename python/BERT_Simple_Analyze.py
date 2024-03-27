@@ -189,72 +189,9 @@ def analyzeScansRD53B(cable_number):
     useRD53B        = True
     base_dir        = getBaseDirectory()
     output_csv_dir  = "output"
-    
-    # Important: choose which directory to analyze!
-
-    # using port card with e-link in J2, SMA adapter boards and cables:
-    #base_plot_dir    = "plots/BERT_TAP0_Scans/Optical_FMC_PortCard_DP_SMA_Adapter"
-    #base_data_dir    = "data/BERT_TAP0_Scans/Optical_FMC_PortCard_DP_SMA_Adapter"
-    #output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
-    
-    # using port card with e-link in J2 with red adapter board:
-    #base_plot_dir    = "plots/BERT_TAP0_Scans/Optical_FMC_PortCard_J2_DP_RedAdapter"
-    #base_data_dir    = "data/BERT_TAP0_Scans/Optical_FMC_PortCard_J2_DP_RedAdapter"
-    #output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
-    
-    # using port card with e-link in J3, SMA adapter boards and cables:
-    #base_plot_dir    = "plots/BERT_TAP0_Scans/Optical_FMC_PortCard_J3_DP_SMA_Adapter"
-    #base_data_dir    = "data/BERT_TAP0_Scans/Optical_FMC_PortCard_J3_DP_SMA_Adapter"
-    #output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
-    
-    # using port card with e-link in J3 with red adapter board:
-    #base_plot_dir    = "plots/BERT_TAP0_Scans/Optical_FMC_PortCard_J3_DP_RedAdapter"
-    #base_data_dir    = "data/BERT_TAP0_Scans/Optical_FMC_PortCard_J3_DP_RedAdapter"
-    #output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
-    
-    # using port card with e-link in J4, SMA adapter boards and cables:
-    #base_plot_dir    = "plots/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_SMA_Adapter"
-    #base_data_dir    = "data/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_SMA_Adapter"
-    #output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
-    
-    # using port card with e-link in J4 with red adapter board:
-    #base_plot_dir    = "plots/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_RedAdapter"
-    #base_data_dir    = "data/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_RedAdapter"
-    #output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
-    
-    # using port card with e-link in J4 with module:
-    #base_plot_dir    = "plots/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_Module"
-    #base_data_dir    = "data/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_Module"
-    #output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
-    
-    # using port card with e-link in J4 with module, chip 12:
-    #base_plot_dir    = "plots/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_Module_Chip12"
-    #base_data_dir    = "data/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_Module_Chip12"
-    #output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
-    
-    # using port card with e-link in J4 with module, chip 13:
-    #base_plot_dir    = "plots/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_Module_Chip13"
-    #base_data_dir    = "data/BERT_TAP0_Scans/Optical_FMC_PortCard_J4_Module_Chip13"
-    #output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
-    
-    #base_plot_dir    = "plots/BERT_TAP0_Scans/SingleDP"
-    #base_data_dir    = "data/BERT_TAP0_Scans/SingleDP"
-    
-    #base_plot_dir    = "plots/BERT_TAP0_Scans/DoubleDP_DPAdapter"
-    #base_data_dir    = "data/BERT_TAP0_Scans/DoubleDP_DPAdapter"
-    #output_csv_name  = "output/BERT_Min_TAP0_Values.csv"
-    
-    #base_plot_dir    = "plots/BERT_TAP0_Scans/ShortDoubleDP_DPAdapter"
-    #base_data_dir    = "data/BERT_TAP0_Scans/ShortDoubleDP_DPAdapter"
-    #output_csv_name  = "output/BERT_Min_TAP0_Values_ShortDoubleDP_DPAdapter.csv"
-    
-    #base_plot_dir    = "plots/BERT_TAP0_Scans/ShortDP"
-    #base_data_dir    = "data/BERT_TAP0_Scans/ShortDP"
-    #output_csv_name  = "output/BERT_Min_TAP0_Values_ShortDP.csv"
-    
     base_plot_dir   = "plots/BERT_TAP0_Scans/{0}".format(base_dir)
     base_data_dir   = "data/BERT_TAP0_Scans/{0}".format(base_dir)
-    output_csv_name = "output/BERT_Min_TAP0_Values.csv"
+    output_csv_name = "{0}/BERT_Min_TAP0_Values.csv".format(output_csv_dir)
 
     if cable_number < 0:
         # run for all cables

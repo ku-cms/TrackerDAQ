@@ -4,10 +4,6 @@ import subprocess
 import argparse
 import os
 
-# TODO:
-# - Use port card slot and cable type variables for output directory name.
-# - Use function to get output directory name both for data-taking and analysis.
-
 # Get setup info: used for both data-taking and analysis
 def getSetupInfo():
     info = {}
@@ -48,15 +44,7 @@ def getDefaultInputs(cable_number, cable_type, channel):
     port_card_slot  = info["port_card_slot"]
     hardware_config = info["hardware_config"]
 
-    # Default port card slot: currently, only J4 is supported
-    #port_card_slot = "J4"
-
-    # Hardware configuration
-    #hardware_config = "Module"
-    #hardware_config = "Module_Chip12"
-    #hardware_config = "Module_Chip13"
-    #hardware_config = "DP_SMA_Adapter"
-    #hardware_config = "DP_RedAdapter"
+    base_dir = getBaseDirectory()
 
     # Micro TAP0 range
     #tap0_min    = 50 #10
@@ -91,37 +79,7 @@ def getDefaultInputs(cable_number, cable_type, channel):
     # - DAC_CML_BIAS_1 should be changed to the desired TAP1 setting, for example "0" or "100".
     # - To use TAP1 = 0, CML_CONFIG_SER_EN_TAP and CML_CONFIG_SER_INV_TAP should be set to "0b00".
     # - To use TAP1 > 0, CML_CONFIG_SER_EN_TAP and CML_CONFIG_SER_INV_TAP should be set to "0b01".
-
-    # Important: assign the correct output directory for your setup!
     
-    #output_dir  = "BERT_TAP0_Scans/SingleDP/CERN_FMC_FC7_FW_v4.2"
-    #output_dir  = "BERT_TAP0_Scans/SingleDP/KSU_FMC_FC7_FW_v4.2"
-    #output_dir  = "BERT_TAP0_Scans/SingleDP/KSU_FMC_FC7_FW_v4.2_TAP1_100"
-    #output_dir  = "BERT_TAP0_Scans/SingleDP/KSU_FMC_FC7_FW_v4.2_HybridID_3"
-    
-    #output_dir  = "BERT_TAP0_Scans/CERN_FMC_DoubleDP_DPAdapter/elink{0}_{1}_SS{2}".format(cable_number, channel, signal)
-    #output_dir  = "BERT_TAP0_Scans/KSU_FMC_DoubleDP_DPAdapter/elink{0}_{1}_SS{2}".format(cable_number, channel, signal)
-    #output_dir  = "BERT_TAP0_Scans/CERN_FMC_DoubleDP_DPAdapter/elink{0}_{1}_SS{2}_TAP1_10".format(cable_number, channel, signal)
-    
-    # RD53B + port card with e-link in J2:
-    #output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_DP_SMA_Adapter/elink{0}_{1}_SS{2}".format(cable_number, channel, signal)
-    #output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_DP_SMA_Adapter/elink{0}_{1}_SS{2}_TAP1_{3}".format(cable_number, channel, signal, TAP1)
-    #output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_J2_DP_RedAdapter/elink{0}_{1}_SS{2}_TAP1_{3}".format(cable_number, channel, signal, TAP1)
-    
-    # RD53B + port card with e-link in J3:
-    #output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_J3_DP_SMA_Adapter/elink{0}_{1}_SS{2}_TAP1_{3}".format(cable_number, channel, signal, TAP1)
-    #output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_J3_DP_RedAdapter/elink{0}_{1}_SS{2}_TAP1_{3}".format(cable_number, channel, signal, TAP1)
-    
-    # RD53B + port card with e-link in J4:
-    #output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_SMA_Adapter/elink{0}_{1}_SS{2}_TAP1_{3}".format(cable_number, channel, signal, TAP1)
-    #output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_J4_DP_RedAdapter/elink{0}_{1}_SS{2}_TAP1_{3}".format(cable_number, channel, signal, TAP1)
-
-    # Module + port card with e-link in J4:
-    #output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_J4_Module/elink{0}_{1}_SS{2}_TAP1_{3}".format(cable_number, channel, signal, TAP1)
-    #output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_J4_Module_Chip12/elink{0}_{1}_SS{2}_TAP1_{3}".format(cable_number, channel, signal, TAP1)
-    #output_dir  = "BERT_TAP0_Scans/Optical_FMC_PortCard_J4_Module_Chip13/elink{0}_{1}_SS{2}_TAP1_{3}".format(cable_number, channel, signal, TAP1)
-
-    base_dir    = getBaseDirectory()
     output_dir  = "BERT_TAP0_Scans/{0}/elink{1}_{2}_SS{3}_TAP1_{4}".format(base_dir, cable_number, channel, signal, TAP1)
 
     inputs["port_card_slot"]    = port_card_slot
