@@ -462,10 +462,12 @@ Useful RD53B information can be found at these links:
 - [RD53B Manual](http://cds.cern.ch/record/2665301)
 - [RD53B Twiki](https://twiki.cern.ch/twiki/bin/viewauth/RD53/RD53BTesting)
 
-## Testing Type 5K e-links
+## Testing Type 5K and 5K2 e-links
+
+TODO: Update instructions for Type 5K2 e-links.
 
 A display port (DP) cable should be connected between the RD53B chip (use the DP1 port) and the red adapter board.
-For Type 5K e-links tested with the port card, we are using the
+For Type 5K and 5K2 e-links tested with the port card, we are using the
 "TBPIX 15 to Display Port Rev A" board that was developed in 2023.
 This adapter board has two jumpers for every channel (ten jumpers in total).
 We are using e-link channels CMD and D3 (as labeled on the 15-pin side).
@@ -519,8 +521,8 @@ For the RD53B chip, we are using constant voltage mode with these settings on tw
 
 Commands should be run on the kucms linux machine.
 
-This is the latest setup (from 2024) for an RD53B SCC (CROCv1) with optical readout using an optical FMC and a port card.
-We are using Ph2_ACF v4-13 and FC7 FW v4.5 for RD53B CROCv1 SCC.
+This is the latest setup (from March 2024) for an RD53B SCC (CROCv1) with optical readout using an optical FMC and a port card.
+We are using Ph2_ACF v4-22 and FC7 FW v4.8 for RD53B CROCv1 SCC optical readout, with the optical FMC in position L8 on the FC7 (the FMC position on the left).
 
 Based on the port card slot (J2, J3, and J4) and the supported e-link types (1, 1K, 5, and 5K), you need to:
 - Use the correct hardware connections: make sure that the VTRX+ and e-link are connected to the correct locations.
@@ -536,7 +538,9 @@ ping fc7 -c 3
 ```
 
 Then, these setup commands should be run in a terminal on kucms.
-In this example, we are using port card slot 4 and a Type 5K e-link, channel D0,
+You need to use the xml file corresponding to the port card slot, e-link type, and e-link channel that you are testing.
+At the moment, only port card slot J4 is supported.
+In this example, we are using port card slot J4, e-link Type 5K, and e-link channel D0,
 which is why we are using the xml configuration file "CMSIT_RD53B_Optical_J4_Type5K_D0.xml".
 Make sure that the FC7 is powered on before running these commands.
 ```
