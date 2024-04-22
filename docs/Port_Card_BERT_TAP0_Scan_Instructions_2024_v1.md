@@ -1,4 +1,4 @@
-# Port Card BERT TAP0 Scan Instructions (2024)
+# Port Card BERT TAP0 Scan Instructions (2024 v1)
 
 ## Resources
 
