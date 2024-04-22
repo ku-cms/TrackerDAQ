@@ -129,9 +129,10 @@ def getBERTData(input_file, useRD53B):
         # Save total error counter as y values
         if "Final counter" in line:
             # get all numbers in string
-            # WARNING: The final counter has the number of frames with errors and bits with errors
-            # - We should use the number of bits with errors!!!
-            # - Note: bits with errors ~ 32 * (frames with errors)
+            # WARNING: The final counter has the number of frames with errors and bits with errors.
+            # - Example line: "|11:26:32|I|Final counter: 0 frames with error(s), i.e. 0 bits with errors"
+            # - We should use the number of bits with errors, which is the last integer in the line.
+            # - Note: (num. bits with errors) ~ 32 * (num. frames with errors)
             numbers = [int(s) for s in line.split() if s.isdigit()]
             y = numbers[-1]
             #print("Number of numbers: {0}; numbers = {1}; y = {2}".format(len(numbers), numbers, y))
