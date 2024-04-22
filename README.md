@@ -754,6 +754,7 @@ Use this script to analyze RD53B data for one e-link or all e-links.
 
 ## TODO
 - Update instructions for Type 3.2 e-links.
+- Document terminals: two on kucms (to run scans and edit files), and one locally (to copy files).
 - Write down standard TAP0 scan ranges: [100, 1000, 100] and [50, 150]
 - Improve instructions for adjusting TAP0 scan settings.
 - Add instructions for changing TAP1 setting.
