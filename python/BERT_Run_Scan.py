@@ -15,9 +15,10 @@ def main():
     if use_defaults in yes_answers:
         # get default inputs
         cable_number    = int(input("Enter cable number: "))
-        cable_type      = input("Enter cable type [5K, 5K2]: ")
+        cable_type      = input("Enter cable type [5K, 5K2, 3p2, 2p2, 2p3, 1p3]: ")
+        branch          = input("Enter branch [A, B, C]: ")
         channel         = input("Enter channel [D0, D1, D2, D3]: ")
-        inputs = getDefaultInputs(cable_number, cable_type, channel)
+        inputs = getDefaultInputs(cable_number, cable_type, branch, channel)
     else:
         # get user inputs
         inputs = getUserInputs()
@@ -27,6 +28,7 @@ def main():
     # inputs
     port_card_slot  = inputs["port_card_slot"]
     cable_type      = inputs["cable_type"]
+    branch          = inputs["branch"]
     channel         = inputs["channel"]
     tap0_min        = inputs["tap0_min"]
     tap0_max        = inputs["tap0_max"]
@@ -37,7 +39,7 @@ def main():
     # Press enter to continue...
     input("Press enter to continue... ")
     # run scan
-    run(port_card_slot, cable_type, channel, tap0_min, tap0_max, tap0_step, signal, output_dir)
+    run(port_card_slot, cable_type, branch, channel, tap0_min, tap0_max, tap0_step, signal, output_dir)
 
 if __name__ == "__main__":
     main()

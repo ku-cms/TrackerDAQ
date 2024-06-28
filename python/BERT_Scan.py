@@ -36,7 +36,7 @@ def getBaseDirectory():
     return base_dir
 
 # Get default inputs
-def getDefaultInputs(cable_number, cable_type, channel):
+def getDefaultInputs(cable_number, cable_type, branch, channel):
     # Default input parameters
     inputs      = {}
 
@@ -47,9 +47,9 @@ def getDefaultInputs(cable_number, cable_type, channel):
     base_dir = getBaseDirectory()
 
     # Micro TAP0 range
-    #tap0_min    = 10
-    #tap0_max    = 90
-    #tap0_step   = 10
+    tap0_min    = 10
+    tap0_max    = 90
+    tap0_step   = 10
 
     # Mini TAP0 range
     #tap0_min    = 20
@@ -62,9 +62,9 @@ def getDefaultInputs(cable_number, cable_type, channel):
     #tap0_step   = 10
     
     # Medium TAP0 range
-    tap0_min    = 100
-    tap0_max    = 300
-    tap0_step   = 10
+    #tap0_min    = 100
+    #tap0_max    = 300
+    #tap0_step   = 10
     
     # Large TAP0 range
     #tap0_min    = 100
@@ -80,10 +80,11 @@ def getDefaultInputs(cable_number, cable_type, channel):
     # - To use TAP1 = 0, CML_CONFIG_SER_EN_TAP and CML_CONFIG_SER_INV_TAP should be set to "0b00".
     # - To use TAP1 > 0, CML_CONFIG_SER_EN_TAP and CML_CONFIG_SER_INV_TAP should be set to "0b01".
     
-    output_dir  = "BERT_TAP0_Scans/{0}/elink{1}_{2}_SS{3}_TAP1_{4}".format(base_dir, cable_number, channel, signal, TAP1)
+    output_dir  = "BERT_TAP0_Scans/{0}/elink{1}_{2}_{3}_SS{4}_TAP1_{5}".format(base_dir, cable_number, branch, channel, signal, TAP1)
 
     inputs["port_card_slot"]    = port_card_slot
     inputs["cable_type"]        = cable_type
+    inputs["branch"]            = branch
     inputs["channel"]           = channel
     inputs["tap0_min"]          = tap0_min
     inputs["tap0_max"]          = tap0_max
@@ -99,7 +100,8 @@ def getUserInputs():
     inputs      = {}
     
     port_card_slot  = str(input("Enter port card slot [J4]: "))
-    cable_type      = str(input("Enter cable type [5K, 5K2]: "))
+    cable_type      = str(input("Enter cable type [5K, 5K2, 3p2, 2p2, 2p3, 1p3]: "))
+    branch          = str(input("Enter branch [A, B, C]: "))
     channel         = str(input("Enter channel [D0, D1, D2, D3]: "))
     tap0_min        = int(input("Enter min TAP0 value: "))
     tap0_max        = int(input("Enter max TAP0 value: "))
@@ -109,6 +111,7 @@ def getUserInputs():
     
     inputs["port_card_slot"]    = port_card_slot
     inputs["cable_type"]        = cable_type
+    inputs["branch"]            = branch
     inputs["channel"]           = channel
     inputs["tap0_min"]          = tap0_min
     inputs["tap0_max"]          = tap0_max
@@ -119,13 +122,14 @@ def getUserInputs():
     return inputs
 
 # Check for valid inputs
-def validInputs(port_card_slot, cable_type, channel, tap0_min, tap0_max, tap0_step, signal, output_dir):
+def validInputs(port_card_slot, cable_type, branch, channel, tap0_min, tap0_max, tap0_step, signal, output_dir):
     # Range of valid TAP0 values
     min_val = 0
     max_val = 1023
     # Supported configurations
     port_card_slots = ["J4"]
-    cable_types     = ["5K", "5K2"]
+    cable_types     = ["5K", "5K2", "3p2", "2p2", "2p3", "1p3"]
+    branches        = ["A", "B", "C"]
     channels        = ["D0", "D1", "D2", "D3"]
     signal_types    = [0, 1, 2, 3]
 
@@ -134,6 +138,9 @@ def validInputs(port_card_slot, cable_type, channel, tap0_min, tap0_max, tap0_st
         return False
     if cable_type not in cable_types:
         print("The cable type must be one of these: {0}".format(cable_types))
+        return False
+    if branch not in branches:
+        print("The branch must be one of these: {0}".format(branches))
         return False
     if channel not in channels:
         print("The channel must be one of these: {0}".format(channels))
@@ -159,9 +166,10 @@ def validInputs(port_card_slot, cable_type, channel, tap0_min, tap0_max, tap0_st
     return True
 
 # Get xml config file name based on port card slot, cable type, and channel
-def getXMLConfigFile(port_card_slot, cable_type, channel):
+def getXMLConfigFile(port_card_slot, cable_type, branch, channel):
     # Example: CMSIT_RD53B_Optical_J4_Type5K_D0.xml
-    xml_config_file = "CMSIT_RD53B_Optical_{0}_Type{1}_{2}.xml".format(port_card_slot, cable_type, channel)
+    # Example: CMSIT_RD53B_Optical_J4_Type3p2_A_D0.xml
+    xml_config_file = "CMSIT_RD53B_Optical_{0}_Type{1}_{2}_{3}.xml".format(port_card_slot, cable_type, branch, channel)
     return xml_config_file
 
 # Get unique output file name
@@ -175,7 +183,7 @@ def getOutputFile(output_dir):
     return output_file
 
 # Scan over TAP0 DAQ settings
-def run(port_card_slot, cable_type, channel, tap0_min, tap0_max, tap0_step, signal, output_dir):
+def run(port_card_slot, cable_type, branch, channel, tap0_min, tap0_max, tap0_step, signal, output_dir):
     # Important: assign which bash script to use!
     
     # Script for running without a port card
@@ -184,13 +192,13 @@ def run(port_card_slot, cable_type, channel, tap0_min, tap0_max, tap0_step, sign
     # Script for running with a port card
     bash_script = "./TrackerDAQ/scripts/PortCard_BERT_Scan.sh"
     
-    valid = validInputs(port_card_slot, cable_type, channel, tap0_min, tap0_max, tap0_step, signal, output_dir)
+    valid = validInputs(port_card_slot, cable_type, branch, channel, tap0_min, tap0_max, tap0_step, signal, output_dir)
     
     if not valid:
         print("ERROR: Invalid inputs provided. Quitting now!")
         return
     
-    xml_config_file = getXMLConfigFile(port_card_slot, cable_type, channel)
+    xml_config_file = getXMLConfigFile(port_card_slot, cable_type, branch, channel)
     print("xml config file: {0}".format(xml_config_file))
     
     output_file = getOutputFile(output_dir)
