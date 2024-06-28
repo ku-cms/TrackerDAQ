@@ -47,14 +47,14 @@ def getDefaultInputs(cable_number, cable_type, branch, channel):
     base_dir = getBaseDirectory()
 
     # Micro TAP0 range
-    #tap0_min    = 10
-    #tap0_max    = 90
-    #tap0_step   = 10
+    tap0_min    = 10
+    tap0_max    = 90
+    tap0_step   = 10
 
     # Mini TAP0 range
-    tap0_min    = 20
-    tap0_max    = 120
-    tap0_step   = 10
+    #tap0_min    = 20
+    #tap0_max    = 120
+    #tap0_step   = 10
     
     # Small TAP0 range
     #tap0_min    = 50
