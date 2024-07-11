@@ -18,7 +18,7 @@
         <RD53_Files path="${PWD}/" />
 
         <!-- Available Comment fields are: 50x50, 25x100origR0C0, 25x100origR1C0, unknown, combined with RD53A, RD53B, dual, quad -->
-        <RD53B Id="15" Lane="0" configFile="CMSIT_RD53B.txt" RxGroups="2" RxChannels="0" RxPolarities="1" TxGroups="2" TxChannels="0" TxPolarities="1" Comment="RD53B 50x50">
+        <RD53B Id="15" Lane="0" configFile="CMSIT_RD53B.txt" RxGroups="2" RxChannels="0" RxPolarities="1" TxGroups="3" TxChannels="0" TxPolarities="1" Comment="RD53B 50x50">
           <LaneConfig isPrimary="1" masterLane="0" outputLanes="0010" singleChannelInputs="0000" dualChannelInput="0000" />
           <!-- Overwrite .txt configuration file settings -->
           <Settings
