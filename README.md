@@ -165,12 +165,12 @@ cd ..
 ```
 
 Setup a Ph2_ACF working area and copy the required files.
-choose a directory name (using DAQSettings_v1 for this example):
+Choose a directory name (using DAQSettings_v1 for this example):
 ```
 mkdir -p DAQSettings_v1
 cp settings/RD53Files/CMSIT*.txt DAQSettings_v1
 cp settings/CMSIT*.xml DAQSettings_v1
-cp settings/lpGBTFiles/CMSIT_LpGBT-v1.txt DAQSettings_v1
+cp settings/lpGBTFiles/CMSIT_*.txt DAQSettings_v1
 cd DAQSettings_v1
 ```
 
