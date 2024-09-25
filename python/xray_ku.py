@@ -27,8 +27,8 @@ parser.add_argument('-scurve','--scurve', help = 'The name of the SCurve.root (a
 parser.add_argument('-noise','--noise', help = 'The name of the noise.root file', default = 'Run000040', type = str)
 parser.add_argument('-outpath','--outpath', help = 'The name of the folder to be creaated in results', default = 'RH0027_Chip12', type = str)
 parser.add_argument('-module','--module', help = 'The name of the module', default = 'RH0027_Chip12', type = str)
-parser.add_argument('-thr_missing','--thr_missing', help = 'The threshold to classify the missing bumps [Hits]', default = 1, type = int)
-parser.add_argument('-thr_strange','--thr_strange', help = 'The threshold to classify the Low Occ bumps [Hits]', default = 1000, type = int)
+parser.add_argument('-thr_missing','--thr_missing', help = 'The threshold to classify the missing bumps [Hits]', default = 100, type = int)
+parser.add_argument('-thr_strange','--thr_strange', help = 'The threshold to classify the Low Occ bumps [Hits]', default = 500, type = int)
 parser.add_argument('-bias','--bias', help = 'The bias of the module [V]', default = '80', type = str)
 parser.add_argument('-vref','--vref', help = 'The VRef_ADC [mV]', default = 800, type = int)
 parser.add_argument('-ntrg','--ntrg', help = 'The total # of triggers in the xml', default = 1e7, type = int)
@@ -41,14 +41,14 @@ args = parser.parse_args()
 
 # Path to the SCurve root file (contains threshold data)
 #Sensor=args.sensor; 
-Module='SD25_metal'
-thr_data_file='/home/kucms/TrackerDAQ/modules/Ph2_ACF/DAQSettings_v1/Results/Run000335_SCurve.root'
+Module='SD24_Threshold_2000_v2'
+thr_data_file='/home/kucms/TrackerDAQ/modules/Ph2_ACF/DAQSettings_v1/Results/Run000359_SCurve.root'
 # Path where the results will be stored
 Path='results_xray/'
 # Path to the NoiseScan root file (PixelAlive for us)
-analyzed_data_file='/home/kucms/TrackerDAQ/modules/Ph2_ACF/DAQSettings_v1/Results/Run000339_PixelAlive.root' 
+analyzed_data_file='/home/kucms/TrackerDAQ/modules/Ph2_ACF/DAQSettings_v1/Results/Run000360_PixelAlive.root'
 # Path to the .txt file that contains sensor information
-analyzed_txt_file ='/home/kucms/TrackerDAQ/modules/Ph2_ACF/DAQSettings_v1/Results/Run000335_CMSIT_RD53B.txt'
+analyzed_txt_file ='/home/kucms/TrackerDAQ/modules/Ph2_ACF/DAQSettings_v1/Results/Run000359_CMSIT_RD53B.txt'
 
 # Thresholds and other parameters
 Thr=args.thr_missing; Thr_strange=args.thr_strange; Voltage_1=args.bias; 
