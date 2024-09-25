@@ -1,0 +1,50 @@
+CROC Single Chip Card (SCC) with 3D sensor
+
+Setup commands:
+cd /home/kucms/TrackerDAQ/modules/Ph2_ACF
+source setup.sh
+cd DAQSettings_v1
+fpgaconfig -c CMSIT_RD53B_Electrical.xml -i IT-L12-KSU-L8-KSU_CROC_v4p8
+CMSITminiDAQ -f CMSIT_RD53B_Electrical.xml -r
+
+Try these after firmware is loaded and module powered on:
+CMSITminiDAQ -f CMSIT_RD53B_Electrical.xml -p
+CMSITminiDAQ -f CMSIT_RD53B_Electrical.xml -c bertest
+CMSITminiDAQ -f CMSIT_RD53B_Electrical.xml -c physics
+
+Data taking:
+
+Turn on LV and HV.
+
+LV: 1.60 V, 2.00 A on left and right
+
+HV: -1.0 V (-40 micro amps), -2.0 V (-100 micro amps)
+
+Use the multimeter and python script to measure the temperature:
+python3 python/measureTemperature.py
+
+The normal temperature is 18 C.
+
+Copy text file to start with the default values:
+
+cp CMSIT_RD53B_default.txt CMSIT_RD53B.txt
+
+Set "TargetThr" in the xml file CMSIT_RD53B_Electrical.xml:
+The default is 2000; we should try 1200.
+
+CMSITminiDAQ -f CMSIT_RD53B_Electrical.xml -c thradj
+-- manually edit xml: global threshold (GDAC values)
+
+CMSITminiDAQ -f CMSIT_RD53B_Electrical.xml -c threqu
+-- automatically updates text file: per pixel threshold
+
+Run "physics" without and with x-rays for the same amount of time.
+You need to time this!
+Start and stop with enter.
+May take up to 15 minutes to stop after pressing enter.
+
+CMSITminiDAQ -f CMSIT_RD53B_Electrical.xml -c physics
+
+
+
+
