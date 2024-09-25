@@ -170,7 +170,7 @@ Choose a directory name (using DAQSettings_v1 for this example):
 mkdir -p DAQSettings_v1
 cp settings/RD53Files/CMSIT*.txt DAQSettings_v1
 cp settings/CMSIT*.xml DAQSettings_v1
-cp settings/lpGBTFiles/CMSIT_*.txt DAQSettings_v1
+cp settings/lpGBTFiles/CMSIT*.txt DAQSettings_v1
 cd DAQSettings_v1
 ```
 
