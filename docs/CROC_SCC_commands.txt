@@ -1,14 +1,27 @@
 CROC Single Chip Card (SCC) with 3D sensor
 
-Setup commands:
+Setup commands on kucms:
+
 cd /home/kucms/TrackerDAQ/modules/Ph2_ACF
 source setup.sh
 cd DAQSettings_v1
 fpgaconfig -c CMSIT_RD53B_Electrical.xml -i IT-L12-KSU-L8-KSU_CROC_v4p8
 CMSITminiDAQ -f CMSIT_RD53B_Electrical.xml -r
 
+Setup commands on kucms-02:
+
+cd /home/kucms/TrackerDAQ/module_testing_v1/Ph2_ACF
+source setup.sh
+cd DAQSettings_v1
+fpgaconfig -c CMSIT_RD53B_Electrical.xml -i IT-L12-KSU-L8-KSU_CROC_v4p9
+CMSITminiDAQ -f CMSIT_RD53B_Electrical.xml -r
+
 Try these after firmware is loaded and module powered on:
+
 CMSITminiDAQ -f CMSIT_RD53B_Electrical.xml -p
+CMSITminiDAQ -f CMSIT_RD53B_Electrical.xml -c pixelalive
+CMSITminiDAQ -f CMSIT_RD53B_Electrical.xml -c noise
+CMSITminiDAQ -f CMSIT_RD53B_Electrical.xml -c scurve
 CMSITminiDAQ -f CMSIT_RD53B_Electrical.xml -c bertest
 CMSITminiDAQ -f CMSIT_RD53B_Electrical.xml -c physics
 
