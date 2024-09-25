@@ -1,3 +1,9 @@
+------------------------------
+Using PyROOT (ROOT + Python 3)
+------------------------------
+
+------------------------------------------------
+
 Instructions from Alan Feltz (February 20, 2024):
 
 ROOT version installed to use PyROOT:
@@ -12,6 +18,31 @@ If you want to use use root within python or python within root, you will need t
 
 export PYTHONPATH=/usr/local/root-6.30.04/lib
 export LD_LIBRARY_PATH=/usr/local/root-6.30.04/lib
-root
+
+python3
+import ROOT
+
+------------------------------------------------
+
+Update from Caleb Smith (August 29, 2024):
+
+First, tested adding the export commands to ~/.bash_profile
+so that users can use ROOT + Python 3 by default when logging in.
+
+However, Derek reported that this breaks Ph2_ACF commands, which is somewhat expected.
+
+I created this script to set up PyROOT (ROOT + Python 3) environment:
+
+/home/kucms/bin/setup_pyroot.sh
+
+Run using either of the following commands:
+
+source setup_pyroot.sh 
+
+. setup_pyroot.sh
+
+Important: source or . are required to set environment variables in your terminal session!
+
+------------------------------------------------
 
 
