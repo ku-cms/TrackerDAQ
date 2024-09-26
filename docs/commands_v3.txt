@@ -72,6 +72,15 @@ fpgaconfig -c CMSIT_RD53B_Optical.xml -l
 fpgaconfig -c CMSIT_RD53B_Optical.xml -f IT-uDTC_L8-OPTO-4xSCC_OPTICAL_CROC_v4.5.bit -i IT-L8-OPTO_CROC_v4p5
 fpgaconfig -c CMSIT_RD53B_Optical.xml -l
 
+fpgaconfig -c CMSIT_RD53B_Optical.xml -l
+fpgaconfig -c CMSIT_RD53B_Optical.xml -f FC7_firmware/RD53B_CROC/IT-uDTC_L8-OPTO-4xSCC_OPTICAL_CROC_v4.9.bit -i IT-L8-OPTO_CROC_v4p9
+fpgaconfig -c CMSIT_RD53B_Optical.xml -l
+
+RD53B electrical readout:
+fpgaconfig -c CMSIT_RD53B_Electrical.xml -l
+fpgaconfig -c CMSIT_RD53B_Electrical.xml -f FC7_firmware/RD53B_CROC/IT-uDTC_L12-KSU-4xSCC_L8-KSU-4xSCC_ELECTRICAL_CROC_v4.9.bit -i IT-L12-KSU-L8-KSU_CROC_v4p9
+fpgaconfig -c CMSIT_RD53B_Electrical.xml -l
+
 RD53A quad module electrical readout:
 fpgaconfig -c CMSIT_RD53A_Electrical.xml -l
 fpgaconfig -c CMSIT_RD53A_Electrical.xml -f IT-uDTC_L12-KSU-3xQUAD_L8-DIO5_ELECTRICAL_RD53A_v4.5.bit -i IT-L12-KSU-RD53A_QUAD_v4p5
