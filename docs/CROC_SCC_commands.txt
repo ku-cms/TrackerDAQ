@@ -10,6 +10,16 @@ CMSITminiDAQ -f CMSIT_RD53B_Electrical.xml -r
 
 Setup commands on kucms-02:
 
+Ph2_ACF v5-03:
+
+cd /home/kucms/TrackerDAQ/module_testing_v1/Ph2_ACF
+source setup.sh
+cd DAQSettings_v0
+fpgaconfig -c CMSIT_RD53B_Electrical.xml -i IT-L12-KSU-L8-KSU_CROC_v4p9
+CMSITminiDAQ -f CMSIT_RD53B_Electrical.xml -r
+
+Ph2_ACF v5-04:
+
 cd /home/kucms/TrackerDAQ/module_testing_v1/Ph2_ACF
 source setup.sh
 cd DAQSettings_v1
