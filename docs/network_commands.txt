@@ -1,0 +1,18 @@
+Network Commands
+
+alias myip='curl http://ipecho.net/plain; echo'
+alias listen_rarpd='sudo journalctl -fu rarpd'
+
+myip
+listen_rarpd
+ping fc7
+
+ifconfig -a
+ip link
+ip addr
+nmcli con
+
+systemctl status rarpd
+sudo journalctl -fu rarpd
+
+
