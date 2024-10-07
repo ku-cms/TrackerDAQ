@@ -12,7 +12,29 @@ ip link
 ip addr
 nmcli con
 
+RARPD
+
+https://ph2acf.docs.cern.ch/general/rarpd/
+
+https://pkgs.org/download/rarpd
+
+rarpd configuration files:
+
+/etc/systemd/system/rarpd.service
+
+/etc/sysconfig/rarpd
+
+The /etc/sysconfig/rarpd contains lines of the form "DEV=XXX",
+where XXX is the name of the ethernet device that you want to use for the FC7.
+You can have multiple lines in the file;
+however, the last line is the one that will be used as an argument to the rarpd program.
+
+sudo systemctl enable --now rarpd
+
 systemctl status rarpd
+sudo systemctl restart rarpd
 sudo journalctl -fu rarpd
+
+
 
 
