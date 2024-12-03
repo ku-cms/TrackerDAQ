@@ -29,10 +29,10 @@ CMSITminiDAQ -f CMSIT_RD53B_Electrical.xml -r
 Try these after firmware is loaded and module powered on:
 
 CMSITminiDAQ -f CMSIT_RD53B_Electrical.xml -p
+CMSITminiDAQ -f CMSIT_RD53B_Electrical.xml -c bertest
 CMSITminiDAQ -f CMSIT_RD53B_Electrical.xml -c pixelalive
 CMSITminiDAQ -f CMSIT_RD53B_Electrical.xml -c noise
 CMSITminiDAQ -f CMSIT_RD53B_Electrical.xml -c scurve
-CMSITminiDAQ -f CMSIT_RD53B_Electrical.xml -c bertest
 CMSITminiDAQ -f CMSIT_RD53B_Electrical.xml -c physics
 
 Data taking:
