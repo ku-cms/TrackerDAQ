@@ -12,30 +12,38 @@
 # Important: source or . are required to set environment variables in your terminal session!
 #
 
-# Instructions from Alan Feltz (February 20, 2024):
+# Alan Feltz installed a version of ROOT to use with PyROOT. 
 
-# ROOT version installed to use PyROOT:
-# root-6.30.04
-export ROOT_VERSION="root-6.30.04"
+# ROOT version for PyROOT installed on kucms:
+#export ROOT_VER=root-6.30.04
 
-echo "---------------"
-echo "Setting up environment for PyROOT using ROOT (${ROOT_VERSION}) and Python 3."
+# ROOT version for PyROOT installed on kucms-02:
+export ROOT_VER=root-6.32.06
 
-echo "- Setting PATH..."
-export PATH=/usr/local/root-6.30.04/bin:/usr/local/binutils-2.42/bin:/usr/local/gcc-13.2.0/bin:$PATH
+export ROOT_DIR=/usr/local/${ROOT_VER}
 
-echo "- Setting PYTHONPATH..."
-export PYTHONPATH=/usr/local/root-6.30.04/lib
+echo "-----------------"
+echo "Setting up environment for PyROOT (ROOT in Python 3)."
+echo " - ROOT_VER: ${ROOT_VER}"
+echo " - ROOT_DIR: ${ROOT_DIR}"
 
-echo "- Setting LD_LIBRARY_PATH..."
-export LD_LIBRARY_PATH=/usr/local/root-6.30.04/lib
+echo " - Setting PATH..."
+export PATH=${ROOT_DIR}/bin:$PATH
+
+echo " - Setting PYTHONPATH..."
+export PYTHONPATH=${ROOT_DIR}/lib
+
+echo " - Setting LD_LIBRARY_PATH..."
+export LD_LIBRARY_PATH=${ROOT_DIR}/lib
 
 echo "Setup complete!"
-echo "---------------"
-echo "You may now use PyROOT (ROOT in Python 3)."
+echo "-----------------"
+echo "You may now use PyROOT (ROOT in Python 3)!"
 echo "You may test your environment using these commands:"
 echo "  which root"
+echo "  root --version"
 echo "  python3"
 echo "  >>> import ROOT"
-echo "---------------"
+echo "  >>> quit()"
+echo "-----------------"
 
