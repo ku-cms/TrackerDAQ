@@ -1,0 +1,42 @@
+------------------------------
+Using PyROOT (ROOT + Python 3)
+------------------------------
+
+Computer: kucms-02
+
+------------------------------------------------
+
+Instructions from Alan Feltz (December 6, 2024):
+
+ROOT version installed to use PyROOT:
+root-6.32.06
+
+ROOT directory:
+/usr/local/root-6.32.06
+
+Set the following environment variables to use PyROOT.
+
+RootDir=/usr/local/root-6.32.06
+
+export PATH=${RootDir}/bin:$PATH
+export PYTHONPATH=${RootDir}/lib
+export LD_LIBRARY_PATH=${RootDir}/lib
+
+------------------------------------------------
+
+Update from Caleb Smith (June 12, 2025):
+
+I updated this script to set up PyROOT (ROOT + Python 3) environment:
+
+/home/kucms/bin/setup_pyroot.sh
+
+Run using either of the following commands:
+
+source setup_pyroot.sh 
+
+. setup_pyroot.sh
+
+Important: source or . are required to set environment variables in your terminal session!
+
+------------------------------------------------
+

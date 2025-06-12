@@ -2,12 +2,17 @@
 Using PyROOT (ROOT + Python 3)
 ------------------------------
 
+Computer: kucms
+
 ------------------------------------------------
 
 Instructions from Alan Feltz (February 20, 2024):
 
 ROOT version installed to use PyROOT:
 root-6.30.04
+
+ROOT directory:
+/usr/local/root-6.30.04
 
 In order to use it, you will need to do the following:
 
