@@ -19,6 +19,12 @@ cmake3 ..
 make -j8 
 cd ..
 
+# Create and move to a new branch based on a tag (vX-YY)
+git checkout -b Ph2-ACF-vX-YY vX-YY 
+
+# Example for tag v6-15
+git checkout -b Ph2-ACF-v6-15 v6-15 
+
 # Checkout a new version (using a tag) and update the submodules (MessageUtils and NetworkUtils);
 # there can be compile errors if you do not update the submodules:
 git checkout <tag_name>
