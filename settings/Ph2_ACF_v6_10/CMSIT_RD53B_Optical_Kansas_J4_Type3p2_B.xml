@@ -7,7 +7,7 @@
       <NTCProperties type="VTRx"   ADC="ADC7" lookUpTable = "${PH2ACF_BASE_DIR}/settings/NTCFiles/vtrx_ntc_1k.csv"/>
       <lpGBT_Files path="${PH2ACF_BASE_DIR}/settings/lpGBTFiles/" />
       <lpGBT_ConfigFile fileName="${PH2ACF_BASE_DIR}/settings/lpGBTFiles/lpgbt_calibration.csv" />
-      <lpGBT Id="0" version="1" configFile="CMSIT_LpGBTv1.txt" ChipAddress="0x72" RxDataRate="1280" RxHSLPolarity="0" TxDataRate="160" TxHSLPolarity="0">
+      <lpGBT Id="0" version="1" configFile="CMSIT_LpGBTv1.txt" ChipAddress="0x73" RxDataRate="1280" RxHSLPolarity="0" TxDataRate="160" TxHSLPolarity="0">
    
       <!-- Put here any LpGBT register, if needed
             EPRX60ChnCntr_phase = "6" -->
@@ -232,7 +232,7 @@
     <Setting name="MaxMaskedPixels">1</Setting>
     <Setting name="DoOnlyNGroups">0</Setting>
     <Setting name="DisableChannelsAtExit">1</Setting>
-    <Setting name="DataOutputDir">/home/cmspixel/TestEnvironment/Results</Setting>
+    <Setting name="DataOutputDir"></Setting>
     <Setting name="DoDataIntegrity">1</Setting>
 
     <Setting name="VTRxBiasStart">        40 </Setting>
