@@ -13,7 +13,7 @@
 #
 
 INSTALL_DIR=/home/kucms/TrackerDAQ/TrackerDAQ
-XML_DIR=settings/Ph2_ACF_v4_22
+XML_DIR=settings/Ph2_ACF_v6_10
 TARGET_DIR=TrackerDAQ
 
 # Check if the install directory exists; if it does not, exit.

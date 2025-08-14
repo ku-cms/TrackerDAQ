@@ -12,11 +12,11 @@ def getSetupInfo():
     port_card_slot = "J4"
 
     # Hardware configuration
-    #hardware_config = "Module"
+    hardware_config = "Module"
     #hardware_config = "Module_Chip12"
     #hardware_config = "Module_Chip13"
     #hardware_config = "DP_SMA_Adapter"
-    hardware_config = "DP_RedAdapter"
+    #hardware_config = "DP_RedAdapter"
 
     info["port_card_slot"]  = port_card_slot
     info["hardware_config"] = hardware_config
@@ -63,7 +63,7 @@ def getDefaultInputs(cable_number, cable_type, branch, channel):
     
     # Medium TAP0 range
     tap0_min    = 100
-    tap0_max    = 300
+    tap0_max    = 200
     tap0_step   = 10
     
     # Large TAP0 range
@@ -80,7 +80,11 @@ def getDefaultInputs(cable_number, cable_type, branch, channel):
     # - To use TAP1 = 0, CML_CONFIG_SER_EN_TAP and CML_CONFIG_SER_INV_TAP should be set to "0b00".
     # - To use TAP1 > 0, CML_CONFIG_SER_EN_TAP and CML_CONFIG_SER_INV_TAP should be set to "0b01".
     
-    output_dir  = "BERT_TAP0_Scans/{0}/elink{1}_{2}_{3}_SS{4}_TAP1_{5}".format(base_dir, cable_number, branch, channel, signal, TAP1)
+    # single channel
+    #output_dir  = "BERT_TAP0_Scans/{0}/elink{1}_{2}_{3}_SS{4}_TAP1_{5}".format(base_dir, cable_number, branch, channel, signal, TAP1)
+    
+    # data merging
+    output_dir  = "BERT_TAP0_Scans/{0}/elink{1}_{2}_SS{3}_TAP1_{4}".format(base_dir, cable_number, branch, signal, TAP1)
 
     inputs["port_card_slot"]    = port_card_slot
     inputs["cable_type"]        = cable_type
@@ -122,7 +126,7 @@ def getUserInputs():
     return inputs
 
 # Check for valid inputs
-def validInputs(port_card_slot, cable_type, branch, channel, tap0_min, tap0_max, tap0_step, signal, output_dir):
+def validInputs(port_card_slot, cable_type, branch, channel, tap0_min, tap0_max, tap0_step, signal, output_dir, specify_channel):
     # Range of valid TAP0 values
     min_val = 0
     max_val = 1023
@@ -142,7 +146,7 @@ def validInputs(port_card_slot, cable_type, branch, channel, tap0_min, tap0_max,
     if branch not in branches:
         print("The branch must be one of these: {0}".format(branches))
         return False
-    if channel not in channels:
+    if specify_channel and channel not in channels:
         print("The channel must be one of these: {0}".format(channels))
         return False
     if tap0_min < min_val or tap0_min > max_val:
@@ -166,10 +170,17 @@ def validInputs(port_card_slot, cable_type, branch, channel, tap0_min, tap0_max,
     return True
 
 # Get xml config file name based on port card slot, cable type, and channel
-def getXMLConfigFile(port_card_slot, cable_type, branch, channel):
-    # Example: CMSIT_RD53B_Optical_J4_Type5K_D0.xml
-    # Example: CMSIT_RD53B_Optical_J4_Type3p2_A_D0.xml
-    xml_config_file = "CMSIT_RD53B_Optical_{0}_Type{1}_{2}_{3}.xml".format(port_card_slot, cable_type, branch, channel)
+def getXMLConfigFile(port_card_slot, cable_type, branch, channel, specify_channel):
+    xml_config_file = ""
+
+    if specify_channel:
+        # Example: CMSIT_RD53B_Optical_J4_Type5K_D0.xml
+        # Example: CMSIT_RD53B_Optical_J4_Type3p2_A_D0.xml
+        xml_config_file = "CMSIT_RD53B_Optical_{0}_Type{1}_{2}_{3}.xml".format(port_card_slot, cable_type, branch, channel)
+    else:
+        # Example for module with data merging: CMSIT_RD53B_Optical_J4_Type3p2_B.xml
+        xml_config_file = "CMSIT_RD53B_Optical_{0}_Type{1}_{2}.xml".format(port_card_slot, cable_type, branch)
+    
     return xml_config_file
 
 # Get unique output file name
@@ -191,14 +202,17 @@ def run(port_card_slot, cable_type, branch, channel, tap0_min, tap0_max, tap0_st
     
     # Script for running with a port card
     bash_script = "./TrackerDAQ/scripts/PortCard_BERT_Scan.sh"
+
+    # specify_channel: Use True for single channel and False for data merging
+    specify_channel = False
     
-    valid = validInputs(port_card_slot, cable_type, branch, channel, tap0_min, tap0_max, tap0_step, signal, output_dir)
+    valid = validInputs(port_card_slot, cable_type, branch, channel, tap0_min, tap0_max, tap0_step, signal, output_dir, specify_channel)
     
     if not valid:
         print("ERROR: Invalid inputs provided. Quitting now!")
         return
     
-    xml_config_file = getXMLConfigFile(port_card_slot, cable_type, branch, channel)
+    xml_config_file = getXMLConfigFile(port_card_slot, cable_type, branch, channel, specify_channel)
     print("xml config file: {0}".format(xml_config_file))
     
     output_file = getOutputFile(output_dir)
