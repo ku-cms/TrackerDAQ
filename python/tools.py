@@ -7,6 +7,7 @@ import numpy as np
 
 # TODO:
 # - If error occur in logs for port card data, test and update "find error" functions.
+# - Create new function getBERTData2025() to use with Ph2_ACF v6-10 for 2x2 quad module with data merging (four chips).
 
 # DONE:
 # - Improve getBERTData() for RD53A and port card + RD53B use cases
@@ -136,6 +137,64 @@ def getBERTData(input_file, useRD53B):
             numbers = [int(s) for s in line.split() if s.isdigit()]
             y = numbers[-1]
             #print("Number of numbers: {0}; numbers = {1}; y = {2}".format(len(numbers), numbers, y))
+            y_values.append(y)
+    
+    f.close()
+    return [x_values, y_values]
+
+# get data from log file:
+# x = TAP0 setting
+# y = bit error rate
+def getBERTData2025(input_file, useRD53B):
+    # check for errors
+    printError = True
+    # Updated TAP0 variable name: works for RD53A and port card + RD53B
+    TAP0_variable = "DAC_CML_BIAS_0"
+    errors = []
+    
+    # TODO: if error occurs when using a port card, test find error functions
+    if useRD53B:
+        errors = findErrorsRD53B(input_file)
+    else:
+        errors = findErrorsRD53A(input_file)
+    
+    if errors and printError:
+        print("ERROR for {0}".format(input_file))
+        print(" - There were errors for these TAP0 settings: {0}".format(errors))
+        print(" - These data points will be skipped.")
+    
+    f = open(input_file, 'r')
+    x_values = []
+    y_values = []
+    
+    # Get x and y values
+    # Updated version: works for RD53A and port card + RD53B
+    for line in f:
+        # Save TAP0 DAC as x values
+        if TAP0_variable in line:
+            array = line.split()
+            for element in array:
+                if TAP0_variable in element:
+                    # get number after =
+                    s = element.split("=")[-1]
+                    # must remove " before using int()
+                    x = int(s.replace('"', ''))
+                    print(f"element: {element}, s: {s}, x: {x}")
+                    # skip the x value if there were errors
+                    if x not in errors:
+                        x_values.append(x)
+        
+        # Save total error counter as y values
+        if "bits with errors" in line:
+            # get all numbers in string
+            # WARNING: The final counter has the number of frames with errors and bits with errors.
+            # - Example line: "|00:53:57|I|Frames with error(s): 0, i.e. bits with errors: 0"
+            # - We should use the number of bits with errors, which is the last integer in the line.
+            # - Note: (num. bits with errors) ~ 32 * (num. frames with errors)
+            cleaned_components = [s.replace(',', '') for s in line.split()]
+            numbers = [int(s) for s in cleaned_components if s.isdigit()]
+            y = numbers[-1]
+            print("Number of numbers: {0}; numbers = {1}; y = {2}".format(len(numbers), numbers, y))
             y_values.append(y)
     
     f.close()

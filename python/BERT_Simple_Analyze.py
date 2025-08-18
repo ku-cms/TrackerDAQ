@@ -7,7 +7,7 @@ import csv
 import argparse
 from BERT_Scan import getBaseDirectory
 from BERT_Plot import plot
-from tools import makeDir, writeCSV, getBERTData, valuesAreSame
+from tools import makeDir, writeCSV, getBERTData2025, valuesAreSame
 
 # get cable number from directory name
 def getNumber(name):
@@ -45,28 +45,31 @@ def saveToCSV(csv_output_file, x_values, y_values):
 
 # analyze data from a scan
 def analyze(input_file, data_dir, plot_dir, output_file, useRD53B):
-    debug   = False
+    debug   = True
     setLogY = True
+
+    print("Analyzing input file: {0}".format(input_file))
     
     # get data from log file
-    data = getBERTData(input_file, useRD53B)
+    data = getBERTData2025(input_file, useRD53B)
     x_values = data[0]
     y_values = data[1]
     n_x_values = len(x_values)
     n_y_values = len(y_values)
     
     if debug:
-        print("x_values: {0}".format(x_values))
-        print("y_values: {0}".format(y_values))
+        print(" - input file: {0}".format(input_file))
+        print(" - x_values: {0}".format(x_values))
+        print(" - y_values: {0}".format(y_values))
+        print(" - number of x values: {0}".format(n_x_values))
+        print(" - number of y values: {0}".format(n_y_values))
     
     # check for the same number of x and y values
     if n_x_values != n_y_values:
-        print("ERROR: number of x and y values do not match")
-        print("input file: {0}, num x vals: {1}, num y vals: {2}".format(input_file, n_x_values, n_y_values))
+        print("ERROR: number of x and y values do not match:")
+        print(" - input file: {0}".format(input_file))
+        print(" - num x vals: {0}, num y vals: {1}".format(n_x_values, n_y_values))
         return
-    
-    if debug:
-        print("input file: {0}, num x vals: {1}, num y vals: {2}".format(input_file, n_x_values, n_y_values))
     
     y_values_are_constant = valuesAreSame(y_values)
     min_value = findMin(x_values, y_values)
@@ -76,8 +79,8 @@ def analyze(input_file, data_dir, plot_dir, output_file, useRD53B):
         setLogY = False
     
     if debug:
-        print("y_values_are_constant: {0}".format(y_values_are_constant))
-        print("Min TAP0: {0}".format(min_value))
+        print(" - y_values_are_constant: {0}".format(y_values_are_constant))
+        print(" - Min TAP0: {0}".format(min_value))
     
     # save data to csv file
     csv_output_file = "{0}/{1}.csv".format(data_dir, output_file)
@@ -92,6 +95,8 @@ def analyze(input_file, data_dir, plot_dir, output_file, useRD53B):
 def runDir(plot_dir, data_dir, table, data_name, useRD53B):
     # get list of input files in directory
     files = glob.glob(data_dir + "/scan_*.log")
+    # sort files alphabetically
+    files.sort()
     for input_file in files:
         # get output file name based on input file name
         name        = os.path.basename(input_file)
@@ -125,6 +130,7 @@ def runSet(base_plot_dir, base_data_dir, useRD53B, cable_number=-1, output_csv_d
             # result is appended to table
             runDir(plot_dir, data_dir, table, name, useRD53B)
             # print all results in table for this cable
+            print("Results for {0}:".format(name))
             for row in table:
                 cable       = row[0]
                 run         = row[1]
