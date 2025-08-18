@@ -7,7 +7,6 @@ import numpy as np
 
 # TODO:
 # - If error occur in logs for port card data, test and update "find error" functions.
-# - Create a function to get the number of bits with errors from a line.
 
 # DONE:
 # - Improve getBERTData() for RD53A and port card + RD53B use cases
@@ -15,6 +14,7 @@ import numpy as np
 # - Fix bug: plot and record number of bits with errors instead of frames with errors
 # - Create a function getBERTData2025() to use with Ph2_ACF v6-10 for 2x2 quad module with data merging (four chips).
 # - Create a function to get the TAP0 setting from a line.
+# - Create a function to get the number of bits with errors from a line.
 
 # creates directory if it does not exist
 def makeDir(dir_name):
@@ -135,7 +135,6 @@ def getBERTData(input_file, useRD53B):
             # - Example line: "|11:26:32|I|Final counter: 0 frames with error(s), i.e. 0 bits with errors"
             # - We should use the number of bits with errors, which is the last integer in the line.
             # - Note: (num. bits with errors) ~ 32 * (num. frames with errors)
-            # get all numbers in string
             numbers = [int(s) for s in line.split() if s.isdigit()]
             y = numbers[-1]
             #print("Number of numbers: {0}; numbers = {1}; y = {2}".format(len(numbers), numbers, y))
@@ -161,7 +160,15 @@ def getTAP0SettingFromLine(TAP0_variable, line):
     return result
 
 def getNumberOfBitsWithErrorsFromLine(error_counter_phrase, line):
-    return
+    # WARNING: The final counter has the number of frames with errors and bits with errors.
+    # - Example line: "|00:53:57|I|Frames with error(s): 0, i.e. bits with errors: 0"
+    # - We should use the number of bits with errors, which is the last integer in the line.
+    # - Note: (num. bits with errors) ~ 32 * (num. frames with errors)
+    cleaned_components = [s.replace(',', '') for s in line.split()]
+    numbers = [int(s) for s in cleaned_components if s.isdigit()]
+    result = numbers[-1]
+    print(f" - {error_counter_phrase}: number of numbers: {len(numbers)}, numbers: {numbers}, result: {result}")
+    return result
 
 # get data from log file:
 # - x = TAP0 setting
@@ -200,15 +207,7 @@ def getBERTData2025(input_file, useRD53B):
         
         # Save total error counter as y values
         if error_counter_phrase in line:
-            # get all numbers in string
-            # WARNING: The final counter has the number of frames with errors and bits with errors.
-            # - Example line: "|00:53:57|I|Frames with error(s): 0, i.e. bits with errors: 0"
-            # - We should use the number of bits with errors, which is the last integer in the line.
-            # - Note: (num. bits with errors) ~ 32 * (num. frames with errors)
-            cleaned_components = [s.replace(',', '') for s in line.split()]
-            numbers = [int(s) for s in cleaned_components if s.isdigit()]
-            y = numbers[-1]
-            print("Number of numbers: {0}; numbers = {1}; y = {2}".format(len(numbers), numbers, y))
+            y = getNumberOfBitsWithErrorsFromLine(error_counter_phrase, line)
             y_values.append(y)
     
     f.close()

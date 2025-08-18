@@ -59,8 +59,8 @@ def analyze(input_file, data_dir, plot_dir, output_file, useRD53B):
     
     if debug:
         print(" - input file: {0}".format(input_file))
-        print(" - x_values: {0}".format(x_values))
-        print(" - y_values: {0}".format(y_values))
+        print(" - x values: {0}".format(x_values))
+        print(" - y values: {0}".format(y_values))
         print(" - number of x values: {0}".format(n_x_values))
         print(" - number of y values: {0}".format(n_y_values))
     
