@@ -38,9 +38,9 @@ def findMin(x_values, y_values):
 
 # save data to csv file
 def saveToCSV(csv_output_file, x_values, y_values):
-    n_x_values = len(x_values)
+    num_x_values = len(x_values)
     csv_data = [["TAP0", "Errors"]]
-    csv_data += [[x_values[i], y_values[i]] for i in range(n_x_values)]
+    csv_data += [[x_values[i], y_values[i]] for i in range(num_x_values)]
     writeCSV(csv_output_file, csv_data)
 
 # analyze data from a scan
@@ -48,27 +48,27 @@ def analyze(input_file, data_dir, plot_dir, output_file, useRD53B):
     debug   = True
     setLogY = True
 
-    print("Analyzing input file: {0}".format(input_file))
+    print(f"Analyzing input file: {input_file}")
     
     # get data from log file
     data = getBERTData2025(input_file, useRD53B)
     x_values = data[0]
     y_values = data[1]
-    n_x_values = len(x_values)
-    n_y_values = len(y_values)
+    num_x_values = len(x_values)
+    num_y_values = len(y_values)
     
     if debug:
-        print(" - input file: {0}".format(input_file))
-        print(" - x values: {0}".format(x_values))
-        print(" - y values: {0}".format(y_values))
-        print(" - number of x values: {0}".format(n_x_values))
-        print(" - number of y values: {0}".format(n_y_values))
+        print(f" - input file: {input_file}")
+        print(f" - x values: {x_values}")
+        print(f" - y values: {y_values}")
+        print(f" - number of x values: {num_x_values}")
+        print(f" - number of y values: {num_y_values}")
     
     # check for the same number of x and y values
-    if n_x_values != n_y_values:
+    if num_x_values != num_y_values:
         print("ERROR: number of x and y values do not match:")
-        print(" - input file: {0}".format(input_file))
-        print(" - num x vals: {0}, num y vals: {1}".format(n_x_values, n_y_values))
+        print(f" - input file: {input_file}")
+        print(f" - number of x values: {num_x_values}, number of y values: {num_y_values}")
         return
     
     y_values_are_constant = valuesAreSame(y_values)
@@ -79,8 +79,8 @@ def analyze(input_file, data_dir, plot_dir, output_file, useRD53B):
         setLogY = False
     
     if debug:
-        print(" - y_values_are_constant: {0}".format(y_values_are_constant))
-        print(" - Min TAP0: {0}".format(min_value))
+        print(f" - y values are constant: {y_values_are_constant}")
+        print(f" - min TAP0 value: {min_value}")
     
     # save data to csv file
     csv_output_file = "{0}/{1}.csv".format(data_dir, output_file)
