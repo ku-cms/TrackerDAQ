@@ -92,8 +92,7 @@ sed -i -e 's/\x1b\[[0-9;]*m//g' $Out_File
 #grep Final "$Data_Dir/scan.log" > /dev/null
 
 # new version:
-#grep "BER test result:" "$Data_Dir/scan.log" > /dev/null
-grep "PASSED" "$Data_Dir/scan.log" > /dev/null
+grep "BER test result:" "$Data_Dir/scan.log" > /dev/null
 
 exit $?
 
