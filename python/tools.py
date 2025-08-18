@@ -7,12 +7,14 @@ import numpy as np
 
 # TODO:
 # - If error occur in logs for port card data, test and update "find error" functions.
-# - Create new function getBERTData2025() to use with Ph2_ACF v6-10 for 2x2 quad module with data merging (four chips).
+# - Create a function to get the number of bits with errors from a line.
 
 # DONE:
 # - Improve getBERTData() for RD53A and port card + RD53B use cases
 # - Save BERT TAP0 scan data to csv files
 # - Fix bug: plot and record number of bits with errors instead of frames with errors
+# - Create a function getBERTData2025() to use with Ph2_ACF v6-10 for 2x2 quad module with data merging (four chips).
+# - Create a function to get the TAP0 setting from a line.
 
 # creates directory if it does not exist
 def makeDir(dir_name):
@@ -92,8 +94,8 @@ def findErrorsRD53B(input_file):
     return errors
 
 # get data from log file:
-# x = TAP0 setting
-# y = bit error rate
+# - x = TAP0 setting
+# - y = number of bits with errors
 def getBERTData(input_file, useRD53B):
     # check for errors
     printError = True
@@ -129,11 +131,11 @@ def getBERTData(input_file, useRD53B):
                 x_values.append(x)
         # Save total error counter as y values
         if "Final counter" in line:
-            # get all numbers in string
             # WARNING: The final counter has the number of frames with errors and bits with errors.
             # - Example line: "|11:26:32|I|Final counter: 0 frames with error(s), i.e. 0 bits with errors"
             # - We should use the number of bits with errors, which is the last integer in the line.
             # - Note: (num. bits with errors) ~ 32 * (num. frames with errors)
+            # get all numbers in string
             numbers = [int(s) for s in line.split() if s.isdigit()]
             y = numbers[-1]
             #print("Number of numbers: {0}; numbers = {1}; y = {2}".format(len(numbers), numbers, y))
@@ -142,14 +144,34 @@ def getBERTData(input_file, useRD53B):
     f.close()
     return [x_values, y_values]
 
+def getTAP0SettingFromLine(TAP0_variable, line):
+    result = -1
+    array = line.split()
+    
+    for element in array:
+        if TAP0_variable in element:
+            # get number after =
+            s = element.split("=")[-1]
+            # must remove " before using int()
+            result = int(s.replace('"', ''))
+            print(f" - {TAP0_variable}: element: {element}, s: {s}, result: {result}")
+            return result
+    
+    print(f"ERROR: Did not find a value for {TAP0_variable}; result = {result}")
+    return result
+
+def getNumberOfBitsWithErrorsFromLine(error_counter_phrase, line):
+    return
+
 # get data from log file:
-# x = TAP0 setting
-# y = bit error rate
+# - x = TAP0 setting
+# - y = number of bits with errors
+# - Updated to use with Ph2_ACF v6-10 for 2x2 quad module with data merging (four chips).
 def getBERTData2025(input_file, useRD53B):
     # check for errors
     printError = True
-    # Updated TAP0 variable name: works for RD53A and port card + RD53B
     TAP0_variable = "DAC_CML_BIAS_0"
+    error_counter_phrase = "bits with errors"
     errors = []
     
     # TODO: if error occurs when using a port card, test find error functions
@@ -168,24 +190,16 @@ def getBERTData2025(input_file, useRD53B):
     y_values = []
     
     # Get x and y values
-    # Updated version: works for RD53A and port card + RD53B
     for line in f:
         # Save TAP0 DAC as x values
         if TAP0_variable in line:
-            array = line.split()
-            for element in array:
-                if TAP0_variable in element:
-                    # get number after =
-                    s = element.split("=")[-1]
-                    # must remove " before using int()
-                    x = int(s.replace('"', ''))
-                    print(f"element: {element}, s: {s}, x: {x}")
-                    # skip the x value if there were errors
-                    if x not in errors:
-                        x_values.append(x)
+            x = getTAP0SettingFromLine(TAP0_variable, line)
+            # skip the x value if there were errors
+            if x not in errors:
+                x_values.append(x)
         
         # Save total error counter as y values
-        if "bits with errors" in line:
+        if error_counter_phrase in line:
             # get all numbers in string
             # WARNING: The final counter has the number of frames with errors and bits with errors.
             # - Example line: "|00:53:57|I|Frames with error(s): 0, i.e. bits with errors: 0"
