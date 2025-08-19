@@ -7,7 +7,7 @@ import csv
 import argparse
 from BERT_Scan import getBaseDirectory
 from BERT_Plot import plot
-from tools import makeDir, writeCSV, getBERTData2025, valuesAreSame
+from tools import makeDir, writeCSV, getBERTData2025, getDataForChipFromValues, valuesAreSame
 
 # get cable number from directory name
 def getNumber(name):
@@ -44,16 +44,18 @@ def saveToCSV(csv_output_file, x_values, y_values):
     writeCSV(csv_output_file, csv_data)
 
 # analyze data from a scan
-def analyze(input_file, data_dir, plot_dir, output_file, useRD53B):
-    verbose = False
+def analyze(input_file, data_dir, plot_dir, output_file, num_chips, chip, useRD53B):
+    verbose = True
     setLogY = True
 
-    print(f"Analyzing input file: {input_file}")
+    #print(f"Analyzing input file: {input_file}")
     
     # get data from log file
     data = getBERTData2025(input_file, useRD53B)
-    x_values = data[0]
-    y_values = data[1]
+    # x_values = data[0]
+    # y_values = data[1]
+    x_values = getDataForChipFromValues(data[0], num_chips, chip)
+    y_values = getDataForChipFromValues(data[1], num_chips, chip)
     num_x_values = len(x_values)
     num_y_values = len(y_values)
     
@@ -87,23 +89,46 @@ def analyze(input_file, data_dir, plot_dir, output_file, useRD53B):
     saveToCSV(csv_output_file, x_values, y_values)
     
     # plot data
-    plot(plot_dir, output_file, x_values, y_values, setLogY=setLogY)
+    title = "BERT TAP0 Scan: Chip {0}".format(chip)
+    plot(plot_dir, output_file, x_values, y_values, title=title, setLogY=setLogY)
     
     return min_value
 
 # run over a single directory
 def runDir(plot_dir, data_dir, table, data_name, useRD53B):
+    verbose = True
+    
+    # number of chips used for data taking (e.g. 2x2 quad module: 4 chips)
+    num_chips = 4
+    chips = list(range(num_chips))
+    
     # get list of input files in directory
     files = glob.glob(data_dir + "/scan_*.log")
     # sort files alphabetically
     files.sort()
+    
     for input_file in files:
-        # get output file name based on input file name
-        name        = os.path.basename(input_file)
-        x           = name.split(".")[0]
-        output_file = "BERT_" + x
-        min_value = analyze(input_file, data_dir, plot_dir, output_file, useRD53B)
-        table.append([data_name, x, min_value])
+        # get run from input file name
+        input_name  = os.path.basename(input_file)
+        run         = input_name.split(".")[0]
+        
+        if verbose:
+            print(f"Analyzing input file: {input_file}")
+            print(f" - run: {run}")
+        
+        for chip in chips:
+            chip_name = "chip_{0}".format(chip)
+            #output_file = "BERT_" + run
+            output_file = "BERT_{0}_{1}".format(run, chip_name)
+
+            if verbose:
+                print(f"Analyzing chip: {chip}")
+                print(f" - chip_name: {chip_name}")
+                print(f" - output_file: {output_file}")
+
+            min_value = analyze(input_file, data_dir, plot_dir, output_file, num_chips, chip, useRD53B)
+            table.append([data_name, run, chip_name, min_value])
+    
     # sort so that the latest file is last
     table.sort()
 
@@ -134,10 +159,12 @@ def runSet(base_plot_dir, base_data_dir, useRD53B, cable_number=-1, output_csv_d
             for row in table:
                 cable       = row[0]
                 run         = row[1]
-                min_value   = row[2]
+                chip        = row[2]
+                min_value   = row[3]
                 # check that first column (cable) matches this directory name (name) 
                 if cable == name:
-                    print(" - {0}, {1}: min value = {2}".format(cable, run, min_value))
+                    print(" - {0}, {1}, {2}: min value = {3}".format(cable, run, chip, min_value))
+            
             # print result for the latest scan, defined as last entry in sorted table
             #last_row    = table[-1]
             #run         = last_row[1]
@@ -151,7 +178,8 @@ def runSet(base_plot_dir, base_data_dir, useRD53B, cable_number=-1, output_csv_d
         makeDir(output_csv_dir)
         with open(output_csv_name, 'w', newline='') as output_csv:
             output_writer = csv.writer(output_csv)
-            output_column_titles = ["cable", "run", "min_value"]
+            # output_column_titles = ["cable", "run", "min_value"]
+            output_column_titles = ["cable", "run", "chip", "min_value"]
             output_writer.writerow(output_column_titles)
             # sort table alphabetically
             table.sort()

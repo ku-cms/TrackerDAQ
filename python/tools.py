@@ -215,6 +215,18 @@ def getBERTData2025(input_file, useRD53B):
     f.close()
     return [x_values, y_values]
 
+# get data for a specific chip from values (based on number of chips)
+# - input:  list of all values (e.g. all x or y values)
+# - output: list of values for a specific chip
+def getDataForChipFromValues(values, num_chips, chip):
+    result = []
+    num_values = len(values)
+    for i in range(num_values):
+        if i % num_chips == chip:
+            value = values[i]
+            result.append(value)
+    return result
+
 # Get temperature for RD53B; input: voltage (mV), output: temperature (C)
 # - Connect multimeter to GND and NTC pins on the RD53B CROCv1 SCC to measure voltage (mV).
 # - Based on functions from excel file from Matt Joyce (matthew.lawrence.joyce@cern.ch)
