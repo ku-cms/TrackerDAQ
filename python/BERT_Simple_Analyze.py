@@ -45,10 +45,8 @@ def saveToCSV(csv_output_file, x_values, y_values):
 
 # analyze data from a scan
 def analyze(input_file, data_dir, plot_dir, output_file, num_chips, chip, useRD53B):
-    verbose = True
+    verbose = False
     setLogY = True
-
-    #print(f"Analyzing input file: {input_file}")
     
     # get data from log file
     data = getBERTData2025(input_file, useRD53B)
@@ -96,7 +94,7 @@ def analyze(input_file, data_dir, plot_dir, output_file, num_chips, chip, useRD5
 
 # run over a single directory
 def runDir(plot_dir, data_dir, table, data_name, useRD53B):
-    verbose = True
+    verbose = False
     
     # number of chips used for data taking (e.g. 2x2 quad module: 4 chips)
     num_chips = 4
@@ -106,7 +104,7 @@ def runDir(plot_dir, data_dir, table, data_name, useRD53B):
     files = glob.glob(data_dir + "/scan_*.log")
     # sort files alphabetically
     files.sort()
-    
+
     for input_file in files:
         # get run from input file name
         input_name  = os.path.basename(input_file)
@@ -118,7 +116,6 @@ def runDir(plot_dir, data_dir, table, data_name, useRD53B):
         
         for chip in chips:
             chip_name = "chip_{0}".format(chip)
-            #output_file = "BERT_" + run
             output_file = "BERT_{0}_{1}".format(run, chip_name)
 
             if verbose:
@@ -164,21 +161,12 @@ def runSet(base_plot_dir, base_data_dir, useRD53B, cable_number=-1, output_csv_d
                 # check that first column (cable) matches this directory name (name) 
                 if cable == name:
                     print(" - {0}, {1}, {2}: min value = {3}".format(cable, run, chip, min_value))
-            
-            # print result for the latest scan, defined as last entry in sorted table
-            #last_row    = table[-1]
-            #run         = last_row[1]
-            #min_value   = last_row[2]
-            #print(" - {0}: Latest scan ({1}) for e-link {2}: min value = {3}".format(name, run, number_from_name, min_value))
-    
-    #print(table)
-    
+        
     # output min TAP0 values to a table
     if output_csv_dir and output_csv_name:
         makeDir(output_csv_dir)
         with open(output_csv_name, 'w', newline='') as output_csv:
             output_writer = csv.writer(output_csv)
-            # output_column_titles = ["cable", "run", "min_value"]
             output_column_titles = ["cable", "run", "chip", "min_value"]
             output_writer.writerow(output_column_titles)
             # sort table alphabetically
