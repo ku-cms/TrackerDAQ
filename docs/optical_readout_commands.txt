@@ -20,6 +20,16 @@ CMSITminiDAQ -f CMSIT_RD53B_Optical.xml -p
 CMSITminiDAQ -f CMSIT_RD53B_Optical.xml -c bertest
 CMSITminiDAQ -f CMSIT_RD53B_Optical.xml -c pixelalive
 
+BERT TAP0 Scan:
+
+Run scan (collect data):
+
+python3 TrackerDAQ/python/BERT_Run_Scan.py
+
+Analyze data:
+
+./TrackerDAQ/scripts/analyze_RD53B.sh
+
 -----------------------------------------------------------------
 
 port card power settings:
