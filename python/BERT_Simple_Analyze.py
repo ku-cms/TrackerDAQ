@@ -45,7 +45,7 @@ def saveToCSV(csv_output_file, x_values, y_values):
 
 # analyze data from a scan
 def analyze(input_file, data_dir, plot_dir, output_file, useRD53B):
-    debug   = True
+    verbose = False
     setLogY = True
 
     print(f"Analyzing input file: {input_file}")
@@ -57,7 +57,7 @@ def analyze(input_file, data_dir, plot_dir, output_file, useRD53B):
     num_x_values = len(x_values)
     num_y_values = len(y_values)
     
-    if debug:
+    if verbose:
         print(f" - input file: {input_file}")
         print(f" - x values: {x_values}")
         print(f" - y values: {y_values}")
@@ -78,7 +78,7 @@ def analyze(input_file, data_dir, plot_dir, output_file, useRD53B):
     if y_values_are_constant:
         setLogY = False
     
-    if debug:
+    if verbose:
         print(f" - y values are constant: {y_values_are_constant}")
         print(f" - min TAP0 value: {min_value}")
     
