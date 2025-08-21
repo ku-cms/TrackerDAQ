@@ -4,11 +4,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 from tools import makeDir
 
-# FIXME: Should set x and y labels when calling plot() instead of changing defaults.
-
-# Change y-axis label based on BERT; bits/frams and time
-#def plot(plot_dir, output_file, x_values, y_values, x_label="TAP0 DAC", y_label="Frame errors over 10 seconds", setLogY=True, y_errors=[]):
-def plot(plot_dir, output_file, x_values, y_values, x_label="TAP0 DAC", y_label="Bit errors over 4 seconds", setLogY=True, y_errors=[]):
+# Change y-axis label based on BERT output: frames vs. bits and time
+# - y_label="Frame errors over 10 seconds"
+# - y_label="Bit errors over 4 seconds"
+def plot(plot_dir, output_file, x_values, y_values, title="BERT TAP0 Scan", x_label="TAP0 DAC", y_label="Bit errors over 4 seconds", setLogY=True, y_errors=[]):
     useXKCDStyle = False    # Use XKCD style
     setAxisLimits = False   # Use assigned axis limits
 
@@ -35,9 +34,9 @@ def plot(plot_dir, output_file, x_values, y_values, x_label="TAP0 DAC", y_label=
         ax.set_xlim(xlim)
         ax.set_ylim(ylim)
     
-    ax.set_title("BERT TAP0 Scan",  fontsize=20)
-    ax.set_xlabel(x_label,          fontsize=16)
-    ax.set_ylabel(y_label,          fontsize=16)
+    ax.set_title(title,     fontsize=20)
+    ax.set_xlabel(x_label,  fontsize=16)
+    ax.set_ylabel(y_label,  fontsize=16)
     ax.tick_params(axis='both', which='major', labelsize=10)
     ax.tick_params(axis='both', which='minor', labelsize=8)
     

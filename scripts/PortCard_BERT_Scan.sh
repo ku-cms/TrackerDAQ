@@ -42,7 +42,7 @@ then
     echo "Using default output file: $Out_File"
 fi
 
-# Create directory for data if it does not exist
+# Create directory for data if it does not exist.
 mkdir -p "$Data_Dir"
 
 # Assign the softlink for the xml config file.
@@ -67,9 +67,19 @@ sed -E -i "s/(DAC_CML_BIAS_0\s*=\s*)\"[0-9]+\"/\1\"$TAP0_Setting\"/" CMSIT_RD53B
 echo " - Running BERT with TAP0=$TAP0_Setting" | tee -a $Out_File
 CMSITminiDAQ -f CMSIT_RD53B_Optical_BERT_Custom.xml -c bertest > "$Data_Dir/scan.log"
 
-# Write values to output log file
+# Save settings in output log file
 grep DAC_CML_BIAS_0 CMSIT_RD53B_Optical_BERT_Custom.xml >> $Out_File
-grep Final "$Data_Dir/scan.log" >> $Out_File
+
+# Save results in output log file
+
+# old version:
+#grep Final "$Data_Dir/scan.log" >> $Out_File
+
+# new version:
+grep "Number of PRBS frames sent:" "$Data_Dir/scan.log" >> $Out_File
+grep "Frames with error(s):" "$Data_Dir/scan.log" >> $Out_File
+grep "Frame Error Rate:" "$Data_Dir/scan.log" >> $Out_File
+grep "BER test result:" "$Data_Dir/scan.log" >> $Out_File
 
 # Remove color codes from log file
 # https://superuser.com/questions/380772/removing-ansi-color-codes-from-text-stream
@@ -77,6 +87,12 @@ sed -i -e 's/\x1b\[[0-9;]*m//g' $Out_File
 
 # Run grep again to get exit code
 # This exit code is used to determine if BERT ran successfully
-grep Final "$Data_Dir/scan.log" > /dev/null
+
+# old version:
+#grep Final "$Data_Dir/scan.log" > /dev/null
+
+# new version:
+grep "BER test result:" "$Data_Dir/scan.log" > /dev/null
+
 exit $?
 

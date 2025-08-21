@@ -7,7 +7,7 @@ import csv
 import argparse
 from BERT_Scan import getBaseDirectory
 from BERT_Plot import plot
-from tools import makeDir, writeCSV, getBERTData, valuesAreSame
+from tools import makeDir, writeCSV, getBERTData2025, getDataForChipFromValues, valuesAreSame
 
 # get cable number from directory name
 def getNumber(name):
@@ -38,35 +38,38 @@ def findMin(x_values, y_values):
 
 # save data to csv file
 def saveToCSV(csv_output_file, x_values, y_values):
-    n_x_values = len(x_values)
+    num_x_values = len(x_values)
     csv_data = [["TAP0", "Errors"]]
-    csv_data += [[x_values[i], y_values[i]] for i in range(n_x_values)]
+    csv_data += [[x_values[i], y_values[i]] for i in range(num_x_values)]
     writeCSV(csv_output_file, csv_data)
 
 # analyze data from a scan
-def analyze(input_file, data_dir, plot_dir, output_file, useRD53B):
-    debug   = False
+def analyze(input_file, data_dir, plot_dir, output_file, num_chips, chip, useRD53B):
+    verbose = False
     setLogY = True
     
     # get data from log file
-    data = getBERTData(input_file, useRD53B)
-    x_values = data[0]
-    y_values = data[1]
-    n_x_values = len(x_values)
-    n_y_values = len(y_values)
+    data = getBERTData2025(input_file, useRD53B)
+    # x_values = data[0]
+    # y_values = data[1]
+    x_values = getDataForChipFromValues(data[0], num_chips, chip)
+    y_values = getDataForChipFromValues(data[1], num_chips, chip)
+    num_x_values = len(x_values)
+    num_y_values = len(y_values)
     
-    if debug:
-        print("x_values: {0}".format(x_values))
-        print("y_values: {0}".format(y_values))
+    if verbose:
+        print(f" - input file: {input_file}")
+        print(f" - x values: {x_values}")
+        print(f" - y values: {y_values}")
+        print(f" - number of x values: {num_x_values}")
+        print(f" - number of y values: {num_y_values}")
     
     # check for the same number of x and y values
-    if n_x_values != n_y_values:
-        print("ERROR: number of x and y values do not match")
-        print("input file: {0}, num x vals: {1}, num y vals: {2}".format(input_file, n_x_values, n_y_values))
+    if num_x_values != num_y_values:
+        print("ERROR: number of x and y values do not match:")
+        print(f" - input file: {input_file}")
+        print(f" - number of x values: {num_x_values}, number of y values: {num_y_values}")
         return
-    
-    if debug:
-        print("input file: {0}, num x vals: {1}, num y vals: {2}".format(input_file, n_x_values, n_y_values))
     
     y_values_are_constant = valuesAreSame(y_values)
     min_value = findMin(x_values, y_values)
@@ -75,30 +78,54 @@ def analyze(input_file, data_dir, plot_dir, output_file, useRD53B):
     if y_values_are_constant:
         setLogY = False
     
-    if debug:
-        print("y_values_are_constant: {0}".format(y_values_are_constant))
-        print("Min TAP0: {0}".format(min_value))
+    if verbose:
+        print(f" - y values are constant: {y_values_are_constant}")
+        print(f" - min TAP0 value: {min_value}")
     
     # save data to csv file
     csv_output_file = "{0}/{1}.csv".format(data_dir, output_file)
     saveToCSV(csv_output_file, x_values, y_values)
     
     # plot data
-    plot(plot_dir, output_file, x_values, y_values, setLogY=setLogY)
+    title = "BERT TAP0 Scan: Chip {0}".format(chip)
+    plot(plot_dir, output_file, x_values, y_values, title=title, setLogY=setLogY)
     
     return min_value
 
 # run over a single directory
 def runDir(plot_dir, data_dir, table, data_name, useRD53B):
+    verbose = False
+    
+    # number of chips used for data taking (e.g. 2x2 quad module: 4 chips)
+    num_chips = 4
+    chips = list(range(num_chips))
+    
     # get list of input files in directory
     files = glob.glob(data_dir + "/scan_*.log")
+    # sort files alphabetically
+    files.sort()
+
     for input_file in files:
-        # get output file name based on input file name
-        name        = os.path.basename(input_file)
-        x           = name.split(".")[0]
-        output_file = "BERT_" + x
-        min_value = analyze(input_file, data_dir, plot_dir, output_file, useRD53B)
-        table.append([data_name, x, min_value])
+        # get run from input file name
+        input_name  = os.path.basename(input_file)
+        run         = input_name.split(".")[0]
+        
+        if verbose:
+            print(f"Analyzing input file: {input_file}")
+            print(f" - run: {run}")
+        
+        for chip in chips:
+            chip_name = "chip_{0}".format(chip)
+            output_file = "BERT_{0}_{1}".format(run, chip_name)
+
+            if verbose:
+                print(f"Analyzing chip: {chip}")
+                print(f" - chip_name: {chip_name}")
+                print(f" - output_file: {output_file}")
+
+            min_value = analyze(input_file, data_dir, plot_dir, output_file, num_chips, chip, useRD53B)
+            table.append([data_name, run, chip_name, min_value])
+    
     # sort so that the latest file is last
     table.sort()
 
@@ -125,27 +152,22 @@ def runSet(base_plot_dir, base_data_dir, useRD53B, cable_number=-1, output_csv_d
             # result is appended to table
             runDir(plot_dir, data_dir, table, name, useRD53B)
             # print all results in table for this cable
+            print("Results for {0}:".format(name))
             for row in table:
                 cable       = row[0]
                 run         = row[1]
-                min_value   = row[2]
+                chip        = row[2]
+                min_value   = row[3]
                 # check that first column (cable) matches this directory name (name) 
                 if cable == name:
-                    print(" - {0}, {1}: min value = {2}".format(cable, run, min_value))
-            # print result for the latest scan, defined as last entry in sorted table
-            #last_row    = table[-1]
-            #run         = last_row[1]
-            #min_value   = last_row[2]
-            #print(" - {0}: Latest scan ({1}) for e-link {2}: min value = {3}".format(name, run, number_from_name, min_value))
-    
-    #print(table)
-    
+                    print(" - {0}, {1}, {2}: min value = {3}".format(cable, run, chip, min_value))
+        
     # output min TAP0 values to a table
     if output_csv_dir and output_csv_name:
         makeDir(output_csv_dir)
         with open(output_csv_name, 'w', newline='') as output_csv:
             output_writer = csv.writer(output_csv)
-            output_column_titles = ["cable", "run", "min_value"]
+            output_column_titles = ["cable", "run", "chip", "min_value"]
             output_writer.writerow(output_column_titles)
             # sort table alphabetically
             table.sort()

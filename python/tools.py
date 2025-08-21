@@ -12,6 +12,9 @@ import numpy as np
 # - Improve getBERTData() for RD53A and port card + RD53B use cases
 # - Save BERT TAP0 scan data to csv files
 # - Fix bug: plot and record number of bits with errors instead of frames with errors
+# - Create a function getBERTData2025() to use with Ph2_ACF v6-10 for 2x2 quad module with data merging (four chips).
+# - Create a function to get the TAP0 setting from a line.
+# - Create a function to get the number of bits with errors from a line.
 
 # creates directory if it does not exist
 def makeDir(dir_name):
@@ -91,8 +94,8 @@ def findErrorsRD53B(input_file):
     return errors
 
 # get data from log file:
-# x = TAP0 setting
-# y = bit error rate
+# - x = TAP0 setting
+# - y = number of bits with errors
 def getBERTData(input_file, useRD53B):
     # check for errors
     printError = True
@@ -128,7 +131,6 @@ def getBERTData(input_file, useRD53B):
                 x_values.append(x)
         # Save total error counter as y values
         if "Final counter" in line:
-            # get all numbers in string
             # WARNING: The final counter has the number of frames with errors and bits with errors.
             # - Example line: "|11:26:32|I|Final counter: 0 frames with error(s), i.e. 0 bits with errors"
             # - We should use the number of bits with errors, which is the last integer in the line.
@@ -140,6 +142,90 @@ def getBERTData(input_file, useRD53B):
     
     f.close()
     return [x_values, y_values]
+
+def getTAP0SettingFromLine(TAP0_variable, line, verbose):
+    result = -1
+    array = line.split()
+    
+    for element in array:
+        if TAP0_variable in element:
+            # get number after =
+            s = element.split("=")[-1]
+            # must remove " before using int()
+            result = int(s.replace('"', ''))
+            if verbose:
+                print(f" - {TAP0_variable}: element: {element}, s: {s}, result: {result}")
+            return result
+    
+    print(f"ERROR: Did not find a value for {TAP0_variable}; result = {result}")
+    return result
+
+def getNumberOfBitsWithErrorsFromLine(error_counter_phrase, line, verbose):
+    # WARNING: The final counter has the number of frames with errors and bits with errors.
+    # - Example line: "|00:53:57|I|Frames with error(s): 0, i.e. bits with errors: 0"
+    # - We should use the number of bits with errors, which is the last integer in the line.
+    # - Note: (num. bits with errors) ~ 32 * (num. frames with errors)
+    cleaned_components = [s.replace(',', '') for s in line.split()]
+    numbers = [int(s) for s in cleaned_components if s.isdigit()]
+    result = numbers[-1]
+    if verbose:
+        print(f" - {error_counter_phrase}: number of numbers: {len(numbers)}, numbers: {numbers}, result: {result}")
+    return result
+
+# get data from log file:
+# - x = TAP0 setting
+# - y = number of bits with errors
+# - Updated to use with Ph2_ACF v6-10 for 2x2 quad module with data merging (four chips).
+def getBERTData2025(input_file, useRD53B):
+    verbose     = False
+    printError  = True
+    TAP0_variable = "DAC_CML_BIAS_0"
+    error_counter_phrase = "bits with errors"
+    errors = []
+    
+    # TODO: if error occurs when using a port card, test find error functions
+    if useRD53B:
+        errors = findErrorsRD53B(input_file)
+    else:
+        errors = findErrorsRD53A(input_file)
+    
+    if errors and printError:
+        print("ERROR for {0}".format(input_file))
+        print(" - There were errors for these TAP0 settings: {0}".format(errors))
+        print(" - These data points will be skipped.")
+    
+    f = open(input_file, 'r')
+    x_values = []
+    y_values = []
+    
+    # Get x and y values
+    for line in f:
+        # Save TAP0 DAC as x values
+        if TAP0_variable in line:
+            x = getTAP0SettingFromLine(TAP0_variable, line, verbose)
+            # skip the x value if there were errors
+            if x not in errors:
+                x_values.append(x)
+        
+        # Save total error counter as y values
+        if error_counter_phrase in line:
+            y = getNumberOfBitsWithErrorsFromLine(error_counter_phrase, line, verbose)
+            y_values.append(y)
+    
+    f.close()
+    return [x_values, y_values]
+
+# get data for a specific chip from values (based on number of chips)
+# - input:  list of all values (e.g. all x or y values)
+# - output: list of values for a specific chip
+def getDataForChipFromValues(values, num_chips, chip):
+    result = []
+    num_values = len(values)
+    for i in range(num_values):
+        if i % num_chips == chip:
+            value = values[i]
+            result.append(value)
+    return result
 
 # Get temperature for RD53B; input: voltage (mV), output: temperature (C)
 # - Connect multimeter to GND and NTC pins on the RD53B CROCv1 SCC to measure voltage (mV).

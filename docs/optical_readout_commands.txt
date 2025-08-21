@@ -1,0 +1,45 @@
+Optical Readout Commands
+
+-----------------------------------------------------------------
+
+Setup commands on kucms-02 for CROC optical readout:
+
+Ph2_ACF SW and FW versions:
+- SW: v6-10
+- FW: v5-00
+
+cd /home/kucms/TrackerDAQ/elink_testing_v3/Ph2_ACF
+source setup.sh
+cd DAQSettings_v1
+fpgaconfig -c CMSIT_RD53B_Optical.xml -i IT-L12-OPTO-L8-OPTO_CROC_v5p0
+CMSITminiDAQ -f CMSIT_RD53B_Optical.xml -r
+
+Test:
+ping fc7 -c 3
+CMSITminiDAQ -f CMSIT_RD53B_Optical.xml -p
+CMSITminiDAQ -f CMSIT_RD53B_Optical.xml -c bertest
+CMSITminiDAQ -f CMSIT_RD53B_Optical.xml -c pixelalive
+
+BERT TAP0 Scan:
+
+Run scan (collect data):
+
+python3 TrackerDAQ/python/BERT_Run_Scan.py
+
+Analyze data:
+
+./TrackerDAQ/scripts/analyze_RD53B.sh
+
+-----------------------------------------------------------------
+
+port card power settings:
+- V = 10.00 V, I_limit = 0.20 A, I_on = 0.15 A
+
+RD53Bv2 (CROCv2) quad (2x2) module power settings (constant current mode):
+- Left  (Output 1): V_limit = 1.90 V, I_limit = 3.75 A, V_on = 1.85 V, I_on = 3.75 A
+- Right (Output 2): V_limit = 1.90 V, I_limit = 3.75 A, V_on = 1.85 V, I_on = 3.76 A
+
+-----------------------------------------------------------------
+
+
+
